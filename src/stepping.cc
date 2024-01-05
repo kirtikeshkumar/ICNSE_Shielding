@@ -13,14 +13,15 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 
 	G4LogicalVolume *volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 	
-	G4bool IsEnter = step->GetPreStepPoint()->GetStepStatus() == fGeomBoundary;
-	G4bool IsKill = step->GetPostStepPoint()->GetStepStatus() == fGeomBoundary;
+	//G4bool IsEnter = step->GetPreStepPoint()->GetStepStatus() == fGeomBoundary;
+	//G4bool IsKill = step->GetPostStepPoint()->GetStepStatus() == fGeomBoundary;
 	
 	const MyDetectorConstruction *detectorConstruction = static_cast<const MyDetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	
 	G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume();
 	
 	if(step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber() == 8){
+	//if(volume == fScoringVolume){
 		fEventAction->AddNum(1);
 	}
 	

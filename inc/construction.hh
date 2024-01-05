@@ -32,24 +32,20 @@ public:
 	virtual G4VPhysicalVolume *Construct();
 private:
 //Here we define three variables for the Size of the Environment, the size of the detector and the position of the detector inside the environment
-
-	G4ThreeVector detSize,dist,Size;	
-	G4Box *solidWorld, *solidRadiator, *solidDetector;
-	G4Box *solidScintillator, *detVol;
-	G4LogicalVolume *logicWorld, *logicRadiator, *logicDetector, *logicScintillator, *logicshell, *logicdetVol;
-	G4VPhysicalVolume *physWorld, *physRadiator, *physDetector, *physScintillator, *physshell, *physdetVol;
+	
+	G4Box *solidWorld;
+	G4Box *detVol;
+	G4LogicalVolume *logicWorld, *logicshell, *logicdetVol;
+	G4VPhysicalVolume *physWorld, *physshell, *physdetVol;
 	G4VPhysicalVolume *physshellMuVetoOut, *physshellHDPEOuter, *physshellBP, *physshellLead, *physshellHDPEInner, *physshellMuVetoIn, *physshellCuColdBox;
 	G4LogicalVolume *logicshellMuVetoOut, *logicshellHDPEOuter, *logicshellBP, *logicshellLead, *logicshellHDPEInner, *logicshellMuVetoIn, *logicshellCuColdBox;
 	
 	
-	G4Material *SiO2, *H2O, *Aerogel, *worldMat, *NaI, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum;
-	G4Element *C, *Na, *I;//, *Cu, *Pb;
+	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum;
 	
 
 	void DefineMaterials();
 	
-	void ConstructCherenkov();
-	void ConstructScintillator();
 	G4VSolid* ConstructShell(double xsz, double ysz, double zsz, double thickness, double offset);
 	
 	virtual void ConstructSDandField();
@@ -58,10 +54,9 @@ private:
 	
 	G4LogicalVolume *fScoringVolume;
 	
-	G4int nCols, nRows;
+	void ConstructSetup();
 	
 	G4double xWorld,yWorld,zWorld;
-	G4bool isCherenkov, isScintillator;
 	
 	G4OpticalSurface *mirrorSurface;
 };
