@@ -1,0 +1,4 @@
+/media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/build/CMakeFiles/sim.dir
+/media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/build/CMakeFiles/Simulation.dir
+/media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/build/CMakeFiles/edit_cache.dir
+/media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/build/CMakeFiles/rebuild_cache.dir
