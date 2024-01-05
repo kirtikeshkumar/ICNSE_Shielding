@@ -613,7 +613,7 @@ CMakeFiles/sim.dir/sim.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ToolsSGQtGLES.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIExecutive.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUIshell.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/construction.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/construction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserDetectorConstruction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
@@ -708,9 +708,9 @@ CMakeFiles/sim.dir/sim.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4MaterialCutsCouple.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ProductionCuts.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4MCCIndexConversionTable.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/action.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/action.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserActionInitialization.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/generator.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/generator.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleGun.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPrimaryGenerator.hh \
@@ -718,7 +718,7 @@ CMakeFiles/sim.dir/sim.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Geantino.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4IonTable.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Ions.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/run.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/run.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserRunAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Run.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManager.hh \
@@ -781,11 +781,12 @@ CMakeFiles/sim.dir/sim.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.icc \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/event.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/event.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserEventAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Event.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/stepping.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/stepping.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserSteppingAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/construction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4OpticalPhysics.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4OpticalParameters.hh

@@ -1,7 +1,7 @@
-CMakeFiles/sim.dir/physics.cc.o: \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/physics.cc \
+CMakeFiles/sim.dir/src/physics.cc.o: \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/src/physics.cc \
  /usr/include/stdc-predef.h \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/physics.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/physics.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VModularPhysicsList.hh \
  /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \

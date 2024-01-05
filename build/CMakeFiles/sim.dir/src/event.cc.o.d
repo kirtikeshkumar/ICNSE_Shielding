@@ -1,7 +1,7 @@
-CMakeFiles/sim.dir/event.cc.o: \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/event.cc \
+CMakeFiles/sim.dir/src/event.cc.o: \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/src/event.cc \
  /usr/include/stdc-predef.h \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/event.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/event.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserEventAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Event.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/globals.hh \
@@ -347,6 +347,6 @@ CMakeFiles/sim.dir/event.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.icc \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/run.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/run.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserRunAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Run.hh

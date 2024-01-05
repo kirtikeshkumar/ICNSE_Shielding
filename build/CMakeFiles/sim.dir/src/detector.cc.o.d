@@ -1,9 +1,14 @@
-CMakeFiles/sim.dir/construction.cc.o: \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/construction.cc \
+CMakeFiles/sim.dir/src/detector.cc.o: \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/src/detector.cc \
  /usr/include/stdc-predef.h \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/construction.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserDetectorConstruction.hh \
- /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_algobase.h \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/detector.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSensitiveDetector.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VHit.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/globals.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ios.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Types.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GlobalConfig.hh \
+ /usr/include/c++/12/complex \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -15,44 +20,8 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/cpu_defines.h \
  /usr/include/c++/12/pstl/pstl_config.h \
- /usr/include/c++/12/bits/functexcept.h \
- /usr/include/c++/12/bits/exception_defines.h \
  /usr/include/c++/12/bits/cpp_type_traits.h \
- /usr/include/c++/12/ext/type_traits.h \
- /usr/include/c++/12/ext/numeric_traits.h \
- /usr/include/c++/12/bits/stl_pair.h /usr/include/c++/12/type_traits \
- /usr/include/c++/12/bits/move.h /usr/include/c++/12/bits/utility.h \
- /usr/include/c++/12/bits/stl_iterator_base_types.h \
- /usr/include/c++/12/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/12/bits/concept_check.h \
- /usr/include/c++/12/debug/assertions.h \
- /usr/include/c++/12/bits/stl_iterator.h \
- /usr/include/c++/12/bits/ptr_traits.h /usr/include/c++/12/debug/debug.h \
- /usr/include/c++/12/bits/predefined_ops.h \
- /usr/include/c++/12/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/12/bits/c++allocator.h \
- /usr/include/c++/12/bits/new_allocator.h /usr/include/c++/12/new \
- /usr/include/c++/12/bits/exception.h \
- /usr/include/c++/12/bits/memoryfwd.h \
- /usr/include/c++/12/bits/stl_construct.h \
- /usr/include/c++/12/bits/stl_uninitialized.h \
- /usr/include/c++/12/ext/alloc_traits.h \
- /usr/include/c++/12/bits/alloc_traits.h \
- /usr/include/c++/12/bits/stl_vector.h \
- /usr/include/c++/12/initializer_list \
- /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/functional_hash.h \
- /usr/include/c++/12/bits/hash_bytes.h /usr/include/c++/12/bits/refwrap.h \
- /usr/include/c++/12/bits/invoke.h \
- /usr/include/c++/12/bits/stl_function.h \
- /usr/include/c++/12/backward/binders.h \
- /usr/include/c++/12/bits/range_access.h \
- /usr/include/c++/12/bits/vector.tcc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/globals.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ios.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Types.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GlobalConfig.hh \
- /usr/include/c++/12/complex /usr/include/c++/12/cmath \
+ /usr/include/c++/12/ext/type_traits.h /usr/include/c++/12/cmath \
  /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
@@ -98,7 +67,20 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/c++/12/bits/specfun.h /usr/include/c++/12/limits \
+ /usr/include/c++/12/bits/specfun.h \
+ /usr/include/c++/12/bits/stl_algobase.h \
+ /usr/include/c++/12/bits/functexcept.h \
+ /usr/include/c++/12/bits/exception_defines.h \
+ /usr/include/c++/12/ext/numeric_traits.h \
+ /usr/include/c++/12/bits/stl_pair.h /usr/include/c++/12/type_traits \
+ /usr/include/c++/12/bits/move.h /usr/include/c++/12/bits/utility.h \
+ /usr/include/c++/12/bits/stl_iterator_base_types.h \
+ /usr/include/c++/12/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/12/bits/concept_check.h \
+ /usr/include/c++/12/debug/assertions.h \
+ /usr/include/c++/12/bits/stl_iterator.h \
+ /usr/include/c++/12/bits/ptr_traits.h /usr/include/c++/12/debug/debug.h \
+ /usr/include/c++/12/bits/predefined_ops.h /usr/include/c++/12/limits \
  /usr/include/c++/12/tr1/gamma.tcc \
  /usr/include/c++/12/tr1/special_function_util.h \
  /usr/include/c++/12/tr1/bessel_function.tcc \
@@ -113,17 +95,20 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/c++/12/tr1/riemann_zeta.tcc /usr/include/c++/12/sstream \
  /usr/include/c++/12/istream /usr/include/c++/12/ios \
  /usr/include/c++/12/iosfwd /usr/include/c++/12/bits/stringfwd.h \
- /usr/include/c++/12/bits/postypes.h /usr/include/c++/12/cwchar \
- /usr/include/wchar.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /usr/include/c++/12/bits/memoryfwd.h /usr/include/c++/12/bits/postypes.h \
+ /usr/include/c++/12/cwchar /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/c++/12/exception /usr/include/c++/12/bits/exception_ptr.h \
+ /usr/include/c++/12/exception /usr/include/c++/12/bits/exception.h \
+ /usr/include/c++/12/bits/exception_ptr.h \
  /usr/include/c++/12/bits/cxxabi_init_exception.h \
- /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/nested_exception.h \
+ /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/hash_bytes.h \
+ /usr/include/c++/12/new /usr/include/c++/12/bits/nested_exception.h \
  /usr/include/c++/12/bits/char_traits.h /usr/include/c++/12/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
@@ -149,9 +134,21 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h \
  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
  /usr/include/c++/12/bits/locale_classes.h /usr/include/c++/12/string \
+ /usr/include/c++/12/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/c++allocator.h \
+ /usr/include/c++/12/bits/new_allocator.h \
  /usr/include/c++/12/bits/ostream_insert.h \
  /usr/include/c++/12/bits/cxxabi_forced.h \
- /usr/include/c++/12/bits/basic_string.h /usr/include/c++/12/string_view \
+ /usr/include/c++/12/bits/stl_function.h \
+ /usr/include/c++/12/backward/binders.h \
+ /usr/include/c++/12/bits/refwrap.h /usr/include/c++/12/bits/invoke.h \
+ /usr/include/c++/12/bits/range_access.h \
+ /usr/include/c++/12/initializer_list \
+ /usr/include/c++/12/bits/basic_string.h \
+ /usr/include/c++/12/ext/alloc_traits.h \
+ /usr/include/c++/12/bits/alloc_traits.h \
+ /usr/include/c++/12/bits/stl_construct.h /usr/include/c++/12/string_view \
+ /usr/include/c++/12/bits/functional_hash.h \
  /usr/include/c++/12/bits/string_view.tcc \
  /usr/include/c++/12/ext/string_conversions.h /usr/include/c++/12/cstdlib \
  /usr/include/c++/12/cstdio /usr/include/stdio.h \
@@ -226,14 +223,19 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
  /usr/include/c++/12/bits/parse_numbers.h \
  /usr/include/c++/12/bits/std_mutex.h \
- /usr/include/c++/12/bits/unique_lock.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomdefs.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RotationMatrix.hh \
+ /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/vector \
+ /usr/include/c++/12/bits/stl_uninitialized.h \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/vector.tcc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ThreeVector.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/ThreeVector.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Utility/defs.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/ThreeVector.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomdefs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RotationMatrix.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/Rotation.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/LorentzVector.h \
@@ -267,45 +269,16 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/thread \
  /usr/include/c++/12/bits/this_thread_sleep.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
- /usr/include/c++/12/memory \
- /usr/include/c++/12/bits/stl_raw_storage_iter.h \
- /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
- /usr/include/c++/12/bits/shared_ptr_atomic.h \
- /usr/include/c++/12/backward/auto_ptr.h \
- /usr/include/c++/12/pstl/glue_memory_defs.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Box.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomTypes.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomConfig.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4CSGSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Polyhedron.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/HepPolyhedron.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TwoVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/TwoVector.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/TwoVector.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Point3D.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Point3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Normal3D.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Transform3D.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Visible.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Visible.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Box.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tubs.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tubs.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PVPlacement.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Allocator.hh \
+ /usr/include/c++/12/cstddef \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AllocatorPool.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SteppingControl.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepStatus.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHandle.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTouchable.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTouchable.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ReferenceCountedHandle.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Material.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Element.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Isotope.hh \
@@ -333,61 +306,26 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DataVector.icc \
  /usr/include/assert.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4MaterialTable.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistElementBuilder.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistMaterialBuilder.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ICRU90StoppingData.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Pow.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Exp.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SystemOfUnits.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericMessenger.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UImessenger.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIdirectory.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIcommand.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIparameter.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UItokenNum.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ApplicationState.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnyType.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnyMethod.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
+ /usr/include/c++/12/memory \
+ /usr/include/c++/12/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
+ /usr/include/c++/12/bits/shared_ptr_atomic.h \
+ /usr/include/c++/12/backward/auto_ptr.h \
+ /usr/include/c++/12/pstl/glue_memory_defs.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackVector.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.icc \
  /usr/include/c++/12/functional /usr/include/c++/12/unordered_map \
  /usr/include/c++/12/bits/hashtable.h \
  /usr/include/c++/12/bits/hashtable_policy.h \
  /usr/include/c++/12/bits/enable_special_members.h \
  /usr/include/c++/12/bits/unordered_map.h /usr/include/c++/12/array \
  /usr/include/c++/12/compare \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSkinSurface.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSurface.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSurface.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSkinSurface.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4OpticalSurface.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Physics2DVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Physics2DVector.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SurfaceProperty.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SubtractionSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BooleanSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DisplacedSolid.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BooleanSolid.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UnionSolid.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/detector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSensitiveDetector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VHit.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Allocator.hh \
- /usr/include/c++/12/cstddef \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AllocatorPool.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SteppingControl.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepStatus.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHandle.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTouchable.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTouchable.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ReferenceCountedHandle.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Globals.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Types.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Utility.hh \
@@ -417,6 +355,15 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SensitiveVolumeList.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistory.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Transform3D.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Point3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevel.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.icc \
@@ -506,6 +453,8 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GRSSolid.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistoryHandle.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NormalNavigation.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AuxiliaryNavServices.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AuxiliaryNavServices.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NormalNavigation.icc \
@@ -548,8 +497,15 @@ CMakeFiles/sim.dir/construction.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSteppingVerbose.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/trkgdefs.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackingMessenger.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UImessenger.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIdirectory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIcommand.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIparameter.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UItokenNum.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ApplicationState.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserTrackingAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RunManagerKernel.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SystemOfUnits.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsOrderedFreeVector.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.hh \

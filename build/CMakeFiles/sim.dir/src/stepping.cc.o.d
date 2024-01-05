@@ -1,7 +1,7 @@
-CMakeFiles/sim.dir/stepping.cc.o: \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/stepping.cc \
+CMakeFiles/sim.dir/src/stepping.cc.o: \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/src/stepping.cc \
  /usr/include/stdc-predef.h \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/stepping.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/stepping.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserSteppingAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
  /usr/include/c++/12/cstdlib \
@@ -500,7 +500,7 @@ CMakeFiles/sim.dir/stepping.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ApplicationState.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserTrackingAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RunManagerKernel.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/construction.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/construction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserDetectorConstruction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
@@ -545,7 +545,7 @@ CMakeFiles/sim.dir/stepping.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DisplacedSolid.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BooleanSolid.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UnionSolid.hh \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/event.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/event.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserEventAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Event.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManager.hh \
@@ -608,6 +608,6 @@ CMakeFiles/sim.dir/stepping.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.icc \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/run.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/run.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserRunAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Run.hh

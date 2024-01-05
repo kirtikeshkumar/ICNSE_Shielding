@@ -1,9 +1,11 @@
-CMakeFiles/sim.dir/detector.cc.o: \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/detector.cc \
+CMakeFiles/sim.dir/src/action.cc.o: \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/src/action.cc \
  /usr/include/stdc-predef.h \
- /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/detector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSensitiveDetector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VHit.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/action.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserActionInitialization.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/generator.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleGun.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/globals.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ios.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Types.hh \
@@ -223,37 +225,22 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
  /usr/include/c++/12/bits/parse_numbers.h \
  /usr/include/c++/12/bits/std_mutex.h \
- /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/vector \
- /usr/include/c++/12/bits/stl_uninitialized.h \
- /usr/include/c++/12/bits/stl_vector.h \
- /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
+ /usr/include/c++/12/bits/unique_lock.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPrimaryGenerator.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ThreeVector.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/ThreeVector.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Utility/defs.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/ThreeVector.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomdefs.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RotationMatrix.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/Rotation.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/LorentzVector.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/LorentzVector.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/AxisAngle.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/AxisAngle.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationInterfaces.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationX.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationX.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleDefinition.hh \
+ /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_uninitialized.h \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/vector.tcc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Units/PhysicalConstants.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Units/SystemOfUnits.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationY.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationY.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationZ.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationZ.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/Rotation.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomSplitter.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomwdefs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PDefManager.hh \
+ /usr/include/c++/12/stdlib.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/pwdefs.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AutoLock.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Threading.hh \
  /usr/include/c++/12/chrono /usr/include/c++/12/condition_variable \
@@ -268,11 +255,148 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /usr/include/c++/12/bits/std_function.h \
  /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/thread \
  /usr/include/c++/12/bits/this_thread_sleep.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleDefinition.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PrimaryVertex.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Allocator.hh \
  /usr/include/c++/12/cstddef \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AllocatorPool.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PrimaryParticle.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleMomentum.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SystemOfUnits.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTable.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTableIterator.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTable.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Geantino.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4IonTable.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTable.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Ions.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/run.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserRunAction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Run.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.icc \
+ /usr/include/c++/12/functional /usr/include/c++/12/unordered_map \
+ /usr/include/c++/12/bits/hashtable.h \
+ /usr/include/c++/12/bits/hashtable_policy.h \
+ /usr/include/c++/12/bits/enable_special_members.h \
+ /usr/include/c++/12/bits/unordered_map.h /usr/include/c++/12/array \
+ /usr/include/c++/12/compare \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Globals.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Types.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Utility.hh \
+ /usr/include/c++/12/set /usr/include/c++/12/bits/stl_set.h \
+ /usr/include/c++/12/bits/stl_multiset.h /usr/include/c++/12/utility \
+ /usr/include/c++/12/bits/stl_relops.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ToolsAnalysisManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VAnalysisManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManagerState.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisVerbose.hh \
+ /usr/include/c++/12/fstream \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
+ /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/memory \
+ /usr/include/c++/12/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
+ /usr/include/c++/12/bits/shared_ptr_atomic.h \
+ /usr/include/c++/12/backward/auto_ptr.h \
+ /usr/include/c++/12/pstl/glue_memory_defs.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTBaseHnManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HnInformation.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisUtilities.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BinScheme.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Fcn.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VAnalysisManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HnManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BaseAnalysisManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NtupleBookingManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/ntuple_booking \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/cids \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/cid \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/typedefs \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/forit \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NtupleBookingManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VNtupleManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VFileManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BaseFileManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTHnFileManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH1ToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnMessenger.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UImessenger.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIdirectory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIcommand.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIparameter.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UItokenNum.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ApplicationState.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnToolsManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnMessenger.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tokenizer.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH2ToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH3ToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TP1ToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TP2ToolsManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h1d \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h1 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b1 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/base_histo \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/histo_data \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/axes \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/axis \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/eqT \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h2d \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h2 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b2 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h3d \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h3 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b3 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p1d \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p1 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/profile_data \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p2d \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p2 \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ToolsAnalysisManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.icc \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/event.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserEventAction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Event.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/evtdefs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HCofThisEvent.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VHitsCollection.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DCofThisEvent.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VDigiCollection.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrajectoryContainer.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTrajectory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserEventInformation.hh \
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/stepping.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserSteppingAction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomdefs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RotationMatrix.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/Rotation.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/LorentzVector.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/LorentzVector.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/AxisAngle.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/AxisAngle.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationInterfaces.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationX.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationX.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationY.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationY.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationZ.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/RotationZ.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/Rotation.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomSplitter.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/geomwdefs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SteppingControl.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepStatus.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHandle.hh \
@@ -291,10 +415,6 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4MaterialPropertyVector.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsFreeVector.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsVector.hh \
- /usr/include/c++/12/fstream \
- /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
- /usr/include/c++/12/bits/fstream.tcc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Log.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsVectorType.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsVector.icc \
@@ -307,85 +427,28 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /usr/include/assert.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4MaterialTable.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
- /usr/include/c++/12/memory \
- /usr/include/c++/12/bits/stl_raw_storage_iter.h \
- /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
- /usr/include/c++/12/bits/shared_ptr_atomic.h \
- /usr/include/c++/12/backward/auto_ptr.h \
- /usr/include/c++/12/pstl/glue_memory_defs.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Region.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StepPoint.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Profiler.icc \
- /usr/include/c++/12/functional /usr/include/c++/12/unordered_map \
- /usr/include/c++/12/bits/hashtable.h \
- /usr/include/c++/12/bits/hashtable_policy.h \
- /usr/include/c++/12/bits/enable_special_members.h \
- /usr/include/c++/12/bits/unordered_map.h /usr/include/c++/12/array \
- /usr/include/c++/12/compare \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Globals.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Types.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/PTL/Utility.hh \
- /usr/include/c++/12/set /usr/include/c++/12/bits/stl_set.h \
- /usr/include/c++/12/bits/stl_multiset.h /usr/include/c++/12/utility \
- /usr/include/c++/12/bits/stl_relops.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Track.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/trkdefs.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DynamicParticle.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleDefinition.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PDefManager.hh \
- /usr/include/c++/12/stdlib.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/pwdefs.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleDefinition.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LorentzVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleMomentum.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ElectronOccupancy.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DynamicParticle.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackStatus.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserTrackInformation.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsModelCatalog.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Track.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HCofThisEvent.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VHitsCollection.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VReadOutGeometry.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SensitiveVolumeList.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistory.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistory.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Transform3D.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Point3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevel.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevel.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistoryPool.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistory.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistory.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4CollectionNameVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSDFilter.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Step.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RunManager.hh \
  /usr/include/c++/12/list /usr/include/c++/12/bits/stl_list.h \
  /usr/include/c++/12/bits/list.tcc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/rundefs.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Event.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/evtdefs.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PrimaryVertex.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PrimaryParticle.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DCofThisEvent.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VDigiCollection.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrajectoryContainer.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTrajectory.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserEventInformation.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4EventManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4StackManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserStackingAction.hh \
@@ -394,9 +457,6 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackStack.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SmartTrackStack.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PrimaryTransformer.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTable.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTableIterator.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ParticleTable.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackingManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SteppingManager.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/Randomize.hh \
@@ -447,11 +507,29 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Random/RandStudentT.h \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Random/RandStudentT.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Navigator.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Transform3D.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Point3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AffineTransform.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GRSVolume.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GRSVolume.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GRSSolid.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GRSSolid.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistoryHandle.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistory.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevel.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevelRep.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationLevel.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistoryPool.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NavigationHistory.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TouchableHistory.icc \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NormalNavigation.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.icc \
@@ -497,73 +575,49 @@ CMakeFiles/sim.dir/detector.cc.o: \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSteppingVerbose.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/trkgdefs.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TrackingMessenger.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UImessenger.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIdirectory.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIcommand.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UIparameter.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UItokenNum.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ApplicationState.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UserTrackingAction.hh \
  /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4RunManagerKernel.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SystemOfUnits.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PhysicsOrderedFreeVector.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ToolsAnalysisManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VAnalysisManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisManagerState.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisVerbose.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTBaseHnManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HnInformation.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnalysisUtilities.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BinScheme.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Fcn.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VAnalysisManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4HnManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BaseAnalysisManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NtupleBookingManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/ntuple_booking \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/cids \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/cid \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/typedefs \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/forit \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NtupleBookingManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VNtupleManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VFileManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BaseFileManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VTHnFileManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH1ToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnMessenger.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnToolsManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4THnMessenger.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tokenizer.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH2ToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TH3ToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TP1ToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TP2ToolsManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h1d \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h1 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b1 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/base_histo \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/histo_data \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/axes \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/axis \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/eqT \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h2d \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h2 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b2 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h3d \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/h3 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/b3 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p1d \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p1 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/profile_data \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p2d \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/tools/histo/p2 \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ToolsAnalysisManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericAnalysisManager.icc \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.hh \
- /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericFileManager.icc
+ /media/kirtikesh/Kirtikesh_4TB/ICoNSE-A/ICNSE_Shielding/inc/construction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VUserDetectorConstruction.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VPhysicalVolume.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalVolume.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Box.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomTypes.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GeomConfig.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4CSGSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Polyhedron.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/HepPolyhedron.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4TwoVector.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/TwoVector.h \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/CLHEP/Vector/TwoVector.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Point3D.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Normal3D.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Visible.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Visible.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Box.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4VSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tubs.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Tubs.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4PVPlacement.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistManager.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistElementBuilder.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4NistMaterialBuilder.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4ICRU90StoppingData.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Pow.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Exp.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4GenericMessenger.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnyType.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4AnyMethod.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSkinSurface.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSurface.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSurface.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4LogicalSkinSurface.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4OpticalSurface.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Physics2DVector.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4Physics2DVector.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SurfaceProperty.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4SubtractionSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BooleanSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4DisplacedSolid.hh \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4BooleanSolid.icc \
+ /home/kirtikesh/Softwares/geant4/geant4-v11.1.1-install/include/Geant4/G4UnionSolid.hh
