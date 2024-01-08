@@ -7,18 +7,18 @@
 #include "G4PhysicsOrderedFreeVector.hh"
 
 #include "G4AnalysisManager.hh"
+#include "vector"
+#include <map>
 
 class MySensitiveDetector : public G4VSensitiveDetector
 {
 public:
 	MySensitiveDetector(G4String);
-	~MySensitiveDetector();
-	
+	~MySensitiveDetector();	
 	
 private:
 	virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
 	G4PhysicsOrderedFreeVector *quEff;
-
 };
 
 #endif

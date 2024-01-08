@@ -1,7 +1,8 @@
 #include "event.hh"
 
-MyEventAction::MyEventAction(MyRunAction*)
+MyEventAction::MyEventAction(MyRunAction* run)
 {
+	fRun = run;
 	fEdep = 0.;
 	num=0;
 }	

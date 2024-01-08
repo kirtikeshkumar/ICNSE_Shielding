@@ -134,8 +134,8 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 	solidWorld = new G4Box("solidWorld",xWorld,yWorld,zWorld);
 
 	//Setiing Logical volume where we integrate the material to the world box	
-	 //logicWorld= new G4LogicalVolume(solidWorld,worldMat,"logicWorld");
-	 logicWorld= new G4LogicalVolume(solidWorld,Vaccum,"logicWorld");
+	 logicWorld= new G4LogicalVolume(solidWorld,worldMat,"logicWorld");
+	 //logicWorld= new G4LogicalVolume(solidWorld,Vaccum,"logicWorld");
 	//Integrating the position of the world to the logical volume to create our final Physical Volume	
 	 physWorld = new G4PVPlacement(0,G4ThreeVector(0., 0., 0.),logicWorld,"physWorld",0,false,0,true);
 	 

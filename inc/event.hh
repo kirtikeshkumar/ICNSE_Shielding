@@ -11,15 +11,25 @@
 class MyEventAction : public G4UserEventAction
 {
 public:
-	MyEventAction(MyRunAction*);
+	MyEventAction(MyRunAction* run);
 	~MyEventAction();
 	
 	virtual void BeginOfEventAction(const G4Event*);
 	virtual void EndOfEventAction(const G4Event*);
 	
 	void AddEdep(G4double edep){ fEdep += edep; }
-	void AddNum(G4int a){num+=a;}
+	void AddNum(){num++;}
+	
+	void AddNumNeutron(){fRun->AddNumNeutron();}
+	void AddNumGamma(){fRun->AddNumGamma();}
+	void AddNumElectron(){fRun->AddNumElectron();}
+	void AddNumPositron(){fRun->AddNumPositron();}
+	void AddNumNu_e(){fRun->AddNumNu_e();}
+	void AddNumaNu_e(){fRun->AddNumaNu_e();}
+	void AddNumOther(){fRun->AddNumOther();}
+	
 private:
+	MyRunAction* fRun;
 	G4double fEdep;
 	G4int num;
 };

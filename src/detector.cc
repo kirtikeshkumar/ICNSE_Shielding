@@ -39,10 +39,11 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory
 	G4int copyNo = touchable->GetCopyNumber();
 	
 	
-	if(copyNo == 8){
-		track->SetTrackStatus(fStopAndKill);
-		G4cout<<" Particles Entered"<<G4endl;
-	}
+	
+	//G4cout<<" ParentID "<<track->GetParentID()<<G4endl;
+	//track->SetTrackStatus(fStopAndKill);
+	//G4cout<<" Particles Entered"<<G4endl;
+		
 	
 	
 	G4StepPoint *preStepPoint = aStep->GetPreStepPoint();

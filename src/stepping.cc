@@ -18,12 +18,27 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 	
 	const MyDetectorConstruction *detectorConstruction = static_cast<const MyDetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 	
-	G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume();
+	G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume(); //modify this, the pointer is null currently.
 	
-	if(step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber() == 8){
+	G4int copyNo = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
+	if(copyNo == 8 and step->GetTrack()->GetParentID()==0){
 	//if(volume == fScoringVolume){
-		fEventAction->AddNum(1);
+		fEventAction->AddNum();
 	}
+	
+	G4Track *track =step->GetTrack();
+	G4String particleName = track->GetDefinition()->GetParticleName();
+
+	if(copyNo==8){
+		if(particleName=="neutron"){fEventAction->AddNumNeutron();}
+		else if(particleName=="gamma"){fEventAction->AddNumGamma();}
+		else if(particleName=="e-"){fEventAction->AddNumNeutron();}
+		else if(particleName=="e+"){fEventAction->AddNumNeutron();}
+		else if(particleName=="nu_e"){fEventAction->AddNumNeutron();}
+		else if(particleName=="anti_nu_e"){fEventAction->AddNumNeutron();}
+		else{fEventAction->AddNumOther();}
+	}
+	
 	
 	if(volume != fScoringVolume){
 		return;
