@@ -109,14 +109,14 @@ void MyDetectorConstruction::ConstructSetup()
 	G4LogicalSkinSurface *skin1 = new G4LogicalSkinSurface("skin1", logicshellMuVetoOut, mirrorSurface);
 	G4LogicalSkinSurface *skin2 = new G4LogicalSkinSurface("skin2", logicshellMuVetoIn, mirrorSurface);
 	
-	physshellMuVetoOut = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellMuVetoOut,"physshellMuVetoOut",logicWorld,false,1,true);
-	physshellHDPEOuter = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellHDPEOuter,"physshellHDPEOuter",logicWorld,false,2,true);
-	physshellBP 	   = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellBP,"physshellBP",logicWorld,false,3,true);
-	physshellLead 	   = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellLead,"physshellLead",logicWorld,false,4,true);
-	physshellHDPEInner = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellHDPEInner,"physshellHDPEInner",logicWorld,false,5,true);
-	physshellMuVetoIn  = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellMuVetoIn,"physshellMuVetoIn",logicWorld,false,6,true);
-	physshellCuColdBox = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicshellCuColdBox,"physshellCuColdBox",logicWorld,false,7,true);
-	physdetVol		   = new G4PVPlacement(0,G4ThreeVector(0.9*m,0.,0.), logicdetVol,"physdetVol",logicWorld,false,8,true);
+	physshellMuVetoOut = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellMuVetoOut,"physshellMuVetoOut",logicWorld,false,1,true);
+	physshellHDPEOuter = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellHDPEOuter,"physshellHDPEOuter",logicWorld,false,2,true);
+	physshellBP 	   = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellBP,"physshellBP",logicWorld,false,3,true);
+	physshellLead 	   = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellLead,"physshellLead",logicWorld,false,4,true);
+	physshellHDPEInner = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellHDPEInner,"physshellHDPEInner",logicWorld,false,5,true);
+	physshellMuVetoIn  = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellMuVetoIn,"physshellMuVetoIn",logicWorld,false,6,true);
+	physshellCuColdBox = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicshellCuColdBox,"physshellCuColdBox",logicWorld,false,7,true);
+	physdetVol		   = new G4PVPlacement(0,G4ThreeVector(0.75*m,0.,0.), logicdetVol,"physdetVol",logicWorld,false,8,true);
 	
 }
 
