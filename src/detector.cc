@@ -41,7 +41,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory
 	
 	
 	//G4cout<<" ParentID "<<track->GetParentID()<<G4endl;
-	//track->SetTrackStatus(fStopAndKill);
+	track->SetTrackStatus(fStopAndKill);
 	//G4cout<<" Particles Entered"<<G4endl;
 		
 	
