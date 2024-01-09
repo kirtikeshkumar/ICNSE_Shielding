@@ -56,7 +56,7 @@ private:
 	
 	void ConstructSetup();
 	
-	G4double xWorld,yWorld,zWorld;
+	G4double xWorld,yWorld,zWorld,xloc;
 	
 	G4OpticalSurface *mirrorSurface;
 };

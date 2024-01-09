@@ -22,6 +22,7 @@ public:
 	void AddNumNu_e(){numnu_e++;}
 	void AddNumaNu_e(){numanu_e++;}
 	void AddNumOther(){numother++;}
+	void PrintStatus();
 private:
 	G4int numneutron,numgamma,numelectron,numpositron,numnu_e,numanu_e,numother;
 };

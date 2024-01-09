@@ -63,10 +63,8 @@ void MyRunAction::BeginOfRunAction(const G4Run* run)
 	
 }
 
-void MyRunAction::EndOfRunAction(const G4Run*)
+void MyRunAction::PrintStatus()
 {
-	G4AnalysisManager *man = G4AnalysisManager::Instance();
-	
 	G4cout<<"Num of Neutrons: "<<numneutron<<G4endl;
 	G4cout<<"Num of gammas: "<<numgamma<<G4endl;
 	G4cout<<"Num of e-: "<<numelectron<<G4endl;
@@ -74,6 +72,13 @@ void MyRunAction::EndOfRunAction(const G4Run*)
 	G4cout<<"Num of nu_e: "<<numnu_e<<G4endl;
 	G4cout<<"Num of anti_nu_e: "<<numanu_e<<G4endl;
 	G4cout<<"Num of Others: "<<numother<<G4endl;
+}
+
+void MyRunAction::EndOfRunAction(const G4Run* )
+{
+	G4AnalysisManager *man = G4AnalysisManager::Instance();
+	
+	PrintStatus();
 	
 	man->Write();
 	man->CloseFile();
