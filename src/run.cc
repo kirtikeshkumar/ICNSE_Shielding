@@ -4,35 +4,17 @@ MyRunAction::MyRunAction()
 {
 	G4AnalysisManager *man = G4AnalysisManager::Instance();
 	
-	/*man->CreateNtuple("Photons","Photons");
+	man->CreateNtuple("Gammas","Gammas");
 	man->CreateNtupleIColumn("fEvent");
-	man->CreateNtupleDColumn("fX");
-	man->CreateNtupleDColumn("fY");
-	man->CreateNtupleDColumn("fZ");
-	man->CreateNtupleDColumn("fWlen");
-	man->FinishNtuple(0);*/
-	
-	/*man->CreateNtuple("LayersEdep","LayersEdep");
-	man->CreateNtupleIColumn("fEvent");
-	man->CreateNtupleDColumn("PS_Out");
-	man->CreateNtupleDColumn("HDPE_Out");
-	man->CreateNtupleDColumn("BP");
-	man->CreateNtupleDColumn("Pb");
-	man->CreateNtupleDColumn("HDPE_In");
-	man->CreateNtupleDColumn("PS_In");
-	man->CreateNtupleDColumn("Cu");
-	man->FinishNtuple(0);*/
-	
-	/*man->CreateNtuple("Hits","Hits");
-	man->CreateNtupleIColumn("fEvent");
-	man->CreateNtupleDColumn("fX");
-	man->CreateNtupleDColumn("fY");
-	man->CreateNtupleDColumn("fZ");
-	man->FinishNtuple(1);*/
-	
-	man->CreateNtuple("Scoring", "Scoring");
-	man->CreateNtupleDColumn("fEdep");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
 	man->FinishNtuple(0);
+	
+	man->CreateNtuple("Neutrons","Neutrons");
+	man->CreateNtupleIColumn("fEvent");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
+	man->FinishNtuple(1);
 	
 	
 }

@@ -17,7 +17,7 @@ G4VSensitiveDetector(name)
 	if(datafile.eof())
 		break;
 		
-	G4cout << wlen << " " << queff <<G4endl;
+	//G4cout << wlen << " " << queff <<G4endl;
 	
 	quEff->InsertValues(wlen,queff/100.);
 	}

@@ -30,13 +30,16 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 	G4String particleName = track->GetDefinition()->GetParticleName();
 
 	if(copyNo==8){
-		if(particleName=="neutron"){fEventAction->AddNumNeutron();}
-		else if(particleName=="gamma"){fEventAction->AddNumGamma();}
-		else if(particleName=="e-"){fEventAction->AddNumNeutron();}
-		else if(particleName=="e+"){fEventAction->AddNumNeutron();}
-		else if(particleName=="nu_e"){fEventAction->AddNumNeutron();}
-		else if(particleName=="anti_nu_e"){fEventAction->AddNumNeutron();}
-		else{fEventAction->AddNumOther();}
+		if(particleName=="neutron"){
+			fEventAction->AddNumNeutronEvt();
+			
+		}
+		else if(particleName=="gamma"){fEventAction->AddNumGammaEvt();}
+		else if(particleName=="e-"){fEventAction->AddNumElectronEvt();}
+		else if(particleName=="e+"){fEventAction->AddNumPositronEvt();}
+		else if(particleName=="nu_e"){fEventAction->AddNumNu_eEvt();}
+		else if(particleName=="anti_nu_e"){fEventAction->AddNumaNu_eEvt();}
+		else{fEventAction->AddNumOtherEvt();}
 	}
 	
 	
