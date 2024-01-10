@@ -44,17 +44,41 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 	AddNumaNu_e(numanu_e_evt);
 	AddNumOther(numother_evt);
 	
-	if(numneutron_evt != 0 or numgamma_evt !=0){
+	if(numgamma_evt !=0){
 		//fill gamma details
 		man->FillNtupleIColumn(0, 0, evID);
 		man->FillNtupleIColumn(0, 1, numgamma_evt);
 		man->AddNtupleRow(0);
-		
+	}
+	if(numneutron_evt != 0){
 		//fill neutron details
 		man->FillNtupleIColumn(1, 0, evID);
 		man->FillNtupleIColumn(1, 1, numneutron_evt);
 		man->AddNtupleRow(1);
-		
+	}
+	if(numelectron_evt !=0){
+		//fill gamma details
+		man->FillNtupleIColumn(4, 0, evID);
+		man->FillNtupleIColumn(4, 1, numelectron_evt);
+		man->AddNtupleRow(4);
+	}
+	if(numpositron_evt !=0){
+		//fill gamma details
+		man->FillNtupleIColumn(5, 0, evID);
+		man->FillNtupleIColumn(5, 1, numpositron_evt);
+		man->AddNtupleRow(5);
+	}
+	if(numanu_e_evt !=0){
+		//fill gamma details
+		man->FillNtupleIColumn(3, 0, evID);
+		man->FillNtupleIColumn(3, 1, numanu_e_evt);
+		man->AddNtupleRow(3);
+	}
+	if(numnu_e_evt !=0){
+		//fill gamma details
+		man->FillNtupleIColumn(2, 0, evID);
+		man->FillNtupleIColumn(2, 1, numnu_e_evt);
+		man->AddNtupleRow(2);
 	}
 	
 	if(evID % 1000000 ==0){

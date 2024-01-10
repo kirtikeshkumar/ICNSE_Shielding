@@ -16,6 +16,30 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleDColumn("fEnergy");
 	man->FinishNtuple(1);
 	
+	man->CreateNtuple("Neutrinos","Neutrinos");
+	man->CreateNtupleIColumn("fEvent");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
+	man->FinishNtuple(2);
+	
+	man->CreateNtuple("antiNeutrinos","antiNeutrinos");
+	man->CreateNtupleIColumn("fEvent");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
+	man->FinishNtuple(3);
+	
+	man->CreateNtuple("Electrons","Electrons");
+	man->CreateNtupleIColumn("fEvent");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
+	man->FinishNtuple(4);
+	
+	man->CreateNtuple("Positrons","Positrons");
+	man->CreateNtupleIColumn("fEvent");
+	man->CreateNtupleIColumn("fnum");
+	man->CreateNtupleDColumn("fEnergy");
+	man->FinishNtuple(5);
+	
 	
 }
 
