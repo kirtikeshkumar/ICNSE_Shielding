@@ -42,7 +42,6 @@ private:
 	G4double fEdep;
 	G4int num;
 	G4int numneutron_evt,numgamma_evt,numelectron_evt,numpositron_evt,numnu_e_evt,numanu_e_evt,numother_evt;
-	std::vector<G4double> fEGamma, fENeutron;
 };
 
 #endif

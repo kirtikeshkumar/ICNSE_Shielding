@@ -37,7 +37,7 @@
  {
  	G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
  	
- 	if(particle == G4Geantino::Geantino())
+ 	/*if(particle == G4Geantino::Geantino())
  	{
  		G4int Z = 55;
  		G4int A = 137;
@@ -49,7 +49,7 @@
  		
  		fParticleGun->SetParticleDefinition(ion);
  		fParticleGun->SetParticleCharge(charge);
- 	}
+ 	}*/
  	/*Here we generate the particle*/
  	fParticleGun->GeneratePrimaryVertex(anEvent);	
  }

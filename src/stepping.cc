@@ -23,10 +23,9 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 	G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume(); //modify this, the pointer is null currently.
 	
 	G4int copyNo = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
-	if(copyNo == 8 and step->GetTrack()->GetParentID()==0){
-	//if(volume == fScoringVolume){
+	/*if(copyNo == 8 and step->GetTrack()->GetParentID()==0){
 		fEventAction->AddNum();
-	}
+	}*/
 	
 	G4Track *track =step->GetTrack();
 	G4String particleName = track->GetDefinition()->GetParticleName();
