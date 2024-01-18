@@ -21,8 +21,8 @@ void MyEventAction::BeginOfEventAction(const G4Event* anEvent)
 	numanu_e_evt=0;
 	numother_evt=0;
 	fEdep = 0.;
-	G4int evID = anEvent->GetEventID();
-	if(evID%10000==0){
+	evID = anEvent->GetEventID();
+	if(evID%100000==0){
 		G4cout<<"event: "<<evID<<G4endl;
 	}
 }
@@ -33,7 +33,7 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 		G4cout << "Energy deposition: "<< fEdep << G4endl;
 	}*/
 	
-	G4int evID = anEvent->GetEventID();
+	
 	G4AnalysisManager *man = G4AnalysisManager::Instance();
 	
 	AddNumNeutron(numneutron_evt);
@@ -43,7 +43,7 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 	AddNumNu_e(numnu_e_evt);
 	AddNumaNu_e(numanu_e_evt);
 	AddNumOther(numother_evt);
-	
+	/*
 	if(numgamma_evt !=0){
 		//fill gamma details
 		man->FillNtupleIColumn(0, 0, evID);
@@ -80,7 +80,7 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 		man->FillNtupleIColumn(2, 1, numnu_e_evt);
 		man->AddNtupleRow(2);
 	}
-	
+	*/
 	if(evID % 1000000 ==0){
 		fRun->PrintStatus();
 	}

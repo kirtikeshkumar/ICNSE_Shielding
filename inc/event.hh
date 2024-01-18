@@ -36,12 +36,14 @@ public:
 	void AddNumNu_eEvt(){numnu_e_evt++;}
 	void AddNumaNu_eEvt(){numanu_e_evt++;}
 	void AddNumOtherEvt(){numother_evt++;}
+	G4int GetEvID(){return evID;}
 	
 private:
 	MyRunAction* fRun;
 	G4double fEdep;
 	G4int num;
 	G4int numneutron_evt,numgamma_evt,numelectron_evt,numpositron_evt,numnu_e_evt,numanu_e_evt,numother_evt;
+	G4int evID;
 };
 
 #endif
