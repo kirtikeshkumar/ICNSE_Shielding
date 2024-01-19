@@ -22,14 +22,26 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 	*/
 	G4int copyNo = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 	
-	/*if(copyNo == 8 and step->GetTrack()->GetParentID()==0){			//to check for primary neutrons
+	G4Track *track =step->GetTrack();
+	G4String particleName = track->GetParticleDefinition()->GetParticleName();
+	
+	/*if(copyNo == 8 and step->GetTrack()->GetTrackID()==1){			//to check for primary neutrons
 		fEventAction->AddNum();
 	}*/
 	
+	if(copyNo == 8){
+		G4cout<<"Particle "<<particleName<<" has entered in event "<<evID<<G4endl;
+		//if(particleName=="neutron" and track->GetTrackID()==1){G4cout<<"This was a primary neutron"<<G4endl;}
+		if(particleName=="neutron"){
+			G4ThreeVector vertpos=track->GetVertexPosition();
+			G4cout<<"TrackID: "<<track->GetTrackID()<<G4endl;
+			G4cout<<"ParentID: "<<track->GetParentID()<<G4endl;
+			G4cout<<"Created at: "<<vertpos[0]<<", "<<vertpos[1]<<", "<<vertpos[2]<<G4endl;
+			G4cout<<"Created by: "<<track->GetCreatorProcess()<<G4endl;
+		}
+	}
 	
 	
-	G4Track *track =step->GetTrack();
-	G4String particleName = track->GetDefinition()->GetParticleName();
 
 	//G4double particleTotEnergy = track->GetTotalEnergy();
 	G4double particleKinEnergy = track->GetKineticEnergy();

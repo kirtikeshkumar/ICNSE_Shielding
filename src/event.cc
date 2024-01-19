@@ -22,7 +22,7 @@ void MyEventAction::BeginOfEventAction(const G4Event* anEvent)
 	numother_evt=0;
 	fEdep = 0.;
 	evID = anEvent->GetEventID();
-	if(evID%100000==0){
+	if(evID%10000==0){
 		G4cout<<"event: "<<evID<<G4endl;
 	}
 }
@@ -33,9 +33,6 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 		G4cout << "Energy deposition: "<< fEdep << G4endl;
 	}*/
 	
-	
-	G4AnalysisManager *man = G4AnalysisManager::Instance();
-	
 	AddNumNeutron(numneutron_evt);
 	AddNumGamma(numgamma_evt);
 	AddNumElectron(numelectron_evt);
@@ -43,6 +40,8 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 	AddNumNu_e(numnu_e_evt);
 	AddNumaNu_e(numanu_e_evt);
 	AddNumOther(numother_evt);
+	
+	//G4AnalysisManager *man = G4AnalysisManager::Instance();
 	/*
 	if(numgamma_evt !=0){
 		//fill gamma details
@@ -81,18 +80,15 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 		man->AddNtupleRow(2);
 	}
 	*/
-	if(evID % 1000000 ==0){
+	if(evID % 100000 ==0){
 		fRun->PrintStatus();
 	}
 	
 	
 	
-	if(num!=0){
+	/*if(num!=0){
 		G4cout << "Number of Particles in Event: "<< evID << " is "<< num << G4endl;
-	}
-	//man->FillNtupleDColumn(0, 0, fEdep);
-	
-	//man->AddNtupleRow(0);
+	}*/
 	
 	
 }
