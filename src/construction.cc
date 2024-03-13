@@ -111,7 +111,7 @@ void MyDetectorConstruction::ConstructSetup()
 	G4LogicalSkinSurface *skin1 = new G4LogicalSkinSurface("skin1", logicshellMuVetoOut, mirrorSurface);
 	G4LogicalSkinSurface *skin2 = new G4LogicalSkinSurface("skin2", logicshellMuVetoIn, mirrorSurface);
 	
-	physshellMuVetoOut = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellMuVetoOut,"physshellMuVetoOut",logicWorld,false,1,true);
+	physshellMuVetoOut = new G4PVPlacement(0,G4ThreeVector(xloc,0.,4.), logicshellMuVetoOut,"physshellMuVetoOut",logicWorld,false,1,true);
 	physshellHDPEOuter = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellHDPEOuter,"physshellHDPEOuter",logicWorld,false,2,true);
 	physshellBP 	   = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellBP,"physshellBP",logicWorld,false,3,true);
 	physshellLead 	   = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellLead,"physshellLead",logicWorld,false,4,true);
@@ -122,10 +122,57 @@ void MyDetectorConstruction::ConstructSetup()
 	
 }
 
+void MyDetectorConstruction::ConstructSetupMod()
+{	
+	G4VSolid* shellMuVetoOut = ConstructShell(150.,150.,175.,4.,0.);
+	G4VSolid* shell0 = ConstructShell(142.,142.,167.,5.,0.);
+	G4VSolid* shell1 = ConstructShell(132.,132.,157.,5.,0.);
+	G4VSolid* shell2 = ConstructShell(122.,122.,147.,5.,0.);
+	G4VSolid* shell3 = ConstructShell(112.,112.,137.,5.,0.);
+	G4VSolid* shell4 = ConstructShell(102.,102.,127.,5.,0.);
+	G4VSolid* shell5 = ConstructShell(92.,92.,117.,5.,0.);
+	G4VSolid* shell6 = ConstructShell(82.,82.,107.,5.,0.);
+	G4VSolid* shell7 = ConstructShell(72.,72.,97.,5.,0.);
+	G4VSolid* shellMuVetoIn = ConstructShell(62.,62.,87.,4.,0.);
+	G4VSolid* shellCuColdBox = ConstructShell(54.,54.,79.,2.,0.);
+	detVol = new G4Box("Boxsensdet",25.*cm,25.*cm,37.5*cm);
+	
+	std::vector<G4Material*> LogicArrangement = {HDPE,HDPE,BoratedPE,Lead,HDPE,BoratedPE,Lead,HDPE};
+	
+	logicshellMuVetoOut = new G4LogicalVolume(shellMuVetoOut,myTolueneMat,"logicshellMuVetoOut");
+	logicshell0		    = new G4LogicalVolume(shell0,LogicArrangement[0],"logicshell1");
+	logicshell1		    = new G4LogicalVolume(shell1,LogicArrangement[1],"logicshell2");
+	logicshell2		    = new G4LogicalVolume(shell2,LogicArrangement[2],"logicshell3");
+	logicshell3		    = new G4LogicalVolume(shell3,LogicArrangement[3],"logicshell4");
+	logicshell4		    = new G4LogicalVolume(shell4,LogicArrangement[4],"logicshell5");
+	logicshell5		    = new G4LogicalVolume(shell5,LogicArrangement[5],"logicshell6");
+	logicshell6		    = new G4LogicalVolume(shell6,LogicArrangement[6],"logicshell7");
+	logicshell7		    = new G4LogicalVolume(shell7,LogicArrangement[7],"logicshell8");
+	logicshellMuVetoIn 	= new G4LogicalVolume(shellMuVetoIn,myTolueneMat,"logicshellMuVetoIn");
+	logicshellCuColdBox = new G4LogicalVolume(shellCuColdBox,Copper,"logicshellCuColdBox");
+	logicdetVol			= new G4LogicalVolume(detVol,Vaccum,"logicdetVol");
+	
+	G4LogicalSkinSurface *skin1 = new G4LogicalSkinSurface("skin1", logicshellMuVetoOut, mirrorSurface);
+	G4LogicalSkinSurface *skin2 = new G4LogicalSkinSurface("skin2", logicshellMuVetoIn, mirrorSurface);
+	
+	physshellMuVetoOut = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellMuVetoOut,"physshellMuVetoOut",logicWorld,false,1,true);
+	physshell0 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell0,"physshell0",logicWorld,false,2,true);
+	physshell1 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell1,"physshell1",logicWorld,false,3,true);
+	physshell2 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell2,"physshell2",logicWorld,false,4,true);
+	physshell3 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell3,"physshell3",logicWorld,false,5,true);
+	physshell4 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell4,"physshell4",logicWorld,false,6,true);
+	physshell5 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell5,"physshell5",logicWorld,false,7,true);
+	physshell6 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell6,"physshell6",logicWorld,false,8,true);
+	physshell7 = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshell7,"physshell7",logicWorld,false,9,true);
+	physshellMuVetoIn  = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellMuVetoIn,"physshellMuVetoIn",logicWorld,false,10,true);
+	physshellCuColdBox = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicshellCuColdBox,"physshellCuColdBox",logicWorld,false,11,true);
+	physdetVol		   = new G4PVPlacement(0,G4ThreeVector(xloc,0.,0.), logicdetVol,"physdetVol",logicWorld,false,12,true);
+}
+
 G4VSolid* MyDetectorConstruction::ConstructShell(double xsz, double ysz, double zsz, double thickness, double offset=0.0){
 	G4VSolid* boxout = new G4Box("Boxout",0.5*xsz*cm,0.5*ysz*cm,0.5*zsz*cm);
 	G4VSolid* boxin = new G4Box("Boxin",(0.5*xsz-thickness)*cm,(0.5*ysz-thickness)*cm,(0.5*zsz-thickness)*cm);
-	G4VSolid* shell = new G4SubtractionSolid("BoxOut-BoxIn", boxout, boxin, 0, G4ThreeVector(0.,0.,offset*cm));
+	G4VSolid* shell = new G4SubtractionSolid("BoxOut-BoxIn", boxout, boxin, 0, G4ThreeVector(0.,0.,-1.0*offset*cm));
 	return shell;
 }
 
@@ -141,7 +188,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 	//Integrating the position of the world to the logical volume to create our final Physical Volume	
 	 physWorld = new G4PVPlacement(0,G4ThreeVector(0., 0., 0.),logicWorld,"physWorld",0,false,0,true);
 	 
-	 ConstructSetup();
+	 ConstructSetupMod();
 	
 
 //Finally we return the physWorld as output	

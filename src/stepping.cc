@@ -25,11 +25,13 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 	G4Track *track =step->GetTrack();
 	G4String particleName = track->GetParticleDefinition()->GetParticleName();
 	
-	/*if(copyNo == 8 and step->GetTrack()->GetTrackID()==1){			//to check for primary neutrons
+	//copyNo == 8 for sensdet in construction.cc
+	//copyNo == 12 for sensdet in construction_v1.cc
+	/*if(copyNo == 12 and step->GetTrack()->GetTrackID()==1){			//to check for primary neutrons 
 		fEventAction->AddNum();
 	}*/
 	
-	if(copyNo == 8){
+	if(copyNo == 12){
 		G4cout<<"Particle "<<particleName<<" has entered in event "<<evID<<G4endl;
 		//if(particleName=="neutron" and track->GetTrackID()==1){G4cout<<"This was a primary neutron"<<G4endl;}
 		if(particleName=="neutron"){

@@ -39,7 +39,8 @@ private:
 	G4VPhysicalVolume *physWorld, *physshell, *physdetVol;
 	G4VPhysicalVolume *physshellMuVetoOut, *physshellHDPEOuter, *physshellBP, *physshellLead, *physshellHDPEInner, *physshellMuVetoIn, *physshellCuColdBox;
 	G4LogicalVolume *logicshellMuVetoOut, *logicshellHDPEOuter, *logicshellBP, *logicshellLead, *logicshellHDPEInner, *logicshellMuVetoIn, *logicshellCuColdBox;
-	
+	G4VPhysicalVolume *physshell0,*physshell1,*physshell2,*physshell3,*physshell4,*physshell5,*physshell6,*physshell7;
+	G4LogicalVolume *logicshell0, *logicshell1, *logicshell2, *logicshell3, *logicshell4, *logicshell5, *logicshell6, *logicshell7;
 	
 	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum;
 	
@@ -55,6 +56,7 @@ private:
 	G4LogicalVolume *fScoringVolume;
 	
 	void ConstructSetup();
+	void ConstructSetupMod();
 	
 	G4double xWorld,yWorld,zWorld,xloc;
 	

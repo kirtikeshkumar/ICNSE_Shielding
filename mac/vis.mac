@@ -1,6 +1,23 @@
 /vis/open OGL
-/vis/viewer/set/viewpointVector 0 0 1
+/vis/viewer/set/viewpointVector 0 -1 0.0001
 /vis/drawVolume
+
+#/vis/geometry/set/forceSolid logicshellMuVetoOut 1 true
+#/vis/geometry/set/forceSolid logicshellHDPEOuter 1 true
+#/vis/geometry/set/forceSolid logicshellBP 1 true
+#/vis/geometry/set/forceSolid logicshellLead 1 true
+#/vis/geometry/set/forceSolid logicshellHDPEInner 1 true
+#/vis/geometry/set/forceSolid logicshellMuVetoIn 1 true
+#/vis/geometry/set/forceSolid logicshellCuColdBox 1 true
+
+#/vis/geometry/set/colour logicshellHDPEOuter 1 1 0.66 0.9 0.7
+#/vis/geometry/set/colour logicshellHDPEInner 1 1 0.66 0.9 0.7
+#/vis/geometry/set/colour logicshellMuVetoIn 1 0 0.58 0.8 0.7
+#/vis/geometry/set/colour logicshellMuVetoOut 1 0 0.58 0.8 0.7
+#/vis/geometry/set/colour logicshellCuColdBox 1 0.84 0.46 0.37 0.7
+#/vis/geometry/set/colour logicshellBP 1 0.5 0.5 0.5 0.7
+#/vis/geometry/set/colour logicshellLead 1 0.9 0.9 0.9 0.7
+
 /vis/viewer/set/autoRefresh true
 /vis/scene/add/trajectories smooth
 /vis/scene/add/scale 10  cm
