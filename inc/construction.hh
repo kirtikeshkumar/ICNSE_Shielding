@@ -41,13 +41,18 @@ private:
 	G4LogicalVolume *logicshellMuVetoOut, *logicshellHDPEOuter, *logicshellBP, *logicshellLead, *logicshellHDPEInner, *logicshellMuVetoIn, *logicshellCuColdBox;
 	G4VPhysicalVolume *physshell0,*physshell1,*physshell2,*physshell3,*physshell4,*physshell5,*physshell6,*physshell7;
 	G4LogicalVolume *logicshell0, *logicshell1, *logicshell2, *logicshell3, *logicshell4, *logicshell5, *logicshell6, *logicshell7;
+	G4VPhysicalVolume *physSteelPlate, *physUnderSideBP, *physUnderSideHDPE;
+	G4LogicalVolume *logicSteelPlate, *logicUnderSideBP, *logicUnderSideHDPE;
 	
-	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum;
+	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum, *Steel;
 	
 
 	void DefineMaterials();
 	
 	G4VSolid* ConstructShell(double xsz, double ysz, double zsz, double thickness, double offset);
+	G4VSolid* SubtractBox(G4VSolid* sol, G4ThreeVector Boxsz, G4ThreeVector relPosSubVol);
+	G4VSolid* SubtractBoxfrmShell(G4ThreeVector shellsz, double thickness, double offset, G4ThreeVector Boxsz, G4ThreeVector relPosSubVol);
+	G4VSolid* SubtractBoxfrmShell(G4ThreeVector shellsz, double thickness, double offset, G4ThreeVector Boxsz);
 	
 	virtual void ConstructSDandField();
 	
@@ -57,6 +62,7 @@ private:
 	
 	void ConstructSetup();
 	void ConstructSetupMod();
+	void ConstructSetupV1();
 	
 	G4double xWorld,yWorld,zWorld,xloc;
 	
