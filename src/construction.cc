@@ -14,6 +14,9 @@ MyDetectorConstruction::MyDetectorConstruction()
 	 zWorld = 5.*m;
 	 
 	 xloc = 0.9*m;
+	 
+	 //LogicArrangement = {HDPE,HDPE,BoratedPE,Lead,HDPE,BoratedPE,Lead,HDPE};
+	LogicArrangement = {HDPE,HDPE,BoratedPE,BoratedPE,Lead,Lead,HDPE,HDPE};
 }
 
 //The destructor function
@@ -188,8 +191,6 @@ void MyDetectorConstruction::ConstructSetupV1()
 	G4ThreeVector UnderSideBPSz    = G4ThreeVector(150.0, 150.0, 10.0);
 	G4ThreeVector UnderSideHDPESz  = G4ThreeVector(150.0, 150.0, 10.0);
 	
-	//std::vector<G4Material*> LogicArrangement = {HDPE,HDPE,BoratedPE,Lead,HDPE,BoratedPE,Lead,HDPE};
-	std::vector<G4Material*> LogicArrangement = {HDPE,HDPE,BoratedPE,BoratedPE,Lead,Lead,HDPE,HDPE};
 	
 	//SubBoxSz is size of the box to be subtracted. the  x and y are to ensure complete subtraction, z is since 4cm of muveto, and 10cm each of HDPE and BP to be removed
 	G4ThreeVector SubBoxSz = G4ThreeVector(151.,151.,24.);

@@ -24,3 +24,9 @@ void MyActionInitialization::Build() const
 	MySteppingAction *steppingAction = new MySteppingAction(eventAction);
 	SetUserAction(steppingAction);
 }
+
+void MyActionInitialization::BuildForMaster() const
+{
+	MyRunAction *runAction = new MyRunAction();
+	SetUserAction(runAction);
+}

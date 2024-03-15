@@ -46,6 +46,7 @@ private:
 	
 	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum, *Steel;
 	
+	std::vector<G4Material*> LogicArrangement;
 
 	void DefineMaterials();
 	

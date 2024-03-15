@@ -4,6 +4,7 @@
 #include<iostream>
 
 #include "G4RunManager.hh"
+#include "G4MTRunManager.hh"
 #include "G4UImanager.hh"
 #include "G4VisManager.hh"
 #include "G4VisExecutive.hh"
@@ -20,7 +21,12 @@
 int main(int argc,char** argv)
 {
 //creating a G4RunManager instance to initialize all our required objects and functions
-	G4RunManager *runManager = new G4RunManager();
+
+	#ifdef G4MULTITHREADED
+		G4MTRunManager *runManager = new G4MTRunManager();
+	#else
+		G4RunManager *runManager = new G4RunManager();
+	#endif
 	
 //Initializing the detector construction, physics implementation and action initialization files	
 	runManager->SetUserInitialization(new MyDetectorConstruction());
@@ -32,7 +38,7 @@ int main(int argc,char** argv)
 	runManager->SetUserInitialization(physicsList);
 	//runManager->SetUserInitialization(physicsList);
 	runManager->SetUserInitialization(new MyActionInitialization());
-	runManager->Initialize();
+	//runManager->Initialize();
 	
 //creating an instance of the UI Executive and Vis Manager for UI and visualization of our world	
 	G4UIExecutive *ui = 0;
