@@ -28,8 +28,12 @@ int main(int argc,char** argv)
 		G4RunManager *runManager = new G4RunManager();
 	#endif
 	
-//Initializing the detector construction, physics implementation and action initialization files	
-	runManager->SetUserInitialization(new MyDetectorConstruction());
+//Initializing the detector construction, physics implementation and action initialization files
+	if(argv[2]){
+		runManager->SetUserInitialization(new MyDetectorConstruction(argv[2]));
+	}else{
+		runManager->SetUserInitialization(new MyDetectorConstruction());
+	}
 	//runManager->SetUserInitialization(new MyPhysicsList());
 	//runManager->SetUserInitialization(new Shielding);
   	G4VModularPhysicsList *physicsList = new Shielding;

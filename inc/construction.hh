@@ -24,6 +24,7 @@ class MyDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
 	MyDetectorConstruction();//The constructor and destructor function of the class
+	MyDetectorConstruction(std::string str);
 	~MyDetectorConstruction();
 	
 	G4LogicalVolume *GetScoringVolume() const {return fScoringVolume;}
@@ -46,6 +47,7 @@ private:
 	
 	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum, *Steel;
 	
+	std::map<char, G4Material*> MatMap;	
 	std::vector<G4Material*> LogicArrangement;
 
 	void DefineMaterials();

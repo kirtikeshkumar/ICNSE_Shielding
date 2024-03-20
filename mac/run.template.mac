@@ -1,0 +1,5 @@
+/run/numberOfThreads NUMOFTHREADS
+/run/initialize
+/gun/particle PARTICLE
+/gun/energy ENERGY keV
+/run/beamOn NUMOFEVENTS

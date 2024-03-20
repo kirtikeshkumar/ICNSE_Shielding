@@ -15,8 +15,38 @@ MyDetectorConstruction::MyDetectorConstruction()
 	 
 	 xloc = 0.9*m;
 	 
-	 //LogicArrangement = {HDPE,HDPE,BoratedPE,Lead,HDPE,BoratedPE,Lead,HDPE};
-	LogicArrangement = {HDPE,HDPE,BoratedPE,BoratedPE,Lead,Lead,HDPE,HDPE};
+	 MatMap['H'] = HDPE;
+	 MatMap['B'] = BoratedPE;
+	 MatMap['L'] = Lead;
+	 
+	 LogicArrangement = {HDPE,HDPE,BoratedPE,BoratedPE,Lead,Lead,HDPE,HDPE};
+}
+
+MyDetectorConstruction::MyDetectorConstruction(std::string str)
+{	 
+	 DefineMaterials();
+	 
+	 xWorld = 5.*m;
+	 yWorld = 5.*m;
+	 zWorld = 5.*m;
+	 
+	 xloc = 0.9*m;
+	 
+	 MatMap['H'] = HDPE;
+	 MatMap['B'] = BoratedPE;
+	 MatMap['L'] = Lead;
+	 
+	 LogicArrangement.clear();
+	 
+	 for (char s : str){
+		 if (MatMap.find(s) != MatMap.end()){  //if the character is mapped to a material
+			 LogicArrangement.push_back(MatMap[s]);
+		 }
+	 }
+	 
+	 //for (G4Material* material : LogicArrangement) {
+     //    G4cout << material->GetName() << " ";
+     //}
 }
 
 //The destructor function

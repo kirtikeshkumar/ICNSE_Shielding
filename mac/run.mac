@@ -1,5 +1,5 @@
 /run/numberOfThreads 10
 /run/initialize
 /gun/particle neutron
-/gun/energy 1.0 MeV
-/run/beamOn 1000000
+/gun/energy 1000 keV
+/run/beamOn 10000000

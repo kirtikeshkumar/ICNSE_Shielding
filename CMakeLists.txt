@@ -15,7 +15,12 @@ file(GLOB MACRO_FILES
 	"mac/*.mac"
 )
 
+file(GLOB BASH_FILES
+	"mac/*.sh"
+)
+
 file(COPY ${MACRO_FILES} DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY ${BASH_FILES} DESTINATION ${PROJECT_BINARY_DIR})
 
 file(GLOB DATA_FILES
 	"dat/*.dat"
