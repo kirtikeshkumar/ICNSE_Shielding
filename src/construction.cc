@@ -15,10 +15,6 @@ MyDetectorConstruction::MyDetectorConstruction()
 	 
 	 xloc = 0.9*m;
 	 
-	 MatMap['H'] = HDPE;
-	 MatMap['B'] = BoratedPE;
-	 MatMap['L'] = Lead;
-	 
 	 LogicArrangement = {HDPE,HDPE,BoratedPE,BoratedPE,Lead,Lead,HDPE,HDPE};
 }
 
