@@ -8,7 +8,7 @@ range(){
 
 NUMOFTHREADS=15
 ENERGIES=$(range 100 10000 100)
-PARTICLES=("neutron" "gamma")
+PARTICLES="gamma" #("neutron" "gamma")
 NUMOFEVENTS=10000000
 ORDERING=("HHBBLLHH" "HHBLHBLH")
 ORDER="HHBLHBLH"
@@ -21,7 +21,12 @@ for PARTICLE in $PARTICLES;do
             -e "s|PARTICLE|$PARTICLE|g" \
             -e "s|NUMOFEVENTS|$NUMOFEVENTS|g" \
             run.template.mac > run.mac
-    	./sim run.mac $ORDER
+    	if [$ORDER]
+	then
+		./sim run.mac $ORDER
+	else
+		./sim run.mac
+	fi
     	hadd output_${PARTICLE}_${ENERGY}keV_${ORDER}_${NUMOFEVENTS}evt.root output0_t*.root
     	rm output0_t*
     done

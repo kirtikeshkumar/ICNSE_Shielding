@@ -22,7 +22,7 @@ void MyEventAction::BeginOfEventAction(const G4Event* anEvent)
 	numother_evt=0;
 	fEdep = 0.;
 	evID = anEvent->GetEventID();
-	if(evID%10000==0){
+	if(evID%100000==0){
 		G4cout<<"event: "<<evID<<G4endl;
 	}
 }
@@ -80,7 +80,7 @@ void MyEventAction::EndOfEventAction(const G4Event* anEvent)
 		man->AddNtupleRow(2);
 	}
 	*/
-	if(evID % 100000 ==0){
+	if(evID % 1000000 ==0){
 		fRun->PrintStatus();
 	}
 	
