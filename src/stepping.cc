@@ -37,7 +37,7 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 			G4cout<<"TrackID: "<<track->GetTrackID()<<G4endl;
 			G4cout<<"ParentID: "<<track->GetParentID()<<G4endl;
 			G4cout<<"Created at: "<<vertpos[0]<<", "<<vertpos[1]<<", "<<vertpos[2]<<G4endl;
-			G4cout<<"Created by: "<<track->GetCreatorProcess()<<G4endl;
+			//G4cout<<"Created by: "<<track->GetCreatorProcess()->GetProcessName()<<G4endl;
 		}
 	}
 	

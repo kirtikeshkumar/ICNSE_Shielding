@@ -67,19 +67,26 @@ def read_file(fname):
 ##################################################################################################################
 # Define the properties of simulation
 particle    = 'neutron'
-ordering    = 'HHBLHBLH'
-numSimEvt   = 10000000
+ordering    = 'HHBBLLHH'
+##ordering1    = 'HHBLHBLH'
+ordering1    = 'HHBBLLHH'
+numSimEvt   = 1000000
+numSimEvt1   = 1000000
 minEnergy   = 100
-maxEnergy   = 4500
-energyStep  = 100
+maxEnergy   = 3700
+energyStep  = 400
 
 # Variable containing the required data
 numParticleInSensVol = []
+numParticleInSensVol1 = []
 
 currEnergy = minEnergy
 while(currEnergy <= maxEnergy):                                             # Loop over the energies
     fname = f"{particle}/output_{particle}_{currEnergy}keV_{ordering}_{numSimEvt}evt.root"
+##    fname1 = f"../MT_Run_20_Mar/{particle}/output_{particle}_{currEnergy}keV_{ordering1}_{numSimEvt1}evt.root"
+    fname1 = f"NoInnerVeto/{particle}/output_{particle}_{currEnergy}keV_{ordering1}_{numSimEvt1}evt.root"
     fTrees = read_file(fname)
+    fTrees1 = read_file(fname1)
     if(fTrees):
         keys = list(fTrees.keys())                                          # Get the list of Tree names in the file
         if(keys):                                                           # If no particles traverse then no tree is created. Hence checking if the trees exist
@@ -90,17 +97,30 @@ while(currEnergy <= maxEnergy):                                             # Lo
                 else:
                     vals.append(0)
             numParticleInSensVol.append(vals)
+    if(fTrees1):
+        keys = list(fTrees1.keys())                                          # Get the list of Tree names in the file
+        if(keys):                                                           # If no particles traverse then no tree is created. Hence checking if the trees exist
+            vals1 = [currEnergy]
+            for key in keys:                                                # Read the number of particles transmitting to sensitive volume 
+                if(fTrees1[key][0]):
+                    vals1.append(fTrees1[key][0])
+                else:
+                    vals1.append(0)
+            numParticleInSensVol1.append(vals1)
     currEnergy += energyStep
 
 listNumParticle = np.transpose(numParticleInSensVol)
+listNumParticle1 = np.transpose(numParticleInSensVol1)
 for i,key in enumerate(keys):
-##    plt.semilogy(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
-   plt.plot(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
+##    if(key != 'Neutrinos' and key != 'antiNeutrinos'):
+    if(key == 'Neutrons' or key == 'Gammas'):
+        plt.plot(listNumParticle[0],(listNumParticle1[i+1]/numSimEvt1)/(listNumParticle[i+1]/numSimEvt),label=f"{key}")
 plt.xlabel(f"Incident {particle} Energy [keV]")
-plt.ylabel("# of Particles reaching sens vol/Incident")
+##plt.ylabel("Ratio of Particles reaching sens vol (HHBLHBLH/HHBBLLHH)")
+plt.ylabel("Ratio of Particles reaching sens vol (NoInnerVeto/innerVeto)")
 plt.legend(fontsize=15)
-##plt.savefig(f"LogTransmissionSpectraForIncident_{particle}.pdf")
-plt.savefig(f"TransmissionSpectraForIncident_{particle}.pdf")
+##plt.savefig(f"RatioOfTransmissionSpectraForIncident_{particle}_Interleaving.pdf")
+plt.savefig(f"RatioOfTransmissionSpectraForIncident_{particle}_InnerVeto.pdf")
 plt.show()
 # Start an interactive interpreter session with access to local variables
 code.interact(local=locals())

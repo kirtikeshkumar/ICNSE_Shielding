@@ -254,7 +254,8 @@ void MyDetectorConstruction::ConstructSetupV1()
 	logicshell5		    = new G4LogicalVolume(shell5,LogicArrangement[5],"logicshell5");
 	logicshell6		    = new G4LogicalVolume(shell6,LogicArrangement[6],"logicshell6");
 	logicshell7		    = new G4LogicalVolume(shell7,LogicArrangement[7],"logicshell7");
-	logicshellMuVetoIn 	= new G4LogicalVolume(shellMuVetoIn,myTolueneMat,"logicshellMuVetoIn");
+	//logicshellMuVetoIn 	= new G4LogicalVolume(shellMuVetoIn,myTolueneMat,"logicshellMuVetoIn");
+	logicshellMuVetoIn 	= new G4LogicalVolume(shellMuVetoIn,Vaccum,"logicshellMuVetoIn");
 	logicshellCuColdBox = new G4LogicalVolume(shellCuColdBox,Copper,"logicshellCuColdBox");
 	logicSteelPlate		= new G4LogicalVolume(SteelPlate,Steel,"logicSteelPlate");
 	logicUnderSideBP    = new G4LogicalVolume(UnderSideBP,BoratedPE,"logicUnderSideBP");

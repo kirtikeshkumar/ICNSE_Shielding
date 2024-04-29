@@ -66,12 +66,12 @@ def read_file(fname):
 ##                                             MAIN PROGRAM                                                     ##
 ##################################################################################################################
 # Define the properties of simulation
-particle    = 'neutron'
-ordering    = 'HHBLHBLH'
-numSimEvt   = 10000000
+particle    = 'gamma'
+ordering    = 'HHBBLLHH'
+numSimEvt   = 1000000
 minEnergy   = 100
-maxEnergy   = 4500
-energyStep  = 100
+maxEnergy   = 3700
+energyStep  = 400
 
 # Variable containing the required data
 numParticleInSensVol = []
@@ -94,13 +94,14 @@ while(currEnergy <= maxEnergy):                                             # Lo
 
 listNumParticle = np.transpose(numParticleInSensVol)
 for i,key in enumerate(keys):
-##    plt.semilogy(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
-   plt.plot(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
+    if(key != 'Neutrinos' and key != 'antiNeutrinos'):
+        plt.semilogy(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
+##        plt.plot(listNumParticle[0],listNumParticle[i+1]/numSimEvt,label=f"{key}")
 plt.xlabel(f"Incident {particle} Energy [keV]")
 plt.ylabel("# of Particles reaching sens vol/Incident")
 plt.legend(fontsize=15)
-##plt.savefig(f"LogTransmissionSpectraForIncident_{particle}.pdf")
-plt.savefig(f"TransmissionSpectraForIncident_{particle}.pdf")
+plt.savefig(f"LogTransmissionSpectraForIncident_{particle}.pdf")
+##plt.savefig(f"TransmissionSpectraForIncident_{particle}.pdf")
 plt.show()
 # Start an interactive interpreter session with access to local variables
 code.interact(local=locals())

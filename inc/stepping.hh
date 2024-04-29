@@ -7,6 +7,7 @@
 #include "G4SystemOfUnits.hh"
 #include "construction.hh"
 #include "event.hh"
+#include "G4VProcess.hh"
 
 class MySteppingAction : public G4UserSteppingAction
 {
