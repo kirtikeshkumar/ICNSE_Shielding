@@ -149,13 +149,5 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 void MyDetectorConstruction::ConstructSDandField()
 {
 	MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
-
-	/*logicshellMuVetoOut->SetSensitiveDetector(sensDet);
-	logicshellHDPEOuter->SetSensitiveDetector(sensDet);
-	logicshellBP->SetSensitiveDetector(sensDet);
-	logicshellLead->SetSensitiveDetector(sensDet);
-	logicshellHDPEInner->SetSensitiveDetector(sensDet);
-	logicshellMuVetoIn->SetSensitiveDetector(sensDet);
-	logicshellCuColdBox->SetSensitiveDetector(sensDet);*/
 	logicdetVol->SetSensitiveDetector(sensDet);
 }
