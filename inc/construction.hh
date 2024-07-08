@@ -43,8 +43,7 @@ private:
 	G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper, *Vaccum, *Steel;
 	G4Material *sheildMat;
 
-	std::map<char, G4Material *>
-		MatMap;
+	std::map<G4String, G4Material *> MatMap;
 	std::vector<G4Material *> LogicArrangement;
 
 	void DefineMaterials();
@@ -60,6 +59,7 @@ private:
 	G4VSolid *ConstructShell(double xsz, double ysz, double zsz, double thickness, double offset);
 
 	G4double xWorld, yWorld, zWorld, xloc, width;
+	G4String sheildMats;
 
 	G4OpticalSurface *mirrorSurface;
 };

@@ -29,19 +29,19 @@ int main(int argc, char **argv)
 #endif
 
 	// Initializing the detector construction, physics implementation and action initialization files
-	if (argv[2] and argv[3])
+	if (argc > 2)
 	{
 		runManager->SetUserInitialization(new MyDetectorConstruction(*argv[2], argv[3]));
 	}
 	else
 	{
-		std::cout << "OK SO FAR SO GOOD" << std::endl;
+		std::cout << "NUMBEROFARG" << argc << std::endl;
 		runManager->SetUserInitialization(new MyDetectorConstruction());
 	}
 	G4VModularPhysicsList *physicsList = new Shielding;
 	runManager->SetUserInitialization(physicsList);
 	runManager->SetUserInitialization(new MyActionInitialization());
-	runManager->Initialize();
+	// runManager->Initialize();
 
 	// creating an instance of the UI Executive and Vis Manager for UI and visualization of our world
 	G4UIExecutive *ui = 0;

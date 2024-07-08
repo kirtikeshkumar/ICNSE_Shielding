@@ -1,4 +1,6 @@
 /run/numberOfThreads NUMOFTHREADS
+/detector/width WIDTH
+/detector/sheildMat MATERIAL
 /run/initialize
 /gun/particle PARTICLE
 /gun/energy ENERGY keV

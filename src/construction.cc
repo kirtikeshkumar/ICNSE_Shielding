@@ -9,15 +9,23 @@ MyDetectorConstruction::MyDetectorConstruction()
 {
 	DefineMaterials();
 
+	width = 2.0;
+	sheildMats = "HDPE";
+
+	fMessenger = new G4GenericMessenger(this, "/detector/", "Shield Layer Construction");
+	fMessenger->DeclareProperty("width", width, "Thickness of Shield");
+	fMessenger->DeclareProperty("sheildMat", sheildMats, "Shield Material");
+
 	xWorld = 5. * m;
 	yWorld = 5. * m;
 	zWorld = 5. * m;
 
 	xloc = 0.9 * m;
 
-	sheildMat = Lead;
-
-	width = 20 * cm;
+	MatMap["HDPE"] = HDPE;
+	MatMap["BP"] = BoratedPE;
+	MatMap["Pb"] = Lead;
+	MatMap["Cu"] = Copper;
 }
 
 MyDetectorConstruction::MyDetectorConstruction(char mat, std::string th)
@@ -30,12 +38,12 @@ MyDetectorConstruction::MyDetectorConstruction(char mat, std::string th)
 
 	xloc = 0.9 * m;
 
-	MatMap['H'] = HDPE;
-	MatMap['B'] = BoratedPE;
-	MatMap['L'] = Lead;
-	MatMap['C'] = Copper;
+	MatMap["H"] = HDPE;
+	MatMap["B"] = BoratedPE;
+	MatMap["L"] = Lead;
+	MatMap["C"] = Copper;
 
-	sheildMat = MatMap[mat];
+	sheildMats += mat;
 	width = std::stod(th) * cm;
 }
 
@@ -110,10 +118,10 @@ void MyDetectorConstruction::DefineMaterials()
 
 void MyDetectorConstruction::ConstructSingleSheet()
 {
-	solidSheet = new G4Box("solidSheet", 0.5 * width, 75.0 * cm, 75.0 * cm);
-	detVol = ConstructShell(width / cm + 5.0, 155., 155, 2.5, 2.5);
+	solidSheet = new G4Box("solidSheet", 0.5 * width * cm, 75.0 * cm, 75.0 * cm);
+	detVol = ConstructShell(width + 5.0, 155., 155, 2.5, 2.5);
 
-	logicSheet = new G4LogicalVolume(solidSheet, sheildMat, "logicSheet");
+	logicSheet = new G4LogicalVolume(solidSheet, MatMap[sheildMats], "logicSheet");
 	logicdetVol = new G4LogicalVolume(detVol, Vaccum, "logicdetVol");
 
 	physSheet = new G4PVPlacement(0, G4ThreeVector(xloc, 0., 0.), logicSheet, "physSheet", logicWorld, false, 2, true);

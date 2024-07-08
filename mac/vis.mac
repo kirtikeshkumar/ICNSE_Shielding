@@ -6,8 +6,8 @@
 /vis/geometry/set/forceSolid logicSheet 1 true
 
 
-/vis/geometry/set/colour logicdetVol 1 1 0.66 0.9 0.7
-/vis/geometry/set/colour logicSheet 1 1 0.66 0.9 0.7
+/vis/geometry/set/colour logicdetVol 1 0.66 0.9 0.7 0.5
+/vis/geometry/set/colour logicSheet 1 0.0 1.0 0.5 1.0
 
 
 /vis/viewer/set/autoRefresh true

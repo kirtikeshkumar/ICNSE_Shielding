@@ -20,12 +20,14 @@ for MATERIAL in MATERIALS;do
     for THICKNESS in THICKNESSES;do
         for PARTICLE in $PARTICLES;do
             for ENERGY in $ENERGIES;do
-                sed -e "s|NUMOFTHREADS|$NUMOFTHREADS|g" \
+                sed -e "s|WIDTH|$THICKNESS|g"\
+                    -e "s|MATERIAL|$MATERIAL|g"\
+                    -e "s|NUMOFTHREADS|$NUMOFTHREADS|g" \
                     -e "s|ENERGY|$ENERGY|g" \
                     -e "s|PARTICLE|$PARTICLE|g" \
                     -e "s|NUMOFEVENTS|$NUMOFEVENTS|g" \
                     run.template.mac > run.mac
-		        ./sim run.mac $MATERIAL $THICKNESS
+		        ./sim run.mac
     	        hadd output_${PARTICLE}_${ENERGY}keV_${ORDER}_${NUMOFEVENTS}evt.root output0_t*.root
     	        rm output0_t*
             done
