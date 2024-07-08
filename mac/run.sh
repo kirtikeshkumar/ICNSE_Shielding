@@ -7,19 +7,19 @@ range(){
 }
 
 NUMOFTHREADS=15
-ENERGIES=$(range 100 10000 100)
-PARTICLES=("neutron" "gamma" "e+" "e-")
+ENERGIES=$(range 100 5000 100)
+PARTICLES=("e+" "e-" "neutron" "gamma")
 NUMOFEVENTS=10000000
-MATERIALS=("H" "L" "B")\
-THICKNESSES=(1 2 5 10 15 20)
+MATERIALS=("HDPE" "Pb" "BP")
+THICKNESSES=(2 5 10 15 20)
 #ORDERING=("HHBBLLHH" "HHBLHBLH")
 #ORDER="HHBLHBLH"
 #ORDER="HHBBLLHH"
 
-for MATERIAL in MATERIALS;do
-    for THICKNESS in THICKNESSES;do
-        for PARTICLE in $PARTICLES;do
-            for ENERGY in $ENERGIES;do
+for THICKNESS in "${THICKNESSES[@]}"; do
+    for MATERIAL in "${MATERIALS[@]}"; do
+        for PARTICLE in "${PARTICLES[@]}"; do
+            for ENERGY in $ENERGIES; do
                 sed -e "s|WIDTH|$THICKNESS|g"\
                     -e "s|MATERIAL|$MATERIAL|g"\
                     -e "s|NUMOFTHREADS|$NUMOFTHREADS|g" \
@@ -28,7 +28,9 @@ for MATERIAL in MATERIALS;do
                     -e "s|NUMOFEVENTS|$NUMOFEVENTS|g" \
                     run.template.mac > run.mac
 		        ./sim run.mac
-    	        hadd output_${PARTICLE}_${ENERGY}keV_${ORDER}_${NUMOFEVENTS}evt.root output0_t*.root
+                DIR="../outputs/SingleLayer/${MATERIAL}/${THICKNESS}/${PARTICLE}"           
+                mkdir -p "$DIR"
+    	        hadd ${DIR}/output_${MATERIAL}_${THICKNESS}cm_${PARTICLE}_${ENERGY}keV_${NUMOFEVENTS}evt.root output0_t*.root
     	        rm output0_t*
             done
         done

@@ -30,20 +30,20 @@ void MySteppingAction::UserSteppingAction(const G4Step *step)
 		fEventAction->AddNum();
 	}*/
 
-	if (copyNo == 0)
-	{
-		G4cout << "Particle " << particleName << " has entered in event " << evID << G4endl;
-		// if(particleName=="neutron" and track->GetTrackID()==1){G4cout<<"This was a primary neutron"<<G4endl;}
-		// if (particleName == "neutron")
-		// {
+	// if (copyNo == 0)
+	// {
+	// 	G4cout << "Particle " << particleName << " has entered in event " << evID << G4endl;
+	// 	// if(particleName=="neutron" and track->GetTrackID()==1){G4cout<<"This was a primary neutron"<<G4endl;}
+	// 	// if (particleName == "neutron")
+	// 	// {
 
-		// 	G4ThreeVector vertpos = track->GetVertexPosition();
-		// 	G4cout << "TrackID: " << track->GetTrackID() << G4endl;
-		// 	G4cout << "ParentID: " << track->GetParentID() << G4endl;
-		// 	G4cout << "Created at: " << vertpos[0] << ", " << vertpos[1] << ", " << vertpos[2] << G4endl;
-		// 	// G4cout<<"Created by: "<<track->GetCreatorProcess()->GetProcessName()<<G4endl;
-		// }
-	}
+	// 	// 	G4ThreeVector vertpos = track->GetVertexPosition();
+	// 	// 	G4cout << "TrackID: " << track->GetTrackID() << G4endl;
+	// 	// 	G4cout << "ParentID: " << track->GetParentID() << G4endl;
+	// 	// 	G4cout << "Created at: " << vertpos[0] << ", " << vertpos[1] << ", " << vertpos[2] << G4endl;
+	// 	// 	// G4cout<<"Created by: "<<track->GetCreatorProcess()->GetProcessName()<<G4endl;
+	// 	// }
+	// }
 
 	if (copyNo == 0)
 	{
