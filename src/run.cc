@@ -9,6 +9,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(0);
 	
 	man->CreateNtuple("Neutrons","Neutrons");
@@ -16,6 +17,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(1);
 	
 	man->CreateNtuple("Neutrinos","Neutrinos");
@@ -23,6 +25,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(2);
 	
 	man->CreateNtuple("antiNeutrinos","antiNeutrinos");
@@ -30,6 +33,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(3);
 	
 	man->CreateNtuple("Electrons","Electrons");
@@ -37,6 +41,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(4);
 	
 	man->CreateNtuple("Positrons","Positrons");
@@ -44,6 +49,7 @@ MyRunAction::MyRunAction()
 	man->CreateNtupleIColumn("fnum");
 	man->CreateNtupleDColumn("fEnergy");
 	man->CreateNtupleDColumn("fTime");
+	man->CreateNtupleSColumn("fProdProcess");
 	man->FinishNtuple(5);
 	
 	

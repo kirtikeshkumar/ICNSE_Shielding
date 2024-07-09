@@ -1,8 +1,8 @@
 #!/bin/bash
 
 range(){
-     for x in $(seq $1 $3 $2); do
-          echo $x
+     for x in $(seq "$1" "$3" "$2"); do
+          echo "$x"
      done
 }
 
@@ -30,7 +30,7 @@ for THICKNESS in "${THICKNESSES[@]}"; do
 		        ./sim run.mac
                 DIR="../outputs/SingleLayer/${MATERIAL}/${THICKNESS}/${PARTICLE}"           
                 mkdir -p "$DIR"
-    	        hadd ${DIR}/output_${MATERIAL}_${THICKNESS}cm_${PARTICLE}_${ENERGY}keV_${NUMOFEVENTS}evt.root output0_t*.root
+    	        hadd "${DIR}"/output_"${MATERIAL}"_"${THICKNESS}"cm_"${PARTICLE}"_"${ENERGY}"keV_${NUMOFEVENTS}evt.root output0_t*.root
     	        rm output0_t*
             done
         done
