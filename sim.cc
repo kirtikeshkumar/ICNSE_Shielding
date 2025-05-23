@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 	// Initializing the detector construction, physics implementation and action initialization files
 	if (argc > 2)
 	{
-		runManager->SetUserInitialization(new MyDetectorConstruction(*argv[2], argv[3]));
+		runManager->SetUserInitialization(new MyDetectorConstruction(argv[2], argv[3]));
 	}
 	else
 	{
