@@ -45,13 +45,13 @@ private:
   G4Box *solidWorld, *solid;
   std::vector<G4Box *> solidSheet;
   G4VSolid *detVol;
-  G4LogicalVolume *logicWorld, *logicdetVol, *logic;
+  G4LogicalVolume *logicWorld, *logicdetVol, *logic, *logicHPGe, *logicNaI;
   std::vector<G4LogicalVolume *> logicSheet;
-  G4VPhysicalVolume *physWorld, *physdetVol, *phys;
+  G4VPhysicalVolume *physWorld, *physdetVol, *phys, *physHPGe, *physNaI;
   std::vector<G4VPhysicalVolume *> physSheet;
 
   G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
-      *Vaccum, *Steel;
+      *Vaccum, *Steel, *Germanium, *NaI;
   G4Material *sheildMat;
 
   std::map<G4String, G4Material *> MatMap;
@@ -66,6 +66,9 @@ private:
   G4LogicalVolume *fScoringVolume;
 
   void ConstructSingleSheet();
+  void ConstructHPGeSetup();
+  G4LogicalVolume *ConstructHPGe();
+  G4LogicalVolume *ConstructNaI();
 
   G4VSolid *ConstructShell(double xsz, double ysz, double zsz, double thickness,
                            double offset);
@@ -75,6 +78,7 @@ private:
   std::vector<G4String> shieldMats;
 
   G4String shieldmats, wdth;
+  int ConfigNum;
 
   G4OpticalSurface *mirrorSurface;
 };

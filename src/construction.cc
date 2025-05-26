@@ -5,6 +5,7 @@
 #include "construction.hh"
 #include "G4Exception.hh"
 #include "detector.hh"
+#include <G4LogicalVolume.hh>
 
 // In the constructor function we use std::cin to take the dimensions of the
 // environment and the detector along with the position of the detector as user
@@ -13,25 +14,30 @@ MyDetectorConstruction::MyDetectorConstruction() {
   DefineMaterials();
   std::cout << "***********************************" << std::endl;
   std::cout << "Constructor Called" << std::endl;
-  width.push_back(2.0 * cm);
-  shieldmats = "HDPE";
+  // width.push_back(2.0 * cm);
+  // shieldmats = "HDPE";
 
-  fMessenger =
-      new G4GenericMessenger(this, "/detector/", "Shield Layer Construction");
-  fMessenger->DeclareProperty("width", wdth, "Thickness of Shield");
-  fMessenger->DeclareProperty("shieldMat", shieldmats, "Shield Material");
+  // fMessenger =
+  //     new G4GenericMessenger(this, "/detector/", "Shield Layer
+  //     Construction");
+
+  // fMessenger->DeclareProperty("width", wdth, "Thickness of Shield");
+  // fMessenger->DeclareProperty("shieldMat", shieldmats, "Shield Material");
+
+  // fMessenger->DeclareProperty("Configuration", ConfigNum, "Configuration of
+  // Detectors");
 
   xWorld = 5. * m;
   yWorld = 5. * m;
   zWorld = 5. * m;
 
-  xloc = 0.09 * m;
+  // xloc = 0.09 * m;
 
-  MatMap["HDPE"] = HDPE;
-  MatMap["BP"] = BoratedPE;
-  MatMap["Pb"] = Lead;
-  MatMap["Cu"] = Copper;
-  MatMap["SS"] = Steel;
+  // MatMap["HDPE"] = HDPE;
+  // MatMap["BP"] = BoratedPE;
+  // MatMap["Pb"] = Lead;
+  // MatMap["Cu"] = Copper;
+  // MatMap["SS"] = Steel;
 }
 
 MyDetectorConstruction::MyDetectorConstruction(std::string mat,
@@ -42,26 +48,26 @@ MyDetectorConstruction::MyDetectorConstruction(std::string mat,
   yWorld = 5. * m;
   zWorld = 5. * m;
 
-  xloc = 0.09 * m;
+  // xloc = 0.09 * m;
 
-  MatMap["H"] = HDPE;
-  MatMap["B"] = BoratedPE;
-  MatMap["L"] = Lead;
-  MatMap["C"] = Copper;
+  // MatMap["H"] = HDPE;
+  // MatMap["B"] = BoratedPE;
+  // MatMap["L"] = Lead;
+  // MatMap["C"] = Copper;
 
-  shieldmats += mat;
-  for (int ijk = 0; ijk < shieldmats.length(); ijk++) {
-    G4String key(1, shieldmats[ijk]);
-    shieldMats.push_back(key);
-  }
+  // shieldmats += mat;
+  // for (int ijk = 0; ijk < shieldmats.length(); ijk++) {
+  //   G4String key(1, shieldmats[ijk]);
+  //   shieldMats.push_back(key);
+  // }
 
-  std::istringstream iss(th);
-  std::string token;
-  netWidth = 0;
-  while (std::getline(iss, token, ' ')) {
-    width.push_back(std::stof(token)); // convert to float
-    netWidth += std::stof(token);
-  }
+  // std::istringstream iss(th);
+  // std::string token;
+  // netWidth = 0;
+  // while (std::getline(iss, token, ' ')) {
+  //   width.push_back(std::stof(token)); // convert to float
+  //   netWidth += std::stof(token);
+  // }
 }
 
 // The destructor function
@@ -89,11 +95,15 @@ void MyDetectorConstruction::DefineMaterials() {
   HDPE = new G4Material("HDPE", 0.97 * g / cm3, 1);
   HDPE->AddMaterial(nist->FindOrBuildMaterial("G4_POLYETHYLENE"),
                     100. * perCent);
-
+  NaI = new G4Material("NaI", 3.667 * g / cm3, 1);
+  NaI->AddMaterial(nist->FindOrBuildMaterial("G4_SODIUM_IODIDE"),
+                   100. * perCent);
   Lead = new G4Material("Pb", 11.4 * g / cm3, 1);
   Lead->AddElement(nist->FindOrBuildElement("Pb"), 100. * perCent);
   Copper = new G4Material("Cu", 8.96 * g / cm3, 1);
   Copper->AddElement(nist->FindOrBuildElement("Cu"), 100. * perCent);
+  Germanium = new G4Material("Ge", 5.323 * g / cm3, 1);
+  Germanium->AddElement(nist->FindOrBuildElement("Ge"), 100. * perCent);
   Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
   // Defining the refractive index of the Aerogel detector and the environment
@@ -175,7 +185,7 @@ void MyDetectorConstruction::ConstructSingleSheet() {
                                 "logicSheet");
     logicSheet.push_back(logic);
     phys = new G4PVPlacement(0, G4ThreeVector(xloc, 0., 0.), logicSheet[ij],
-                             "physSheet", logicWorld, false, ij + 1, true);
+                             "physSheet", logicWorld, true, ij + 1, true);
     physSheet.push_back(phys);
     xloc = xloc + 0.5 * layerWidth;
     // std::cout << "xloc: " << xloc / cm << std::endl << std::endl;
@@ -187,6 +197,27 @@ void MyDetectorConstruction::ConstructSingleSheet() {
   physdetVol =
       new G4PVPlacement(0, G4ThreeVector(xloc + 0.1 * cm, 0., 0.), logicdetVol,
                         "physdetVol", logicWorld, false, 0, true);
+}
+
+G4LogicalVolume *MyDetectorConstruction::ConstructHPGe() {
+  G4VSolid *cryostat = new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 * cm,
+                                  0 * deg, 360 * deg);
+  G4VSolid *GeCrystal =
+      new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
+  G4LogicalVolume *logicHPGe =
+      new G4LogicalVolume(cryostat, Copper, "logicCryostat");
+  G4LogicalVolume *logicGeCrystal =
+      new G4LogicalVolume(GeCrystal, Germanium, "logicGeCrystal");
+  new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 6 * cm), logicGeCrystal,
+                    "HPGePhysical", logicHPGe, false, 110, true);
+  return logicHPGe;
+}
+
+G4LogicalVolume *MyDetectorConstruction::ConstructNaI() {
+  G4VSolid *solidNaI = new G4Tubs("NaICrystal", 0 * cm, 3.25 * cm, 3.25 * cm,
+                                  0 * deg, 360 * deg);
+  G4LogicalVolume *logicNaI = new G4LogicalVolume(solidNaI, NaI, "logicNaI");
+  return logicNaI;
 }
 
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
@@ -203,48 +234,98 @@ G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
   return shell;
 }
 
+void MyDetectorConstruction::ConstructHPGeSetup() {
+  logicHPGe = ConstructHPGe();
+  logicNaI = ConstructNaI();
+
+  physHPGe =
+      new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 6.0 * cm), logicHPGe,
+                        "physHPGe_1", logicWorld, true, 111, true);
+  physHPGe =
+      new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 6.0 * cm), logicHPGe,
+                        "physHPGe_2", logicWorld, true, 112, true);
+  physHPGe =
+      new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 6.0 * cm), logicHPGe,
+                        "physHPGe_3", logicWorld, true, 113, true);
+  physHPGe =
+      new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 6.0 * cm), logicHPGe,
+                        "physHPGe_4", logicWorld, true, 114, true);
+
+  physNaI = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
+                              "physNaI_0", logicWorld, true, 120, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.), logicNaI,
+                        "physNaI_1", logicWorld, true, 121, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.), logicNaI,
+                        "physNaI_2", logicWorld, true, 122, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.), logicNaI,
+                        "physNaI_3", logicWorld, true, 123, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.), logicNaI,
+                        "physNaI_4", logicWorld, true, 124, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.), logicNaI,
+                        "physNaI_5", logicWorld, true, 125, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.), logicNaI,
+                        "physNaI_6", logicWorld, true, 126, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.), logicNaI,
+                        "physNaI_7", logicWorld, true, 127, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.), logicNaI,
+                        "physNaI_8", logicWorld, true, 128, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, 13.75 * cm, 0.), logicNaI,
+                        "physNaI_9", logicWorld, true, 129, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, -13.75 * cm, 0.),
+                        logicNaI, "physNaI_10", logicWorld, true, 130, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(13.75 * cm, -13.75 * cm, 0.), logicNaI,
+                        "physNaI_11", logicWorld, true, 131, true);
+  physNaI =
+      new G4PVPlacement(0, G4ThreeVector(13.75 * cm, 13.75 * cm, 0.), logicNaI,
+                        "physNaI_12", logicWorld, true, 132, true);
+}
+
 // The Construct function where we define the material of the detector and
 // define the physical and logical volume of the environment and detector.
 G4VPhysicalVolume *MyDetectorConstruction::Construct() {
-  std::cout << "Width: " << wdth << std::endl;
-  std::istringstream iss(wdth);
-  std::string token;
-  netWidth = 0;
 
-  width.clear();
-  shieldMats.clear();
-  while (std::getline(iss, token, '_')) {
-    width.push_back(std::stof(token)); // convert to float
-    netWidth += std::stof(token);
-    std::cout << "token: " << token << std::endl;
-  }
-  std::cout << "shieldmats: " << shieldmats << std::endl;
-  std::istringstream ist(shieldmats);
-  while (std::getline(ist, token, '_')) {
-    shieldMats.push_back(token);
-    std::cout << "token: " << token << std::endl;
-  }
+  // The following part is for parsing the run.mac to get material and
+  // thickness for singleSheets
+  //
+  // std::istringstream iss(wdth);
+  // std::string token;
+  // netWidth = 0;
+  // width.clear();
+  // shieldMats.clear();
+  // while (std::getline(iss, token, '_')) {
+  //   width.push_back(std::stof(token)); // convert to float
+  //   netWidth += std::stof(token);
+  // }
+  // std::istringstream ist(shieldmats);
+  // while (std::getline(ist, token, '_')) {
+  //   shieldMats.push_back(token);
+  // }
+  // if (shieldMats.size() != width.size()) {
+  //   G4Exception("MyDetectorConstruction::Construct()", "ConstructionError",
+  //               FatalException,
+  //               "Size of Material List and Widhts not same. Aborting.");
+  // }
 
-  if (shieldMats.size() != width.size()) {
-    G4Exception("MyDetectorConstruction::Construct()", "ConstructionError",
-                FatalException,
-                "Size of Material List and Widhts not same. Aborting.");
-  }
-
-  std::cout << "NetWidth: " << netWidth << std::endl;
-
-  // Defining the dimenstions of the world environment
+  // Defining the world environment
   solidWorld = new G4Box("solidWorld", xWorld, yWorld, zWorld);
-
-  // Setiing Logical volume where we integrate the material to the world box
   logicWorld = new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
   // logicWorld= new G4LogicalVolume(solidWorld,Vaccum,"logicWorld");
-  // Integrating the position of the world to the logical volume to create our
-  // final Physical Volume
   physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld,
                                 "physWorld", 0, false, 100, true);
 
-  ConstructSingleSheet();
+  // ConstructSingleSheet();
+  ConstructHPGeSetup();
 
   // Finally we return the physWorld as output
   return physWorld;
