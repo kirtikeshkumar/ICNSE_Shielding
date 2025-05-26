@@ -238,57 +238,58 @@ void MyDetectorConstruction::ConstructHPGeSetup() {
   logicHPGe = ConstructHPGe();
   logicNaI = ConstructNaI();
 
-  physHPGe =
+  physHPGe.push_back(
       new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 6.0 * cm), logicHPGe,
-                        "physHPGe_1", logicWorld, true, 111, true);
-  physHPGe =
+                        "physHPGe_1", logicWorld, true, 111, true));
+  physHPGe.push_back(
       new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 6.0 * cm), logicHPGe,
-                        "physHPGe_2", logicWorld, true, 112, true);
-  physHPGe =
+                        "physHPGe_2", logicWorld, true, 112, true));
+  physHPGe.push_back(
       new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 6.0 * cm), logicHPGe,
-                        "physHPGe_3", logicWorld, true, 113, true);
-  physHPGe =
+                        "physHPGe_3", logicWorld, true, 113, true));
+  physHPGe.push_back(
       new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 6.0 * cm), logicHPGe,
-                        "physHPGe_4", logicWorld, true, 114, true);
+                        "physHPGe_4", logicWorld, true, 114, true));
 
-  physNaI = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
-                              "physNaI_0", logicWorld, true, 120, true);
-  physNaI =
+  physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
+                                      "physNaI_0", logicWorld, true, 120,
+                                      true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.), logicNaI,
-                        "physNaI_1", logicWorld, true, 121, true);
-  physNaI =
+                        "physNaI_1", logicWorld, true, 121, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                        "physNaI_2", logicWorld, true, 122, true);
-  physNaI =
+                        "physNaI_2", logicWorld, true, 122, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.), logicNaI,
-                        "physNaI_3", logicWorld, true, 123, true);
-  physNaI =
+                        "physNaI_3", logicWorld, true, 123, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                        "physNaI_4", logicWorld, true, 124, true);
-  physNaI =
+                        "physNaI_4", logicWorld, true, 124, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                        "physNaI_5", logicWorld, true, 125, true);
-  physNaI =
+                        "physNaI_5", logicWorld, true, 125, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                        "physNaI_6", logicWorld, true, 126, true);
-  physNaI =
+                        "physNaI_6", logicWorld, true, 126, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                        "physNaI_7", logicWorld, true, 127, true);
-  physNaI =
+                        "physNaI_7", logicWorld, true, 127, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                        "physNaI_8", logicWorld, true, 128, true);
-  physNaI =
+                        "physNaI_8", logicWorld, true, 128, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, 13.75 * cm, 0.), logicNaI,
-                        "physNaI_9", logicWorld, true, 129, true);
-  physNaI =
+                        "physNaI_9", logicWorld, true, 129, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, -13.75 * cm, 0.),
-                        logicNaI, "physNaI_10", logicWorld, true, 130, true);
-  physNaI =
+                        logicNaI, "physNaI_10", logicWorld, true, 130, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(13.75 * cm, -13.75 * cm, 0.), logicNaI,
-                        "physNaI_11", logicWorld, true, 131, true);
-  physNaI =
+                        "physNaI_11", logicWorld, true, 131, true));
+  physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(13.75 * cm, 13.75 * cm, 0.), logicNaI,
-                        "physNaI_12", logicWorld, true, 132, true);
+                        "physNaI_12", logicWorld, true, 132, true));
 }
 
 // The Construct function where we define the material of the detector and

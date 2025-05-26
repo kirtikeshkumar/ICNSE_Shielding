@@ -47,8 +47,8 @@ private:
   G4VSolid *detVol;
   G4LogicalVolume *logicWorld, *logicdetVol, *logic, *logicHPGe, *logicNaI;
   std::vector<G4LogicalVolume *> logicSheet;
-  G4VPhysicalVolume *physWorld, *physdetVol, *phys, *physHPGe, *physNaI;
-  std::vector<G4VPhysicalVolume *> physSheet;
+  G4VPhysicalVolume *physWorld, *physdetVol, *phys;
+  std::vector<G4VPhysicalVolume *> physSheet, physHPGe, physNaI;
 
   G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
       *Vaccum, *Steel, *Germanium, *NaI;
