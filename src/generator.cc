@@ -15,12 +15,20 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
   // G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
   // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
-  G4ParticleDefinition *particle = particleTable->FindParticle("neutron");
+  G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
+}
 
+MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
+
+/*In this function we define which particle we need from our particle gun and
+ * define its properties.*/
+void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
+  G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
   // Creating particles on a 50cm side length box
   G4double halfLength = 25.0 * cm;
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
+  std::cout << "face: " << face << std::endl;
   G4ThreeVector position, direction;
   G4double u = (2 * G4UniformRand() - 1) * halfLength;
   G4double v = (2 * G4UniformRand() - 1) * halfLength;
@@ -62,15 +70,6 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   // fParticleGun->SetParticleMomentum(0.0*MeV);
   fParticleGun->SetParticleEnergy(1.0 * MeV);
   fParticleGun->SetParticleDefinition(particle);
-}
-
-MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
-
-/*In this function we define which particle we need from our particle gun and
- * define its properties.*/
-void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
-  G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
-
   /*if(particle == G4Geantino::Geantino())
   {
           G4int Z = 55;

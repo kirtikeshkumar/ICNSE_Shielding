@@ -45,7 +45,8 @@ private:
   G4Box *solidWorld, *solid;
   std::vector<G4Box *> solidSheet;
   G4VSolid *detVol;
-  G4LogicalVolume *logicWorld, *logicdetVol, *logic, *logicHPGe, *logicNaI;
+  G4LogicalVolume *logicWorld, *logicdetVol, *logic, *logicHPGe, *logicNaI,
+      *logicGeCrystal;
   std::vector<G4LogicalVolume *> logicSheet;
   G4VPhysicalVolume *physWorld, *physdetVol, *phys;
   std::vector<G4VPhysicalVolume *> physSheet, physHPGe, physNaI;

@@ -206,9 +206,8 @@ G4LogicalVolume *MyDetectorConstruction::ConstructHPGe() {
       new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
   G4LogicalVolume *logicHPGe =
       new G4LogicalVolume(cryostat, Copper, "logicCryostat");
-  G4LogicalVolume *logicGeCrystal =
-      new G4LogicalVolume(GeCrystal, Germanium, "logicGeCrystal");
-  new G4PVPlacement(nullptr, G4ThreeVector(0, 0, 6 * cm), logicGeCrystal,
+  logicGeCrystal = new G4LogicalVolume(GeCrystal, Germanium, "logicGeCrystal");
+  new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -6 * cm), logicGeCrystal,
                     "HPGePhysical", logicHPGe, false, 110, true);
   return logicHPGe;
 }
@@ -333,6 +332,10 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
 }
 
 void MyDetectorConstruction::ConstructSDandField() {
-  MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
-  logicdetVol->SetSensitiveDetector(sensDet);
+  MySensitiveDetector *sensDetGe =
+      new MySensitiveDetector("SensitiveDetectorGe");
+  logicGeCrystal->SetSensitiveDetector(sensDetGe);
+  MySensitiveDetector *sensDetNaI =
+      new MySensitiveDetector("SensitiveDetectorNaI");
+  logicNaI->SetSensitiveDetector(sensDetNaI);
 }
