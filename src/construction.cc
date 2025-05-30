@@ -6,6 +6,7 @@
 #include "G4Exception.hh"
 #include "detector.hh"
 #include <G4LogicalVolume.hh>
+#include <string>
 
 // In the constructor function we use std::cin to take the dimensions of the
 // environment and the detector along with the position of the detector as user
@@ -27,9 +28,11 @@ MyDetectorConstruction::MyDetectorConstruction() {
   // fMessenger->DeclareProperty("Configuration", ConfigNum, "Configuration of
   // Detectors");
 
-  xWorld = 5. * m;
-  yWorld = 5. * m;
-  zWorld = 5. * m;
+  sdManager = G4SDManager::GetSDMpointer();
+
+  xWorld = 0.25 * m;
+  yWorld = 0.25 * m;
+  zWorld = 0.25 * m;
 
   // xloc = 0.09 * m;
 
@@ -101,9 +104,11 @@ void MyDetectorConstruction::DefineMaterials() {
   Lead = new G4Material("Pb", 11.4 * g / cm3, 1);
   Lead->AddElement(nist->FindOrBuildElement("Pb"), 100. * perCent);
   Copper = new G4Material("Cu", 8.96 * g / cm3, 1);
-  Copper->AddElement(nist->FindOrBuildElement("Cu"), 100. * perCent);
-  Germanium = new G4Material("Ge", 5.323 * g / cm3, 1);
-  Germanium->AddElement(nist->FindOrBuildElement("Ge"), 100. * perCent);
+  Copper->AddMaterial(nist->FindOrBuildMaterial("G4_Cu"), 100. * perCent);
+  Mat_Ge = new G4Material("Ge", 5.323 * g / cm3, 1);
+  Mat_Ge->AddMaterial(nist->FindOrBuildMaterial("G4_Ge"), 100. * perCent);
+  Mat_Al = new G4Material("Al", 2.7 * g / cm3, 1);
+  Mat_Al->AddMaterial(nist->FindOrBuildMaterial("G4_Al"), 100. * perCent);
   Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
   // Defining the refractive index of the Aerogel detector and the environment
@@ -199,22 +204,25 @@ void MyDetectorConstruction::ConstructSingleSheet() {
                         "physdetVol", logicWorld, false, 0, true);
 }
 
-G4LogicalVolume *MyDetectorConstruction::ConstructHPGe() {
-  G4VSolid *cryostat = new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 * cm,
-                                  0 * deg, 360 * deg);
-  G4VSolid *GeCrystal =
-      new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
-  G4LogicalVolume *logicHPGe =
-      new G4LogicalVolume(cryostat, Copper, "logicCryostat");
-  logicGeCrystal = new G4LogicalVolume(GeCrystal, Germanium, "logicGeCrystal");
-  new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -6 * cm), logicGeCrystal,
-                    "HPGePhysical", logicHPGe, false, 110, true);
-  return logicHPGe;
-}
+// G4LogicalVolume *MyDetectorConstruction::ConstructHPGe() {
+//   G4VSolid *cryostat = new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 *
+//   cm,
+//                                   0 * deg, 360 * deg);
+//   G4VSolid *GeCrystal =
+//       new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 *
+//       deg);
+//   G4LogicalVolume *logicHPGe =
+//       new G4LogicalVolume(cryostat, Copper, "logicCryostat");
+//   logicGeCrystal = new G4LogicalVolume(GeCrystal, Mat_Ge,
+//   "logicGeCrystal"); new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -6 * cm),
+//   logicGeCrystal,
+//                     "HPGePhysical", logicHPGe, false, 110, true);
+//   return logicHPGe;
+// }
 
 G4LogicalVolume *MyDetectorConstruction::ConstructNaI() {
-  G4VSolid *solidNaI = new G4Tubs("NaICrystal", 0 * cm, 3.25 * cm, 3.25 * cm,
-                                  0 * deg, 360 * deg);
+  solidNaI = new G4Tubs("NaICrystal", 0 * cm, 3.25 * cm, 3.25 * cm, 0 * deg,
+                        360 * deg);
   G4LogicalVolume *logicNaI = new G4LogicalVolume(solidNaI, NaI, "logicNaI");
   return logicNaI;
 }
@@ -234,21 +242,42 @@ G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
 }
 
 void MyDetectorConstruction::ConstructHPGeSetup() {
-  logicHPGe = ConstructHPGe();
+  // logicHPGe = ConstructHPGe();
+  solidNaIClad = new G4Tubs("NaIClad", 3.35 * cm, 3.45 * cm, 3.35 * cm, 0 * deg,
+                            360 * deg);
+  cryostat = new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 * cm, 0 * deg,
+                        360 * deg);
+  GeCrystal =
+      new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
   logicNaI = ConstructNaI();
+  logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
+  logicCryostat = new G4LogicalVolume(cryostat, Copper, "logicCryostat");
+  logicHPGe = new G4LogicalVolume(GeCrystal, Mat_Ge, "logicHPGe");
 
   physHPGe.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 6.0 * cm), logicHPGe,
-                        "physHPGe_1", logicWorld, true, 111, true));
+      new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 0.0 * cm), logicHPGe,
+                        "physHPGe_0", logicWorld, true, 111, true));
   physHPGe.push_back(
-      new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 6.0 * cm), logicHPGe,
-                        "physHPGe_2", logicWorld, true, 112, true));
+      new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 0.0 * cm), logicHPGe,
+                        "physHPGe_1", logicWorld, true, 112, true));
   physHPGe.push_back(
-      new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 6.0 * cm), logicHPGe,
-                        "physHPGe_3", logicWorld, true, 113, true));
+      new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 0.0 * cm), logicHPGe,
+                        "physHPGe_2", logicWorld, true, 113, true));
   physHPGe.push_back(
-      new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 6.0 * cm), logicHPGe,
-                        "physHPGe_4", logicWorld, true, 114, true));
+      new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 0.0 * cm), logicHPGe,
+                        "physHPGe_3", logicWorld, true, 114, true));
+
+  int copy = 0;
+  G4ThreeVector pos;
+  std::string name;
+  for (int iter = 0; iter < physHPGe.size(); iter++) {
+    copy = 115 + iter;
+    pos = physHPGe[iter]->GetTranslation();
+    name = "physCryo_" + std::to_string(iter);
+    physCryo.push_back(
+        new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), 6.0 * cm),
+                          logicCryostat, name, logicWorld, true, copy, true));
+  }
 
   physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
                                       "physNaI_0", logicWorld, true, 120,
@@ -278,17 +307,26 @@ void MyDetectorConstruction::ConstructHPGeSetup() {
       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.), logicNaI,
                         "physNaI_8", logicWorld, true, 128, true));
   physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, 13.75 * cm, 0.), logicNaI,
+      new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, 11.5 * cm, 0.), logicNaI,
                         "physNaI_9", logicWorld, true, 129, true));
   physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-13.75 * cm, -13.75 * cm, 0.),
-                        logicNaI, "physNaI_10", logicWorld, true, 130, true));
+      new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, -11.5 * cm, 0.), logicNaI,
+                        "physNaI_10", logicWorld, true, 130, true));
   physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(13.75 * cm, -13.75 * cm, 0.), logicNaI,
+      new G4PVPlacement(0, G4ThreeVector(11.5 * cm, -11.5 * cm, 0.), logicNaI,
                         "physNaI_11", logicWorld, true, 131, true));
   physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(13.75 * cm, 13.75 * cm, 0.), logicNaI,
+      new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.), logicNaI,
                         "physNaI_12", logicWorld, true, 132, true));
+
+  for (int iter = 0; iter < physNaI.size(); iter++) {
+    copy = 133 + iter;
+    pos = physNaI[iter]->GetTranslation();
+    name = "physNaI_Clad_" + std::to_string(iter);
+    physNaIClad.push_back(
+        new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), 0. * cm),
+                          logicNaIClad, name, logicWorld, true, copy, true));
+  }
 }
 
 // The Construct function where we define the material of the detector and
@@ -332,10 +370,14 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
 }
 
 void MyDetectorConstruction::ConstructSDandField() {
+
   MySensitiveDetector *sensDetGe =
       new MySensitiveDetector("SensitiveDetectorGe");
-  logicGeCrystal->SetSensitiveDetector(sensDetGe);
+  sdManager->AddNewDetector(sensDetGe);
+  logicHPGe->SetSensitiveDetector(sensDetGe);
+
   MySensitiveDetector *sensDetNaI =
       new MySensitiveDetector("SensitiveDetectorNaI");
+  sdManager->AddNewDetector(sensDetNaI);
   logicNaI->SetSensitiveDetector(sensDetNaI);
 }

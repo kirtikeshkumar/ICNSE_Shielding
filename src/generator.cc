@@ -16,6 +16,8 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   // G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
   // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
   G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
+
+  fParticleGun->SetParticleDefinition(particle);
 }
 
 MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
@@ -24,7 +26,8 @@ MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
  * define its properties.*/
 void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
-  // Creating particles on a 50cm side length box
+
+  /*// Creating particles on a 50cm side length box
   G4double halfLength = 25.0 * cm;
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
@@ -58,12 +61,12 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     direction.set((2 * G4UniformRand() - 1), (2 * G4UniformRand() - 1), 1.);
     break;
   }
-  direction = direction.unit();
+  direction = direction.unit();*/
 
   /*Defining the position and momentum of the particle using G4ThreeVector to
    * define and SetParticle function to define the properties*/
-  //   G4ThreeVector pos(0., 0., 0.);
-  //   G4ThreeVector mom(1., 0., 0.);
+  G4ThreeVector position(0., 25. * cm, 0.);
+  G4ThreeVector direction(0., -1., 0.);
 
   fParticleGun->SetParticlePosition(position);
   fParticleGun->SetParticleMomentumDirection(direction);

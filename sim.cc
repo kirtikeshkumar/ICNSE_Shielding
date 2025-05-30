@@ -10,11 +10,12 @@
 #include "G4VisExecutive.hh"
 #include "G4VisManager.hh"
 
+// #include "MyShielding.hh"
 #include "Shielding.hh"
-#include "construction.hh"
-// #include "physics.hh"
 #include "action.hh"
-#include <G4OpticalPhysics.hh>
+#include "construction.hh"
+#include "physics.hh"
+// #include <G4OpticalPhysics.hh>
 
 /*The main function where all the objects are initialized and all the commands
  * needed are performed*/
@@ -38,8 +39,9 @@ int main(int argc, char **argv) {
     std::cout << "NUMBEROFARG" << argc << std::endl;
     runManager->SetUserInitialization(new MyDetectorConstruction());
   }
-  G4VModularPhysicsList *physicsList = new Shielding;
-  runManager->SetUserInitialization(physicsList);
+  // G4VModularPhysicsList *physicsList = new MyShielding;
+  // runManager->SetUserInitialization(physicsList);
+  runManager->SetUserInitialization(new MyPhysicsList());
   runManager->SetUserInitialization(new MyActionInitialization());
 
   // creating an instance of the UI Executive and Vis Manager for UI and
@@ -54,7 +56,7 @@ int main(int argc, char **argv) {
   visManager->Initialize();
 
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
-  // runManager->Initialize();
+  runManager->Initialize();
   if (ui) {
     UImanager->ApplyCommand("/control/execute vis.mac");
     // finally we start the session

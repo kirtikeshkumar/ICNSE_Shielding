@@ -1,15 +1,11 @@
 #include "event.hh"
 
-MyEventAction::MyEventAction(MyRunAction *run) {
-  fRun = run;
-  fEdep = 0.;
-  num = 0;
-}
+MyEventAction::MyEventAction(MyRunAction *run) : fRun(run) {}
 
 MyEventAction::~MyEventAction() {}
 
 void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
-  num = 0;
+  /*num = 0;
   numgamma_evt = 0;
   numneutron_evt = 0;
   numelectron_evt = 0;
@@ -21,22 +17,23 @@ void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
   evID = anEvent->GetEventID();
   if (evID % 100000 == 0) {
     std::cout << "event: " << evID << std::endl;
-  }
+  }*/
+  std::cout << "New Run Started" << std::endl << std::endl;
 }
 
 void MyEventAction::EndOfEventAction(const G4Event *anEvent) {
 
-  AddNumNeutron(numneutron_evt);
+  /*AddNumNeutron(numneutron_evt);
   AddNumGamma(numgamma_evt);
   AddNumElectron(numelectron_evt);
   AddNumPositron(numpositron_evt);
   AddNumNu_e(numnu_e_evt);
   AddNumaNu_e(numanu_e_evt);
-  AddNumOther(numother_evt);
+  AddNumOther(numother_evt);*/
 
   if (evID % 1000000 == 0) {
     std::cout << std::endl << std::endl;
-    std::cout << " Printing from event " << evID << std::endl;
-    fRun->PrintStatus();
+    // std::cout << " Printing from event " << evID << std::endl;
+    // fRun->PrintStatus();
   }
 }

@@ -12,6 +12,7 @@
 #include "G4NistManager.hh"
 #include "G4OpticalSurface.hh"
 #include "G4PVPlacement.hh"
+#include "G4SDManager.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4Tubs.hh"
@@ -44,15 +45,16 @@ private:
 
   G4Box *solidWorld, *solid;
   std::vector<G4Box *> solidSheet;
-  G4VSolid *detVol;
-  G4LogicalVolume *logicWorld, *logicdetVol, *logic, *logicHPGe, *logicNaI,
-      *logicGeCrystal;
+  G4VSolid *detVol, *cryostat, *GeCrystal, *solidNaI, *solidNaIClad;
+  G4LogicalVolume *logicWorld, *logicdetVol, *logic;
+  G4LogicalVolume *logicHPGe, *logicNaI, *logicCryostat, *logicNaIClad;
   std::vector<G4LogicalVolume *> logicSheet;
   G4VPhysicalVolume *physWorld, *physdetVol, *phys;
-  std::vector<G4VPhysicalVolume *> physSheet, physHPGe, physNaI;
+  std::vector<G4VPhysicalVolume *> physHPGe, physNaI, physCryo, physNaIClad,
+      physSheet;
 
-  G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
-      *Vaccum, *Steel, *Germanium, *NaI;
+  G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper;
+  G4Material *Vaccum, *Steel, *Mat_Ge, *NaI, *Mat_Al;
   G4Material *sheildMat;
 
   std::map<G4String, G4Material *> MatMap;
@@ -61,6 +63,8 @@ private:
   void DefineMaterials();
 
   virtual void ConstructSDandField();
+
+  G4SDManager *sdManager;
 
   G4GenericMessenger *fMessenger;
 
