@@ -91,6 +91,9 @@
         "variant": "cpp",
         "format": "cpp",
         "__nullptr": "cpp",
-        "*.icc": "cpp"
+        "*.icc": "cpp",
+        "expected": "cpp",
+        "spanstream": "cpp",
+        "stacktrace": "cpp"
     }
 }

@@ -4,14 +4,14 @@
 // Including the construction header file
 #include "construction.hh"
 #include "G4Exception.hh"
-#include "detector.hh"
 #include <G4LogicalVolume.hh>
 #include <string>
 
 // In the constructor function we use std::cin to take the dimensions of the
 // environment and the detector along with the position of the detector as user
 // input
-MyDetectorConstruction::MyDetectorConstruction() {
+MyDetectorConstruction::MyDetectorConstruction()
+{
   DefineMaterials();
   std::cout << "***********************************" << std::endl;
   std::cout << "Constructor Called" << std::endl;
@@ -44,7 +44,8 @@ MyDetectorConstruction::MyDetectorConstruction() {
 }
 
 MyDetectorConstruction::MyDetectorConstruction(std::string mat,
-                                               std::string th) {
+                                               std::string th)
+{
   DefineMaterials();
 
   xWorld = 5. * m;
@@ -76,7 +77,8 @@ MyDetectorConstruction::MyDetectorConstruction(std::string mat,
 // The destructor function
 MyDetectorConstruction::~MyDetectorConstruction() {}
 
-void MyDetectorConstruction::DefineMaterials() {
+void MyDetectorConstruction::DefineMaterials()
+{
   // G4NistManager to get the required elements
   G4NistManager *nist = G4NistManager::Instance();
 
@@ -128,11 +130,11 @@ void MyDetectorConstruction::DefineMaterials() {
       3.2275 * eV, 3.2700 * eV, 3.3184 * eV, 3.3538 * eV, 3.4048 * eV,
       3.4474 * eV};
   G4double energy_fraction[31] = {
-      0.0225734, 0.0539278, 0.0985471, 0.171136,  0.229339,  0.296938,
-      0.395068,  0.489164,  0.579315,  0.641705,  0.745296,  0.82371,
-      0.898134,  0.971118,  0.992241,  0.972151,  0.877506,  0.761649,
-      0.676411,  0.56328,   0.427499,  0.249022,  0.18772,   0.146354,
-      0.112922,  0.0821281, 0.0659618, 0.0484438, 0.0376407, 0.0281014,
+      0.0225734, 0.0539278, 0.0985471, 0.171136, 0.229339, 0.296938,
+      0.395068, 0.489164, 0.579315, 0.641705, 0.745296, 0.82371,
+      0.898134, 0.971118, 0.992241, 0.972151, 0.877506, 0.761649,
+      0.676411, 0.56328, 0.427499, 0.249022, 0.18772, 0.146354,
+      0.112922, 0.0821281, 0.0659618, 0.0484438, 0.0376407, 0.0281014,
       0.0279145};
 
   G4MaterialPropertiesTable *mptWorld = new G4MaterialPropertiesTable();
@@ -165,7 +167,8 @@ void MyDetectorConstruction::DefineMaterials() {
   mirrorSurface->SetMaterialPropertiesTable(mptMirror);
 }
 
-void MyDetectorConstruction::ConstructSingleSheet() {
+void MyDetectorConstruction::ConstructSingleSheet()
+{
 
   //   Define the region where I want to measure the escaping particles as a box
   //   surrounding the sheet
@@ -178,7 +181,8 @@ void MyDetectorConstruction::ConstructSingleSheet() {
 
   // Define the sheet
 
-  for (int ij = 0; ij < shieldMats.size(); ij++) {
+  for (int ij = 0; ij < shieldMats.size(); ij++)
+  {
     // std::cout << std::endl << "xloc: " << xloc / cm << std::endl;
     float layerWidth = width[ij] * cm;
     xloc = xloc + 0.5 * layerWidth;
@@ -220,7 +224,8 @@ void MyDetectorConstruction::ConstructSingleSheet() {
 //   return logicHPGe;
 // }
 
-G4LogicalVolume *MyDetectorConstruction::ConstructNaI() {
+G4LogicalVolume *MyDetectorConstruction::ConstructNaI()
+{
   solidNaI = new G4Tubs("NaICrystal", 0 * cm, 3.25 * cm, 3.25 * cm, 0 * deg,
                         360 * deg);
   G4LogicalVolume *logicNaI = new G4LogicalVolume(solidNaI, NaI, "logicNaI");
@@ -229,7 +234,8 @@ G4LogicalVolume *MyDetectorConstruction::ConstructNaI() {
 
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
                                                  double zsz, double thickness,
-                                                 double offset = 0.0) {
+                                                 double offset = 0.0)
+{
   G4VSolid *boxout =
       new G4Box("Boxout", 0.5 * xsz * cm, 0.5 * ysz * cm, 0.5 * zsz * cm);
   G4VSolid *boxin =
@@ -241,7 +247,8 @@ G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
   return shell;
 }
 
-void MyDetectorConstruction::ConstructHPGeSetup() {
+void MyDetectorConstruction::ConstructHPGeSetup()
+{
   // logicHPGe = ConstructHPGe();
   solidNaIClad = new G4Tubs("NaIClad", 3.35 * cm, 3.45 * cm, 3.35 * cm, 0 * deg,
                             360 * deg);
@@ -270,7 +277,8 @@ void MyDetectorConstruction::ConstructHPGeSetup() {
   int copy = 0;
   G4ThreeVector pos;
   std::string name;
-  for (int iter = 0; iter < physHPGe.size(); iter++) {
+  for (int iter = 0; iter < physHPGe.size(); iter++)
+  {
     copy = 115 + iter;
     pos = physHPGe[iter]->GetTranslation();
     name = "physCryo_" + std::to_string(iter);
@@ -319,7 +327,8 @@ void MyDetectorConstruction::ConstructHPGeSetup() {
       new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.), logicNaI,
                         "physNaI_12", logicWorld, true, 132, true));
 
-  for (int iter = 0; iter < physNaI.size(); iter++) {
+  for (int iter = 0; iter < physNaI.size(); iter++)
+  {
     copy = 133 + iter;
     pos = physNaI[iter]->GetTranslation();
     name = "physNaI_Clad_" + std::to_string(iter);
@@ -331,7 +340,8 @@ void MyDetectorConstruction::ConstructHPGeSetup() {
 
 // The Construct function where we define the material of the detector and
 // define the physical and logical volume of the environment and detector.
-G4VPhysicalVolume *MyDetectorConstruction::Construct() {
+G4VPhysicalVolume *MyDetectorConstruction::Construct()
+{
 
   // The following part is for parsing the run.mac to get material and
   // thickness for singleSheets
@@ -369,14 +379,15 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
   return physWorld;
 }
 
-void MyDetectorConstruction::ConstructSDandField() {
+void MyDetectorConstruction::ConstructSDandField()
+{
 
-  MySensitiveDetector *sensDetGe =
+  sensDetGe =
       new MySensitiveDetector("SensitiveDetectorGe");
   sdManager->AddNewDetector(sensDetGe);
   logicHPGe->SetSensitiveDetector(sensDetGe);
 
-  MySensitiveDetector *sensDetNaI =
+  sensDetNaI =
       new MySensitiveDetector("SensitiveDetectorNaI");
   sdManager->AddNewDetector(sensDetNaI);
   logicNaI->SetSensitiveDetector(sensDetNaI);

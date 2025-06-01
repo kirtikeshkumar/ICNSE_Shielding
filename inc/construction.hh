@@ -20,17 +20,21 @@
 #include "G4VPhysicalVolume.hh"
 #include "G4VSolid.hh"
 #include "G4VUserDetectorConstruction.hh"
+#include "detector.hh"
 
 #include <sstream>
 #include <string>
 
 // Here we define the DetectorConstruction class and its variables and functions
-class MyDetectorConstruction : public G4VUserDetectorConstruction {
+class MyDetectorConstruction : public G4VUserDetectorConstruction
+{
 public:
   MyDetectorConstruction(); // The constructor and destructor function of the
                             // class
   MyDetectorConstruction(std::string mat, std::string th);
   ~MyDetectorConstruction();
+  MySensitiveDetector *GetGeSD() const { return sensDetGe; }
+  MySensitiveDetector *GetNaISD() const { return sensDetNaI; }
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
 
@@ -81,11 +85,14 @@ private:
   G4double xWorld, yWorld, zWorld, xloc, netWidth;
   std::vector<float> width;
   std::vector<G4String> shieldMats;
+  std::map<int, G4ThreeVector> copyNoToPosition;
 
   G4String shieldmats, wdth;
   int ConfigNum;
 
   G4OpticalSurface *mirrorSurface;
+
+  MySensitiveDetector *sensDetGe, *sensDetNaI;
 };
 
 #endif

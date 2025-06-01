@@ -5,72 +5,56 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *) {
+void MySensitiveDetector::Initialize(G4HCofThisEvent *)
+{
   EDep.clear();
   FirstHitTime.clear();
   LastHitTime.clear();
-
-  EDepGe.clear();
-  FirstHitTimeGe.clear();
-  LastHitTimeGe.clear();
-
-  EDepNaI.clear();
-  FirstHitTimeNaI.clear();
-  LastHitTimeNaI.clear();
+  numHits.clear();
 }
 
-G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                        G4TouchableHistory *ROhist) {
+void MySensitiveDetector::CleanDetector()
+{
+  EDep.clear();
+  FirstHitTime.clear();
+  LastHitTime.clear();
+  numHits.clear();
+}
+
+G4bool
+MySensitiveDetector::ProcessHits(G4Step *aStep,
+                                 G4TouchableHistory *ROhist)
+{
   G4Track *track = aStep->GetTrack();
 
   const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   G4int copyNo =
       aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
-  G4String volName = touchable->GetVolume()->GetLogicalVolume()->GetName();
+  // G4String volName = touchable->GetVolume()->GetLogicalVolume()->GetName();
   G4VPhysicalVolume *physVol = touchable->GetVolume();
   G4ThreeVector posDetector = physVol->GetTranslation();
 
-  G4int evID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-  G4String particleName = track->GetParticleDefinition()->GetParticleName();
+  // G4int evID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+  // G4String particleName = track->GetParticleDefinition()->GetParticleName();
   G4double edep = aStep->GetTotalEnergyDeposit() / keV;
-  G4double particleKinEnergy =
-      aStep->GetPreStepPoint()->GetKineticEnergy() / keV;
-  G4double particleTime = aStep->GetPreStepPoint()->GetGlobalTime();
+  // G4double particleKinEnergy = aStep->GetPreStepPoint()->GetKineticEnergy() / keV;
+  G4double particleTime = aStep->GetPreStepPoint()->GetGlobalTime() / ns;
   G4String matName = aStep->GetPreStepPoint()->GetMaterial()->GetName();
 
   EDep[copyNo] += edep;
-  if (FirstHitTime.find(copyNo) == FirstHitTime.end()) {
+  numHits[copyNo] += 1;
+  if (FirstHitTime.find(copyNo) == FirstHitTime.end())
+  {
     FirstHitTime[copyNo] = particleTime;
   }
-  if (LastHitTime.find(copyNo) == LastHitTime.end()) {
+  if (LastHitTime.find(copyNo) == LastHitTime.end())
+  {
     LastHitTime[copyNo] = particleTime;
-  } else {
+  }
+  else
+  {
     LastHitTime[copyNo] = std::max(LastHitTime[copyNo], particleTime);
-  }
-
-  if (matName == "Ge") {
-    EDepGe[copyNo] += edep;
-    if (FirstHitTimeGe.find(copyNo) == FirstHitTimeGe.end()) {
-      FirstHitTimeGe[copyNo] = particleTime;
-    }
-    if (LastHitTimeGe.find(copyNo) == LastHitTimeGe.end()) {
-      LastHitTimeGe[copyNo] = particleTime;
-    } else {
-      LastHitTimeGe[copyNo] = std::max(LastHitTimeGe[copyNo], particleTime);
-    }
-  }
-
-  if (matName == "NaI") {
-    EDepNaI[copyNo] += edep;
-    if (FirstHitTimeNaI.find(copyNo) == FirstHitTimeNaI.end()) {
-      FirstHitTimeNaI[copyNo] = particleTime;
-    }
-    if (LastHitTimeNaI.find(copyNo) == LastHitTimeNaI.end()) {
-      LastHitTimeNaI[copyNo] = particleTime;
-    } else {
-      LastHitTimeNaI[copyNo] = std::max(LastHitTimeNaI[copyNo], particleTime);
-    }
   }
 
   //   std::cout << "Particle: " << particleName  << " with Energy: " <<
@@ -145,31 +129,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   return true;
 }
 
-void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
+void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
+{
   // Data remains accessible for your EventAction
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-
-  G4cout << "****************************************************************"
-         << G4endl;
-  for (const auto &[copy, edep] : EDepNaI) {
-    G4cout << "NaI[" << copy << "] Edep: " << edep
-           << " First Hit: " << FirstHitTimeNaI.at(copy) << G4endl;
-  }
-  // for (const auto &[copy, edep] : EDep) {
-  //   G4cout << G4endl << G4endl;
-  //   G4cout << "NaI[" << copy << "] Edep: " << edep
-  //          << " First Hit: " << FirstHitTime.at(copy) << G4endl;
-  // }
-
-  G4cout << "****************************************************************"
-         << G4endl;
-  for (const auto &[copy, edep] : EDepGe) {
-    G4cout << "Ge[" << copy << "] Edep: " << edep
-           << " First Hit: " << FirstHitTimeGe.at(copy) << G4endl;
-  }
-  // for (const auto &[copy, edep] : EDep) {
-  //   G4cout << G4endl << G4endl;
-  //   G4cout << "Ge[" << copy << "] Edep: " << edep
-  //          << " First Hit: " << FirstHitTime.at(copy) << G4endl;
-  // }
 }

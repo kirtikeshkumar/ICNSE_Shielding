@@ -20,7 +20,8 @@
 /*The main function where all the objects are initialized and all the commands
  * needed are performed*/
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   // creating a G4RunManager instance to initialize all our required objects and
   // functions
 
@@ -29,13 +30,17 @@ int main(int argc, char **argv) {
 #else
   G4RunManager *runManager = new G4RunManager();
 #endif
+  runManager->SetVerboseLevel(0);
 
   // Initializing the detector construction, physics implementation and action
   // initialization files
-  if (argc > 2) {
+  if (argc > 2)
+  {
     runManager->SetUserInitialization(
         new MyDetectorConstruction(argv[2], argv[3]));
-  } else {
+  }
+  else
+  {
     std::cout << "NUMBEROFARG" << argc << std::endl;
     runManager->SetUserInitialization(new MyDetectorConstruction());
   }
@@ -48,7 +53,8 @@ int main(int argc, char **argv) {
   // visualization of our world
   G4UIExecutive *ui = 0;
 
-  if (argc == 1) {
+  if (argc == 1)
+  {
     ui = new G4UIExecutive(argc, argv, "tcsh");
   }
 
@@ -56,12 +62,15 @@ int main(int argc, char **argv) {
   visManager->Initialize();
 
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
-  runManager->Initialize();
-  if (ui) {
+  // runManager->Initialize();
+  if (ui)
+  {
     UImanager->ApplyCommand("/control/execute vis.mac");
     // finally we start the session
     ui->SessionStart();
-  } else {
+  }
+  else
+  {
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command + fileName);
