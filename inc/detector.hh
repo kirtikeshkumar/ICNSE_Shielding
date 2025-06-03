@@ -11,9 +11,17 @@
 // #include "g4root.hh"
 #include "vector"
 #include <map>
+#include "HitCollections.h"
 
 class MySensitiveDetector : public G4VSensitiveDetector
 {
+
+int fGeHitCollectionId;
+NaIHitCollection *fNaiHitCollection;
+
+int fNaIHitCollectionId;
+GeHitCollection *fGeHitCollection;
+
 public:
   MySensitiveDetector(G4String);
   ~MySensitiveDetector();

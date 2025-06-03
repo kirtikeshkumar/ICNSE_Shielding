@@ -24,12 +24,14 @@ int main(int argc, char **argv)
 {
   // creating a G4RunManager instance to initialize all our required objects and
   // functions
-
+/*
 #ifdef G4MULTITHREADED
   G4MTRunManager *runManager = new G4MTRunManager();
 #else
   G4RunManager *runManager = new G4RunManager();
 #endif
+ */ 
+G4RunManager *runManager = new G4RunManager();
   runManager->SetVerboseLevel(0);
 
   // Initializing the detector construction, physics implementation and action
@@ -55,7 +57,8 @@ int main(int argc, char **argv)
 
   if (argc == 1)
   {
-    ui = new G4UIExecutive(argc, argv, "tcsh");
+    //ui = new G4UIExecutive(argc, argv, "tcsh");
+    ui = new G4UIExecutive(argc, argv);
   }
 
   G4VisManager *visManager = new G4VisExecutive();

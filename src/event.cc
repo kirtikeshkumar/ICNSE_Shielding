@@ -14,17 +14,19 @@ void MyEventAction::BeginOfEventAction(const G4Event *anEvent)
   const MyDetectorConstruction *det = static_cast<const MyDetectorConstruction *>(
       G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-  NaISD = det->GetNaISD();
+  /*NaISD = det->GetNaISD();
   NaISD->CleanDetector();
   GeSD = det->GetGeSD();
-  GeSD->CleanDetector();
+  GeSD->CleanDetector();*/
   // std::cout << "#######################################################" << std::endl;
   // std::cout << "Recvd Detectors" << std::endl;
   // std::cout << "#######################################################" << std::endl;
   // std::cout << std::endl;
   evID = anEvent->GetEventID();
-  NaISD->CleanDetector();
-  GeSD->CleanDetector();
+  
+  /*NaISD->CleanDetector();
+  GeSD->CleanDetector();*/
+
   /*num = 0;
   numgamma_evt = 0;
   numneutron_evt = 0;
@@ -46,7 +48,7 @@ void MyEventAction::EndOfEventAction(const G4Event *anEvent)
     std::cout << "Event: " << evID << std::endl;
   }
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  if (GeSD)
+/*  if (GeSD)
   {
     const auto &edepMap = GeSD->GetEDepMap();
     const auto &firsttimeMap = GeSD->GetFirstHitTimeMap();
@@ -91,7 +93,7 @@ void MyEventAction::EndOfEventAction(const G4Event *anEvent)
       man->AddNtupleRow(1);
     }
   }
-
+*/
   /*AddNumNeutron(numneutron_evt);
   AddNumGamma(numgamma_evt);
   AddNumElectron(numelectron_evt);

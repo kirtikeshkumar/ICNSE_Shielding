@@ -1,16 +1,34 @@
 #include "detector.hh"
-
+#include "HitCollections.h"
+#include "shielding_Hit.h"
+#include "G4SDManager.hh"
 MySensitiveDetector::MySensitiveDetector(G4String name)
-    : G4VSensitiveDetector(name) {}
+    : G4VSensitiveDetector(name), fGeHitCollectionId(-1), fNaIHitCollectionId(-1), fNaiHitCollection(nullptr),
+      fGeHitCollection(nullptr)
+{
+
+  collectionName.insert("naiHitCollection");
+  collectionName.insert("geHitCollection");
+}
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *)
+void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
 {
   EDep.clear();
   FirstHitTime.clear();
   LastHitTime.clear();
   numHits.clear();
+
+  // Creating hitcollection
+
+  fNaiHitCollection = new NaIHitCollection(SensitiveDetectorName, collectionName[0]);
+  fGeHitCollection  = new GeHitCollection(SensitiveDetectorName, collectionName[0]);
+
+  fNaIHitCollectionId = GetCollectionID(0);
+  fGeHitCollectionId  = GetCollectionID(1);
+  hce->AddHitsCollection(fNaIHitCollectionId, fNaiHitCollection);
+  hce->AddHitsCollection(fGeHitCollectionId, fGeHitCollection);
 }
 
 void MySensitiveDetector::CleanDetector()
@@ -21,41 +39,43 @@ void MySensitiveDetector::CleanDetector()
   numHits.clear();
 }
 
-G4bool
-MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                 G4TouchableHistory *ROhist)
+G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhist)
 {
-  G4Track *track = aStep->GetTrack();
-
+  G4Track *track                = aStep->GetTrack();
+  G4StepPoint *postStep         = aStep->GetPostStepPoint();
   const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
-  G4AnalysisManager *man = G4AnalysisManager::Instance();
-  G4int copyNo =
-      aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
+  G4AnalysisManager *man        = G4AnalysisManager::Instance();
+  G4int copyNo                  = aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
   // G4String volName = touchable->GetVolume()->GetLogicalVolume()->GetName();
   G4VPhysicalVolume *physVol = touchable->GetVolume();
-  G4ThreeVector posDetector = physVol->GetTranslation();
+  G4ThreeVector posDetector  = physVol->GetTranslation();
 
   // G4int evID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
   // G4String particleName = track->GetParticleDefinition()->GetParticleName();
   G4double edep = aStep->GetTotalEnergyDeposit() / keV;
   // G4double particleKinEnergy = aStep->GetPreStepPoint()->GetKineticEnergy() / keV;
   G4double particleTime = aStep->GetPreStepPoint()->GetGlobalTime() / ns;
-  G4String matName = aStep->GetPreStepPoint()->GetMaterial()->GetName();
+  G4String matName      = aStep->GetPreStepPoint()->GetMaterial()->GetName();
 
-  EDep[copyNo] += edep;
+/*  EDep[copyNo] += edep;
   numHits[copyNo] += 1;
-  if (FirstHitTime.find(copyNo) == FirstHitTime.end())
-  {
+  if (FirstHitTime.find(copyNo) == FirstHitTime.end()) {
     FirstHitTime[copyNo] = particleTime;
   }
-  if (LastHitTime.find(copyNo) == LastHitTime.end())
-  {
+  if (LastHitTime.find(copyNo) == LastHitTime.end()) {
     LastHitTime[copyNo] = particleTime;
-  }
-  else
-  {
+  } else {
     LastHitTime[copyNo] = std::max(LastHitTime[copyNo], particleTime);
   }
+*/
+  // SD stuff
+  shielding_Hit *newHit = new shielding_Hit;
+  newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime);
+  G4String volName = physVol->GetLogicalVolume()->GetName();
+  if(newHit){
+  if (volName == "logicNaI") fNaiHitCollection->insert(newHit);
+  if (volName == "logicHPGe") fGeHitCollection->insert(newHit);
+}
 
   //   std::cout << "Particle: " << particleName  << " with Energy: " <<
   //   particleKinEnergy << " keV deposited:" << edep  << " in: " << matName <<
@@ -126,6 +146,7 @@ MySensitiveDetector::ProcessHits(G4Step *aStep,
     } else {
       // fEventAction->AddNumOtherEvt();
     }*/
+
   return true;
 }
 
@@ -133,4 +154,20 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
 {
   // Data remains accessible for your EventAction
   G4AnalysisManager *man = G4AnalysisManager::Instance();
+
+  std::cout << "=============== ENDOFEVENT =======================" << std::endl;
+  std::cout << "Size of NaI Hit Collection : " << fNaiHitCollection->entries() << std::endl;
+  std::cout << "Size of Ge Hit Collection : " << fGeHitCollection->entries() << std::endl;
+ 		std::cout << "================== NaI Hits ====================" << std::endl; 
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
+    shielding_Hit *hit = (*fNaiHitCollection)[i];
+    hit->Print();
+  }
+  
+		std::cout << "================ GE Hits ======================" << std::endl; 
+  for (unsigned int i = 0; i < fGeHitCollection->entries(); i++) {
+    shielding_Hit *hit = (*fGeHitCollection)[i];
+    hit->Print();
+  }
+
 }
