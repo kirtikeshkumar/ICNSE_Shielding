@@ -18,6 +18,7 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
 
   fParticleGun->SetParticleDefinition(particle);
+  fParticleGun->SetParticleEnergy(1.0 * MeV);
 }
 
 MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
@@ -27,11 +28,11 @@ MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
 void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
-  /*// Creating particles on a 50cm side length box
+  // Creating particles on a 50cm side length box
   G4double halfLength = 25.0 * cm;
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
-  std::cout << "face: " << face << std::endl;
+  // std::cout << "face: " << face << std::endl;
   G4ThreeVector position, direction;
   G4double u = (2 * G4UniformRand() - 1) * halfLength;
   G4double v = (2 * G4UniformRand() - 1) * halfLength;
@@ -61,18 +62,18 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     direction.set((2 * G4UniformRand() - 1), (2 * G4UniformRand() - 1), 1.);
     break;
   }
-  direction = direction.unit();*/
+  direction = direction.unit();
 
   /*Defining the position and momentum of the particle using G4ThreeVector to
    * define and SetParticle function to define the properties*/
-  G4ThreeVector position(0., 25. * cm, 0.);
-  G4ThreeVector direction(0., -1., 0.);
+  // G4ThreeVector position(0., 25. * cm, 0.);
+  // G4ThreeVector direction(0., -1., 0.);
 
   fParticleGun->SetParticlePosition(position);
   fParticleGun->SetParticleMomentumDirection(direction);
   // fParticleGun->SetParticleMomentum(0.0*MeV);
-  fParticleGun->SetParticleEnergy(1.0 * MeV);
-  fParticleGun->SetParticleDefinition(particle);
+  // fParticleGun->SetParticleEnergy(1.0 * MeV);
+  // fParticleGun->SetParticleDefinition(particle);
   /*if(particle == G4Geantino::Geantino())
   {
           G4int Z = 55;

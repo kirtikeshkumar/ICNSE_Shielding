@@ -3,25 +3,20 @@
 
 #include "G4PhysicsOrderedFreeVector.hh"
 #include "G4RunManager.hh"
+#include "G4SDManager.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4VSensitiveDetector.hh"
+#include "HitCollections.hh"
+#include "shielding_Hit.hh"
 // #include "construction.hh"
 
 #include "G4AnalysisManager.hh"
 // #include "g4root.hh"
+#include "HitCollections.hh"
 #include "vector"
 #include <map>
-#include "HitCollections.h"
 
-class MySensitiveDetector : public G4VSensitiveDetector
-{
-
-int fGeHitCollectionId;
-NaIHitCollection *fNaiHitCollection;
-
-int fNaIHitCollectionId;
-GeHitCollection *fGeHitCollection;
-
+class MySensitiveDetector : public G4VSensitiveDetector {
 public:
   MySensitiveDetector(G4String);
   ~MySensitiveDetector();
@@ -29,27 +24,14 @@ public:
   virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
   virtual void EndOfEvent(G4HCofThisEvent *);
 
-  const std::map<int, G4double> &GetEDepMap() const { return EDep; }
-  const std::map<int, G4double> &GetFirstHitTimeMap() const
-  {
-    return FirstHitTime;
-  }
-  const std::map<int, G4double> &GetLastHitTimeMap() const
-  {
-    return LastHitTime;
-  }
-  const std::map<int, ushort> &GetNumHits() const
-  {
-    return numHits;
-  }
-  void CleanDetector();
-
 private:
+  G4int evID;
   // G4PhysicsOrderedFreeVector *quEff;
-  std::map<int, G4double> EDep,
-      FirstHitTime,
-      LastHitTime;
-  std::map<int, ushort> numHits;
+  int fGeHitCollectionId;
+  NaIHitCollection *fNaiHitCollection;
+
+  int fNaIHitCollectionId;
+  GeHitCollection *fGeHitCollection;
 };
 
 #endif

@@ -2,19 +2,18 @@
 #define EVENT_HH
 
 #include "G4Event.hh"
-#include "G4UserEventAction.hh"
-#include "detector.hh"
-#include "construction.hh"
-#include "G4SDManager.hh"
 #include "G4RunManager.hh"
+#include "G4SDManager.hh"
+#include "G4UserEventAction.hh"
+#include "construction.hh"
+#include "detector.hh"
 
 #include "G4AnalysisManager.hh"
 // #include "g4root.hh"
 #include "run.hh"
 #include <vector>
 
-class MyEventAction : public G4UserEventAction
-{
+class MyEventAction : public G4UserEventAction {
 public:
   MyEventAction(MyRunAction *run);
   ~MyEventAction();
@@ -49,8 +48,6 @@ private:
   G4int numneutron_evt, numgamma_evt, numelectron_evt, numpositron_evt,
       numnu_e_evt, numanu_e_evt, numother_evt;*/
   G4int evID;
-  MySensitiveDetector *NaISD = nullptr;
-  MySensitiveDetector *GeSD = nullptr;
 };
 
 #endif

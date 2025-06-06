@@ -26,8 +26,7 @@
 #include <string>
 
 // Here we define the DetectorConstruction class and its variables and functions
-class MyDetectorConstruction : public G4VUserDetectorConstruction
-{
+class MyDetectorConstruction : public G4VUserDetectorConstruction {
 public:
   MyDetectorConstruction(); // The constructor and destructor function of the
                             // class
@@ -76,6 +75,7 @@ private:
 
   void ConstructSingleSheet();
   void ConstructHPGeSetup();
+  G4VSolid *ClosedHollowCylinder(double rin, double thickness, double halfHtIn);
   G4LogicalVolume *ConstructHPGe();
   G4LogicalVolume *ConstructNaI();
 

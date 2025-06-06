@@ -9,8 +9,8 @@ include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/inc)
 include_directories(../..)
 
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc ${PROJECT_SOURCE_DIR}/src/*.cpp)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/inc/*.hh ${PROJECT_SOURCE_DIR}/inc/*.h)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc) # ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/inc/*.hh) # ${PROJECT_SOURCE_DIR}/inc/*.h)
 
 file(GLOB MACRO_FILES
 	"mac/*.mac"

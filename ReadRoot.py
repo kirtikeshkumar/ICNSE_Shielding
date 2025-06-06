@@ -65,3 +65,25 @@ def read_file(fname):
             fTrees[fTree_name] = (numEntries, branchIndx_map, branchIndex_map, data_array)  # Store the output in a dictionary
 
     return fTrees
+
+def read_file(fname,ftree):
+    # Open the file to read
+    root_file = ROOT.TFile.Open(fname)
+
+    # Get the list of keys
+    keys = root_file.GetListOfKeys()
+
+    # Create a dictionary storing the different Tree names and corresponding data
+    fTree = {}
+
+    #check if the key is for TTree object and read the data
+    if(any(key.GetName() == ftree for key in keys)):
+        # Get the object associated with the key
+        obj = root_file.Get(ftree)  
+
+        # Check if the object is a TTree
+        if isinstance(obj, ROOT.TTree):
+            branchIndx_map, branchIndex_map, data_array, numEntries = read_tree(obj)        # Read the TTree
+            fTree[ftree] = (numEntries, branchIndx_map, branchIndex_map, data_array)  # Store the output in a dictionary
+
+    return fTree
