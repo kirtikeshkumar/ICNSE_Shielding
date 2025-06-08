@@ -94,6 +94,10 @@
         "*.icc": "cpp",
         "expected": "cpp",
         "spanstream": "cpp",
-        "stacktrace": "cpp"
+        "stacktrace": "cpp",
+        "EventColl.C": "cpp",
+        "h1": "cpp",
+        "h2": "cpp",
+        "h3": "cpp"
     }
 }

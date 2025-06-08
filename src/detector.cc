@@ -2,7 +2,8 @@
 MySensitiveDetector::MySensitiveDetector(G4String name)
     : G4VSensitiveDetector(name), fGeHitCollectionId(-1),
       fNaIHitCollectionId(-1), fNaiHitCollection(nullptr),
-      fGeHitCollection(nullptr) {
+      fGeHitCollection(nullptr)
+{
 
   collectionName.insert("naiHitCollection");
   collectionName.insert("geHitCollection");
@@ -10,7 +11,8 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
+void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
+{
   // Creating hitcollection
 
   fNaiHitCollection =
@@ -25,7 +27,8 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
 }
 
 G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                        G4TouchableHistory *ROhist) {
+                                        G4TouchableHistory *ROhist)
+{
   G4Track *track = aStep->GetTrack();
   G4StepPoint *postStep = aStep->GetPostStepPoint();
   const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
@@ -46,11 +49,13 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   G4int parent = track->GetParentID();
 
   // SD stuff
-  if (edep > 0) {
+  if (edep > 0)
+  {
     shielding_Hit *newHit = new shielding_Hit;
     newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent);
     G4String volName = physVol->GetLogicalVolume()->GetName();
-    if (newHit) {
+    if (newHit)
+    {
       if (volName == "logicNaI")
         fNaiHitCollection->insert(newHit);
       if (volName == "logicHPGe")
@@ -130,7 +135,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   return true;
 }
 
-void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
+void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
+{
   // Data remains accessible for your EventAction
   // std::cout << "=============== ENDOFEVENT ======================="
   //           << std::endl;
@@ -138,11 +144,13 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
   std::map<int, double> EvtEDep;
   std::map<int, G4String> MatMapHit;
   std::map<int, int> MapNumHitPrimary;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+  {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     MatMapHit[hit->GetHitCopyNum()] = "NaI";
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
-    if (hit->isHitPrimary()) {
+    if (hit->isHitPrimary())
+    {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
     /*man->FillNtupleIColumn(1, 0, evID);
@@ -156,11 +164,13 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     // hit->Print();
   }
 
-  for (unsigned int i = 0; i < fGeHitCollection->entries(); i++) {
+  for (unsigned int i = 0; i < fGeHitCollection->entries(); i++)
+  {
     shielding_Hit *hit = (*fGeHitCollection)[i];
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
     MatMapHit[hit->GetHitCopyNum()] = "Ge";
-    if (hit->isHitPrimary()) {
+    if (hit->isHitPrimary())
+    {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
     /*man->FillNtupleIColumn(0, 0, evID);
@@ -174,12 +184,15 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     // hit->Print();
   }
 
-  for (const auto &[key, val] : EvtEDep) {
+  for (const auto &[key, val] : EvtEDep)
+  {
+
+    // std::cout << "Event: " << evID << std::endl;
     man->FillNtupleIColumn(2, 0, evID);
     man->FillNtupleIColumn(2, 1, key);
     man->FillNtupleSColumn(2, 2, MatMapHit[key]);
     man->FillNtupleDColumn(2, 3, val);
-    man->FillNtupleIColumn(2, 0, MapNumHitPrimary[key]);
+    man->FillNtupleIColumn(2, 4, MapNumHitPrimary[key]);
     man->AddNtupleRow(2);
     // std::cout << key << " : " << value << " : " << MatMapHit[key] <<
     // std::endl;
