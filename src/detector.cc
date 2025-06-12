@@ -18,7 +18,7 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
   fNaiHitCollection =
       new NaIHitCollection(SensitiveDetectorName, collectionName[0]);
   fGeHitCollection =
-      new GeHitCollection(SensitiveDetectorName, collectionName[0]);
+      new GeHitCollection(SensitiveDetectorName, collectionName[1]);
 
   fNaIHitCollectionId = GetCollectionID(0);
   fGeHitCollectionId = GetCollectionID(1);

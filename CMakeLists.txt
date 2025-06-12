@@ -5,6 +5,13 @@ project(Simulation)
 find_package(Geant4 REQUIRED ui_all vis_all)
 #find_package(Geant4 REQUIRED)
 
+option(USE_MT "Switch MT ON/OFF" OFF)
+
+
+if(USE_MT)
+	add_definitions(-DUSE_MT)
+endif(USE_MT)
+
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/inc)
 include_directories(../..)

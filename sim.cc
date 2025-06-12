@@ -30,8 +30,14 @@ int main(int argc, char **argv) {
     G4RunManager *runManager = new G4RunManager();
   #endif
    */
-  G4RunManager *runManager = new G4RunManager();
-  runManager->SetVerboseLevel(0);
+   #ifdef USE_MT
+    G4MTRunManager *runManager = new G4MTRunManager();
+  #else
+    G4RunManager *runManager = new G4RunManager();
+  #endif
+
+  //G4RunManager *runManager = new G4RunManager();
+  //runManager->SetVerboseLevel(0);
 
   // Initializing the detector construction, physics implementation and action
   // initialization files
