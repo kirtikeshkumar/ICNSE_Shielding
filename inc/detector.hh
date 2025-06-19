@@ -11,6 +11,7 @@
 // #include "construction.hh"
 
 #include "G4AnalysisManager.hh"
+#include "G4VProcess.hh"
 // #include "g4root.hh"
 #include "HitCollections.hh"
 #include "vector"

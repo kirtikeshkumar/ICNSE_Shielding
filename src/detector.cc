@@ -1,9 +1,12 @@
 #include "detector.hh"
+#include <G4ThreeVector.hh>
+#include <G4TrackVector.hh>
+#include <G4Types.hh>
+#include <cmath>
 MySensitiveDetector::MySensitiveDetector(G4String name)
     : G4VSensitiveDetector(name), fGeHitCollectionId(-1),
       fNaIHitCollectionId(-1), fNaiHitCollection(nullptr),
-      fGeHitCollection(nullptr)
-{
+      fGeHitCollection(nullptr) {
 
   collectionName.insert("naiHitCollection");
   collectionName.insert("geHitCollection");
@@ -11,8 +14,7 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
-{
+void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
   // Creating hitcollection
 
   fNaiHitCollection =
@@ -27,35 +29,66 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
 }
 
 G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                        G4TouchableHistory *ROhist)
-{
+                                        G4TouchableHistory *ROhist) {
+
+  // Constants for fiducializing HPGe Detector using Logistic curve
+  // Results in Dead layer and transition layer thickness similar to CONUS
+  double L = 1.0;
+  double k = -1.0 * 50.;
+  double r0 = 3.65;
+  double z0 = 3.4;
+
   G4Track *track = aStep->GetTrack();
   G4StepPoint *postStep = aStep->GetPostStepPoint();
-  const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
+  const G4VTouchable *touchable = aStep->GetPostStepPoint()->GetTouchable();
   // G4AnalysisManager *man = G4AnalysisManager::Instance();
   G4int copyNo =
-      aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
+      aStep->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber();
   // G4String volName = touchable->GetVolume()->GetLogicalVolume()->GetName();
   G4VPhysicalVolume *physVol = touchable->GetVolume();
   G4ThreeVector posDetector = physVol->GetTranslation();
+  const G4VProcess *depositionprocess =
+      aStep->GetPostStepPoint()->GetProcessDefinedStep();
+  G4String procName;
+  if (depositionprocess) {
+    procName = depositionprocess->GetProcessName();
+  }
 
   evID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-  // G4String particleName = track->GetParticleDefinition()->GetParticleName();
+  G4String particleName = track->GetParticleDefinition()->GetParticleName();
   G4double edep = aStep->GetTotalEnergyDeposit() / keV;
   // G4double particleKinEnergy = aStep->GetPreStepPoint()->GetKineticEnergy() /
   // keV;
-  G4double particleTime = aStep->GetPreStepPoint()->GetGlobalTime() / ns;
-  G4String matName = aStep->GetPreStepPoint()->GetMaterial()->GetName();
+  G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime() / ns;
+  G4String matName = aStep->GetPostStepPoint()->GetMaterial()->GetName();
   G4int parent = track->GetParentID();
 
   // SD stuff
-  if (edep > 0)
-  {
+  if (matName == "Ge") {
+    // Get the position of the point relative to the detector coordinates
+    G4ThreeVector globalPos = postStep->GetPosition();
+    G4ThreeVector localPos =
+        touchable->GetHistory()->GetTopTransform().TransformPoint(globalPos);
+    G4double r = std::sqrt(localPos.x() / cm * localPos.x() / cm +
+                           localPos.y() / cm * localPos.y() / cm);
+    G4double z = localPos.z() / cm;
+
+    // Generate the energy deposition profile using logistic on r and z
+    double rprob = 1.0 - (L / (1.0 + std::exp(k * (r - r0))));
+    double zprob = 1.0;
+    if (z > 0.) {
+      zprob = 1.0 - (L / (1.0 + std::exp(k * (z - z0))));
+    }
+    double netprob = rprob * zprob;
+    edep = edep * netprob;
+  }
+
+  if (edep > 0.001) {
     shielding_Hit *newHit = new shielding_Hit;
-    newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent);
+    newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent,
+                particleName, procName);
     G4String volName = physVol->GetLogicalVolume()->GetName();
-    if (newHit)
-    {
+    if (newHit) {
       if (volName == "logicNaI")
         fNaiHitCollection->insert(newHit);
       if (volName == "logicHPGe")
@@ -67,12 +100,12 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   //   particleKinEnergy << " keV deposited:" << edep  << " in: " << matName <<
   //   "_" << copyNo << std::endl;
 
-  //   G4String creatorProcess;
-  //   if (track->GetCreatorProcess()) {
-  //     creatorProcess = track->GetCreatorProcess()->GetProcessName();
-  //   } else if (parent == 0) {
-  //     creatorProcess = "primary";
-  //   }
+  // G4String creatorProcess;
+  // if (track->GetCreatorProcess()) {
+  //   creatorProcess = track->GetCreatorProcess()->GetProcessName();
+  // } else if (parent == 0) {
+  //   creatorProcess = "primary";
+  // }
 
   // track->SetTrackStatus(fStopAndKill);
   /*
@@ -135,8 +168,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   return true;
 }
 
-void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
-{
+void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
   // Data remains accessible for your EventAction
   // std::cout << "=============== ENDOFEVENT ======================="
   //           << std::endl;
@@ -144,48 +176,47 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
   std::map<int, double> EvtEDep;
   std::map<int, G4String> MatMapHit;
   std::map<int, int> MapNumHitPrimary;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
-  {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     MatMapHit[hit->GetHitCopyNum()] = "NaI";
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
-    if (hit->isHitPrimary())
-    {
+    if (hit->isHitPrimary()) {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
-    /*man->FillNtupleIColumn(1, 0, evID);
+    man->FillNtupleIColumn(1, 0, evID);
     man->FillNtupleIColumn(1, 1, hit->GetHitCopyNum());
-    man->FillNtupleDColumn(1, 2, hit->GetHitLocationX());
-    man->FillNtupleDColumn(1, 3, hit->GetHitLocationY());
-    man->FillNtupleDColumn(1, 4, hit->GetHitLocationZ());
-    man->FillNtupleDColumn(1, 5, hit->GetHitTime());
+    // man->FillNtupleDColumn(1, 2, hit->GetHitLocationX());
+    // man->FillNtupleDColumn(1, 3, hit->GetHitLocationY());
+    // man->FillNtupleDColumn(1, 4, hit->GetHitLocationZ());
+    // man->FillNtupleDColumn(1, 5, hit->GetHitTime());
     man->FillNtupleDColumn(1, 6, hit->GetHitEDep());
-    man->AddNtupleRow(1);*/
+    man->FillNtupleSColumn(1, 7, hit->GetParticleName());
+    man->FillNtupleSColumn(1, 8, hit->GetDepositionProcess());
+    man->AddNtupleRow(1);
     // hit->Print();
   }
 
-  for (unsigned int i = 0; i < fGeHitCollection->entries(); i++)
-  {
+  for (unsigned int i = 0; i < fGeHitCollection->entries(); i++) {
     shielding_Hit *hit = (*fGeHitCollection)[i];
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
     MatMapHit[hit->GetHitCopyNum()] = "Ge";
-    if (hit->isHitPrimary())
-    {
+    if (hit->isHitPrimary()) {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
     /*man->FillNtupleIColumn(0, 0, evID);
     man->FillNtupleIColumn(0, 1, hit->GetHitCopyNum());
-    man->FillNtupleDColumn(0, 2, hit->GetHitLocationX());
-    man->FillNtupleDColumn(0, 3, hit->GetHitLocationY());
-    man->FillNtupleDColumn(0, 4, hit->GetHitLocationZ());
-    man->FillNtupleDColumn(0, 5, hit->GetHitTime());
+    // man->FillNtupleDColumn(0, 2, hit->GetHitLocationX());
+    // man->FillNtupleDColumn(0, 3, hit->GetHitLocationY());
+    // man->FillNtupleDColumn(0, 4, hit->GetHitLocationZ());
+    // man->FillNtupleDColumn(0, 5, hit->GetHitTime());
     man->FillNtupleDColumn(0, 6, hit->GetHitEDep());
+    man->FillNtupleSColumn(0, 7, hit->GetParticleName());
+    man->FillNtupleSColumn(0, 8, hit->GetDepositionProcess());
     man->AddNtupleRow(0);*/
     // hit->Print();
   }
 
-  for (const auto &[key, val] : EvtEDep)
-  {
+  for (const auto &[key, val] : EvtEDep) {
 
     // std::cout << "Event: " << evID << std::endl;
     man->FillNtupleIColumn(2, 0, evID);

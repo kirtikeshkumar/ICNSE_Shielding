@@ -13,6 +13,8 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
   man->CreateNtupleDColumn("locZ");
   man->CreateNtupleDColumn("Time");
   man->CreateNtupleDColumn("EnergyDep");
+  man->CreateNtupleSColumn("Particle");
+  man->CreateNtupleSColumn("Process");
   man->FinishNtuple(0);
 
   man->CreateNtuple("NaI_Hits", "NaI_hits");
@@ -23,6 +25,8 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
   man->CreateNtupleDColumn("locZ");
   man->CreateNtupleDColumn("Time");
   man->CreateNtupleDColumn("EnergyDep");
+  man->CreateNtupleSColumn("Particle");
+  man->CreateNtupleSColumn("Process");
   man->FinishNtuple(1);
 
   man->CreateNtuple("EventColl", "EventColl");
