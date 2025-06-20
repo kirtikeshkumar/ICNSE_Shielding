@@ -31,7 +31,7 @@ int extractEnergy(const std::string &filename) {
   return -1; // Invalid or not matched
 }
 
-int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
+int EventColl(const char *folderPath = "outputs/DetEff_Fiducialized/gamma") {
 
   std::vector<double> gamEnergy, GeTotal, GeEff, GePeakToIncident,
       GePeakToCompton, Ge10keVToTotalIncident, Ge1keVToTotalIncident,
@@ -111,8 +111,8 @@ int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
 
     Long64_t nentries = tr->GetEntries();
 
-    TH1F *hEDep =
-        new TH1F("hEDep", "EnergyDep", gammaEnergy + 101, 0, gammaEnergy + 100);
+    TH1F *hEDep = new TH1F("hEDep", "EnergyDep", (gammaEnergy + 99) * 10, 0,
+                           gammaEnergy + 100);
     tr->Project("hEDep", "EnergyDep", "DetectorMat==\"Ge\"");
 
     unsigned int numIncident = hEDep->GetEntries();
@@ -125,11 +125,12 @@ int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
     int binhiPeak = hEDep->FindBin(xhiPeak);
     int bin10keV = hEDep->FindBin(10.0);
     int bin1keV = hEDep->FindBin(1.0);
+    int bin200eV = hEDep->FindBin(0.21);
 
     unsigned int peakCount = hEDep->Integral(binlowPeak, binhiPeak);
     unsigned int comptonCount = hEDep->Integral(1, binlowPeak);
-    unsigned int count10keV = hEDep->Integral(1, bin10keV);
-    unsigned int count1keV = hEDep->Integral(1, bin1keV);
+    unsigned int count10keV = hEDep->Integral(bin200eV, bin10keV);
+    unsigned int count1keV = hEDep->Integral(bin200eV, bin1keV);
     int count10keV_1NaI_AC, count10keV_4NaI_AC, count10keV_5NaI_AC,
         count10keV_8NaI_AC, count10keV_9NaI_AC, count10keV_13NaI_AC;
     int count1keV_1NaI_AC, count1keV_4NaI_AC, count1keV_5NaI_AC,
@@ -191,17 +192,17 @@ int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
     Long64_t nbytes = 0;
     int Event = 0;
     TH1F *hEDepAC_1NaI = new TH1F("hEDepAntiCompton_1NaI",
-                                  "EnergyDepAntiCompton_1NaI", 650, 0, 650);
+                                  "EnergyDepAntiCompton_1NaI", 6499, 0, 650);
     TH1F *hEDepAC_4NaI = new TH1F("hEDepAntiCompton_4NaI",
-                                  "EnergyDepAntiCompton_4NaI", 650, 0, 650);
+                                  "EnergyDepAntiCompton_4NaI", 6499, 0, 650);
     TH1F *hEDepAC_5NaI = new TH1F("hEDepAntiCompton_5NaI",
-                                  "EnergyDepAntiCompton_5NaI", 650, 0, 650);
+                                  "EnergyDepAntiCompton_5NaI", 6499, 0, 650);
     TH1F *hEDepAC_8NaI = new TH1F("hEDepAntiCompton_8NaI",
-                                  "EnergyDepAntiCompton_8NaI", 650, 0, 650);
+                                  "EnergyDepAntiCompton_8NaI", 6499, 0, 650);
     TH1F *hEDepAC_9NaI = new TH1F("hEDepAntiCompton_9NaI",
-                                  "EnergyDepAntiCompton_9NaI", 650, 0, 650);
+                                  "EnergyDepAntiCompton_9NaI", 6499, 0, 650);
     TH1F *hEDepAC_13NaI = new TH1F("hEDepAntiCompton_13NaI",
-                                   "EnergyDepAntiCompton_13NaI", 650, 0, 650);
+                                   "EnergyDepAntiCompton_13NaI", 6499, 0, 650);
     std::list<EventEDep> Energy_Deposition;
     for (Long64_t i = 0; i < nentries; i++) {
       nbytes += tr->GetEntry(indices[i]);
@@ -239,7 +240,7 @@ int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
           double edepGe;
           bool otherCopy_1NaI = true, otherCopy_4NaI = true,
                otherCopy_5NaI = true, otherCopy_8NaI = true,
-               otherCopy_9NaI = true;
+               otherCopy_9NaI = true; // true means no NaI was hit
           for (const auto &entry : Energy_Deposition) {
             if (entry.Material == "Ge") {
               ++geCount;
@@ -350,9 +351,9 @@ int EventColl(const char *folderPath = "outputs/DetEff/gamma") {
       Ge1keV_AC_9NaI.push_back(0.);
     }
 
-    std::string outfilename =
-        "outputs/DetEff/gamma/hists/output_histograms_600keVcut_gamma_" +
-        std::to_string(gammaEnergy) + ".root";
+    std::string outfilename = std::string(folderPath) +
+                              "/hists/output_histograms_600keVcut_gamma_" +
+                              std::to_string(gammaEnergy) + ".root";
     TFile outFile(outfilename.c_str(), "RECREATE");
     hEDep->Write();
     hEDepAC_13NaI->Write();
