@@ -29,7 +29,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   // Creating particles on a 50cm side length box
-  G4double halfLength = 25.0 * cm;
+  G4double halfLength = 58.0 * cm;
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
   // std::cout << "face: " << face << std::endl;

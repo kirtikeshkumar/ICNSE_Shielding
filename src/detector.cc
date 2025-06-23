@@ -34,9 +34,9 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   // Constants for fiducializing HPGe Detector using Logistic curve
   // Results in Dead layer and transition layer thickness similar to CONUS
   double L = 1.0;
-  double k = -1.0 * 50.;
-  double r0 = 3.65;
-  double z0 = 3.4;
+  double k = -1.0 * 700.;
+  double r0 = 4.19;
+  double z0 = 3.94;
 
   G4Track *track = aStep->GetTrack();
   G4StepPoint *postStep = aStep->GetPostStepPoint();

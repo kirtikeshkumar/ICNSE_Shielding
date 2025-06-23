@@ -60,6 +60,18 @@ private:
   G4Material *Vaccum, *Steel, *Mat_Ge, *NaI, *Mat_Al;
   G4Material *sheildMat;
 
+  G4LogicalVolume *logicPb1, *logicPb2, *logicPb3;
+  G4LogicalVolume *logicSS1, *logicSS2;
+  G4LogicalVolume *logicCu;
+  G4LogicalVolume *logicHDPE1, *logicHDPE2;
+  G4LogicalVolume *logicBP1, *logicBP2;
+
+  G4VPhysicalVolume *physPb1, *physPb2, *physPb3;
+  G4VPhysicalVolume *physSS1, *physSS2;
+  G4VPhysicalVolume *physCu;
+  G4VPhysicalVolume *physHDPE1, *physHDPE2;
+  G4VPhysicalVolume *physBP1, *physBP2;
+
   std::map<G4String, G4Material *> MatMap;
   std::vector<G4Material *> LogicArrangement;
 
@@ -75,6 +87,7 @@ private:
 
   void ConstructSingleSheet();
   void ConstructHPGeSetup();
+  void ConstructHPGeSetupwShield();
   G4VSolid *ClosedHollowCylinder(double rin, double thickness, double halfHtIn);
   G4LogicalVolume *ConstructHPGe();
   G4LogicalVolume *ConstructNaI();
