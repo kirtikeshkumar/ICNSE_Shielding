@@ -8,20 +8,41 @@
 /*Constructor and destruction function of the primary generator which creates a
  * new instance of the particle gun and deletes the particle gun respectively.*/
 MyPrimaryGenerator::MyPrimaryGenerator() {
-  fParticleGun = new G4ParticleGun(1);
 
-  /*Getting the attributes of our particle(proton) from the G4ParticleTable
-   * using FindParticle function.*/
-  G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
-  // G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
+  cryDir = new G4UIdirectory("/CRY/");
+  cryDir->SetGuidance("CRY settings");
+
+  inputFileCmd = new G4UIcommand("/CRY/inputFile", this);
+  inputFileCmd->SetGuidance("Set CRY input file");
+  inputFileCmd->SetParameter(new G4UIparameter("filename", 's', false));
+
+  // fParticleGun = new G4ParticleGun(1);
+
+  // /*Getting the attributes of our particle(proton) from the G4ParticleTable
+  //  * using FindParticle function.*/
+  // G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+  // // G4ParticleDefinition *particle =
+  // particleTable->FindParticle("geantino");
+  // // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
   // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
-  G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
 
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleEnergy(1.0 * MeV);
+  // fParticleGun->SetParticleDefinition(particle);
+  // fParticleGun->SetParticleEnergy(1.0 * MeV);
 }
 
-MyPrimaryGenerator::~MyPrimaryGenerator() { delete fParticleGun; }
+MyPrimaryGenerator::~MyPrimaryGenerator() {
+  delete fParticleGun;
+  delete cryGen;
+  delete inputFileCmd;
+  delete cryDir;
+}
+
+void MyPrimaryGenerator::SetNewValue(G4UIcommand *cmd, G4String val) {
+  if (cmd == inputFileCmd) {
+    cryInputFile = val;
+    LoadCRY();
+  }
+}
 
 /*In this function we define which particle we need from our particle gun and
  * define its properties.*/

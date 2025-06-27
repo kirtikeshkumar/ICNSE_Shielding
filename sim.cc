@@ -1,7 +1,10 @@
 /*This is the main simulation file*/
 
 /*Including all the required header files*/
+#include "G4ios.hh"
+#include <fstream>
 #include <iostream>
+#include <math.h>
 
 #include "G4MTRunManager.hh"
 #include "G4RunManager.hh"

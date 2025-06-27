@@ -13,6 +13,15 @@
 #include "G4ParticleTable.hh"
 #include "G4RandomTools.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4UIcommand.hh"
+#include "G4UIdirectory.hh"
+#include "G4UImessenger.hh"
+#include <fstream>
+#include <iostream>
+
+#include "CRYGenerator.h"
+#include "CRYParticle.h"
+#include "CRYSetup.h"
 
 /*We define the PrimaryGenerator class which will be used to construct our
  * ParticleGun*/
@@ -24,9 +33,18 @@ public:
 
   /*GeneratePrimaries function to generate the particle we desire*/
   virtual void GeneratePrimaries(G4Event *);
+  virtual void SetNewValue(G4UIcommand *, G4String);
 
 private:
   G4ParticleGun *fParticleGun;
+
+  void LoadCRY();
+  G4String cryInputFile;
+  CRYGenerator *cryGen = nullptr;
+  std::vector<CRYParticle *> cryParticles;
+
+  G4UIdirectory *cryDir;
+  G4UIcommand *inputFileCmd;
 };
 
 #endif
