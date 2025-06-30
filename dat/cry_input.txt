@@ -1,0 +1,9 @@
+returnMuons 1
+returnProtons 0
+returnGammas 0
+returnElectrons 0
+returnNeutrons 0
+latitude 21.3
+altitude 0
+date 6-25-2025
+subboxLength 3

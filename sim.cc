@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   visManager->Initialize();
 
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
-  runManager->Initialize();
+  // runManager->Initialize();
   if (ui) {
     UImanager->ApplyCommand("/control/execute vis.mac");
     // finally we start the session

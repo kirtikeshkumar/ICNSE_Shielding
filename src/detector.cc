@@ -188,7 +188,7 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     // man->FillNtupleDColumn(1, 2, hit->GetHitLocationX());
     // man->FillNtupleDColumn(1, 3, hit->GetHitLocationY());
     // man->FillNtupleDColumn(1, 4, hit->GetHitLocationZ());
-    // man->FillNtupleDColumn(1, 5, hit->GetHitTime());
+    man->FillNtupleDColumn(1, 5, hit->GetHitTime());
     man->FillNtupleDColumn(1, 6, hit->GetHitEDep());
     man->FillNtupleSColumn(1, 7, hit->GetParticleName());
     man->FillNtupleSColumn(1, 8, hit->GetDepositionProcess());
@@ -203,31 +203,31 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     if (hit->isHitPrimary()) {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
-    /*man->FillNtupleIColumn(0, 0, evID);
+    man->FillNtupleIColumn(0, 0, evID);
     man->FillNtupleIColumn(0, 1, hit->GetHitCopyNum());
-    // man->FillNtupleDColumn(0, 2, hit->GetHitLocationX());
-    // man->FillNtupleDColumn(0, 3, hit->GetHitLocationY());
-    // man->FillNtupleDColumn(0, 4, hit->GetHitLocationZ());
-    // man->FillNtupleDColumn(0, 5, hit->GetHitTime());
+    man->FillNtupleDColumn(0, 2, hit->GetHitLocationX());
+    man->FillNtupleDColumn(0, 3, hit->GetHitLocationY());
+    man->FillNtupleDColumn(0, 4, hit->GetHitLocationZ());
+    man->FillNtupleDColumn(0, 5, hit->GetHitTime());
     man->FillNtupleDColumn(0, 6, hit->GetHitEDep());
     man->FillNtupleSColumn(0, 7, hit->GetParticleName());
     man->FillNtupleSColumn(0, 8, hit->GetDepositionProcess());
-    man->AddNtupleRow(0);*/
+    man->AddNtupleRow(0);
     // hit->Print();
   }
 
-  for (const auto &[key, val] : EvtEDep) {
+  // for (const auto &[key, val] : EvtEDep) {
 
-    // std::cout << "Event: " << evID << std::endl;
-    man->FillNtupleIColumn(2, 0, evID);
-    man->FillNtupleIColumn(2, 1, key);
-    man->FillNtupleSColumn(2, 2, MatMapHit[key]);
-    man->FillNtupleDColumn(2, 3, val);
-    man->FillNtupleIColumn(2, 4, MapNumHitPrimary[key]);
-    man->AddNtupleRow(2);
-    // std::cout << key << " : " << value << " : " << MatMapHit[key] <<
-    // std::endl;
-  }
+  //   // std::cout << "Event: " << evID << std::endl;
+  //   man->FillNtupleIColumn(2, 0, evID);
+  //   man->FillNtupleIColumn(2, 1, key);
+  //   man->FillNtupleSColumn(2, 2, MatMapHit[key]);
+  //   man->FillNtupleDColumn(2, 3, val);
+  //   man->FillNtupleIColumn(2, 4, MapNumHitPrimary[key]);
+  //   man->AddNtupleRow(2);
+  //   // std::cout << key << " : " << value << " : " << MatMapHit[key] <<
+  //   // std::endl;
+  // }
 
   // std::cout << "=============== ENDOFEVENT ======================="
   //           << std::endl;

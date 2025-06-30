@@ -8,11 +8,13 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 
 #include "G4Geantino.hh"
+#include "G4GenericMessenger.hh"
 #include "G4IonTable.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4RandomTools.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4UIcmdWithAString.hh"
 #include "G4UIcommand.hh"
 #include "G4UIdirectory.hh"
 #include "G4UImessenger.hh"
@@ -33,18 +35,18 @@ public:
 
   /*GeneratePrimaries function to generate the particle we desire*/
   virtual void GeneratePrimaries(G4Event *);
-  virtual void SetNewValue(G4UIcommand *, G4String);
+  void BoxSource(G4double halfLength);
 
 private:
   G4ParticleGun *fParticleGun;
+  G4ThreeVector position, direction;
+  G4GenericMessenger *fMessenger;
 
   void LoadCRY();
   G4String cryInputFile;
   CRYGenerator *cryGen = nullptr;
   std::vector<CRYParticle *> cryParticles;
-
-  G4UIdirectory *cryDir;
-  G4UIcommand *inputFileCmd;
+  G4UIcmdWithAString *inputFileCmd;
 };
 
 #endif

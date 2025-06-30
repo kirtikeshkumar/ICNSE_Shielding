@@ -1,0 +1,3 @@
+/CRY/inputFile cry_input.txt
+/run/initialize
+/run/beamOn 10

@@ -12,6 +12,12 @@ if(USE_MT)
 	add_definitions(-DUSE_MT)
 endif(USE_MT)
 
+option(USE_CRY "Switch CRY ON/OFF" ON)
+if(USE_CRY)
+	set(CRY_PATH "/home/kirtikesh/Softwares/cry_v1.7")
+	include_directories(${CRY_PATH}/src)
+endif(USE_CRY)
+
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/inc)
 include_directories(../..)
@@ -31,13 +37,17 @@ file(COPY ${MACRO_FILES} DESTINATION ${PROJECT_BINARY_DIR})
 file(COPY ${BASH_FILES} DESTINATION ${PROJECT_BINARY_DIR})
 
 file(GLOB DATA_FILES
-	"dat/*.dat"
+	"dat/*.txt"
 )
 
 file(COPY ${DATA_FILES} DESTINATION ${PROJECT_BINARY_DIR})
 
 add_executable(sim sim.cc ${sources} ${headers})
-target_link_libraries(sim ${Geant4_LIBRARIES})
-
+if(USE_CRY)
+	target_compile_definitions(sim PRIVATE CRY_PATH="${CRY_PATH}" CRY_DATA_PATH="${CRY_PATH}/data")
+	target_link_libraries(sim ${Geant4_LIBRARIES} ${CRY_PATH}/lib/libCRY.a)
+else()
+	target_link_libraries(sim ${Geant4_LIBRARIES})
+endif(USE_CRY)
 
 add_custom_target(Simulation DEPENDS sim)

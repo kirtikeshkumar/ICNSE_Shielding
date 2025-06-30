@@ -20,6 +20,7 @@ public:
 
   virtual void BeginOfEventAction(const G4Event *);
   virtual void EndOfEventAction(const G4Event *);
+  void GetPrimaryParticle(const G4Event *event);
 
   //   void AddEdep(G4double edep) { fEdep += edep; }
   //   void AddNum() { num++; }

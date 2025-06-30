@@ -36,6 +36,13 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
   man->CreateNtupleDColumn("EnergyDep");
   man->CreateNtupleIColumn("NumHitPrimary");
   man->FinishNtuple(2);
+
+  man->CreateNtuple("IncidentParticle", "IncidentParticle");
+  man->CreateNtupleIColumn("EvNo");
+  man->CreateNtupleSColumn("ParticleName");
+  man->CreateNtupleDColumn("IncidentEnergy");
+  man->CreateNtupleDColumn("IncidentOrientation");
+  man->FinishNtuple(3);
 }
 
 MyRunAction::~MyRunAction() {}

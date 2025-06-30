@@ -29,9 +29,9 @@ MyDetectorConstruction::MyDetectorConstruction() {
 
   sdManager = G4SDManager::GetSDMpointer();
 
-  xWorld = 2.5 * m;
-  yWorld = 2.5 * m;
-  zWorld = 2.5 * m;
+  xWorld = 10. * m;
+  yWorld = 10. * m;
+  zWorld = 10. * m;
 
   // xloc = 0.09 * m;
 
@@ -46,9 +46,9 @@ MyDetectorConstruction::MyDetectorConstruction(std::string mat,
                                                std::string th) {
   DefineMaterials();
 
-  xWorld = 5. * m;
-  yWorld = 5. * m;
-  zWorld = 5. * m;
+  xWorld = 10. * m;
+  yWorld = 10. * m;
+  zWorld = 10. * m;
 
   // xloc = 0.09 * m;
 
