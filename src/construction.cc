@@ -100,8 +100,14 @@ void MyDetectorConstruction::DefineMaterials() {
   NaI = new G4Material("NaI", 3.667 * g / cm3, 1);
   NaI->AddMaterial(nist->FindOrBuildMaterial("G4_SODIUM_IODIDE"),
                    100. * perCent);
+
   Lead = new G4Material("Pb", 11.4 * g / cm3, 1);
   Lead->AddElement(nist->FindOrBuildElement("Pb"), 100. * perCent);
+  G4Isotope *Pb210 = new G4Isotope("Pb210", 82, 210, 209.984 * g / mole);
+  G4Element *elPb210 = new G4Element("Lead210", "Pb210", 1);
+  elPb210->AddIsotope(Pb210, 100. * perCent);
+  Lead->AddElement(elPb210, 10. * perCent);
+
   Copper = new G4Material("Cu", 8.96 * g / cm3, 1);
   Copper->AddMaterial(nist->FindOrBuildMaterial("G4_Cu"), 100. * perCent);
   Mat_Ge = new G4Material("Ge", 5.323 * g / cm3, 1);

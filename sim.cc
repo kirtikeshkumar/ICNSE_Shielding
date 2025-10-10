@@ -19,6 +19,7 @@
 #include "construction.hh"
 #include "physics.hh"
 // #include <G4OpticalPhysics.hh>
+#include "G4RadioactiveDecayPhysics.hh"
 
 /*The main function where all the objects are initialized and all the commands
  * needed are performed*/
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
     runManager->SetUserInitialization(new MyDetectorConstruction());
   }
   G4VModularPhysicsList *physicsList = new Shielding;
+  physicsList->RegisterPhysics(new G4RadioactiveDecayPhysics);
   runManager->SetUserInitialization(physicsList);
   // runManager->SetUserInitialization(new MyPhysicsList());
   runManager->SetUserInitialization(new MyActionInitialization());

@@ -36,6 +36,7 @@ public:
   MySensitiveDetector *GetNaISD() const { return sensDetNaI; }
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
+  G4LogicalVolume *GetLeadLogical() { return logicShield; }
 
   // This is the Construct function of the type G4VPhysicalVolume which is used
   // to construct the detector and environment with the required dimenstions and
@@ -60,11 +61,11 @@ private:
   G4Material *Vaccum, *Steel, *Mat_Ge, *NaI, *Mat_Al;
   G4Material *sheildMat;
 
-  G4LogicalVolume *logicPb1, *logicPb2, *logicPb3;
-  G4LogicalVolume *logicSS1, *logicSS2;
+  G4LogicalVolume *logicPb;
+  G4LogicalVolume *logicSS;
   G4LogicalVolume *logicCu;
-  G4LogicalVolume *logicHDPE1, *logicHDPE2;
-  G4LogicalVolume *logicBP1, *logicBP2;
+  G4LogicalVolume *logicHDPE;
+  G4LogicalVolume *logicBP;
 
   G4VPhysicalVolume *physPb1, *physPb2, *physPb3;
   G4VPhysicalVolume *physSS1, *physSS2;
