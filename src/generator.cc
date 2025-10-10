@@ -103,9 +103,9 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   // G4ThreeVector position(0., 25. * cm, 0.);
   // G4ThreeVector direction(0., -1., 0.);
 
-  // BoxSource(58.0 * cm);
-  // fParticleGun->SetParticlePosition(position);
-  // fParticleGun->SetParticleMomentumDirection(direction);
+  BoxSource(53.1 * cm);
+  fParticleGun->SetParticlePosition(position);
+  fParticleGun->SetParticleMomentumDirection(direction);
   // fParticleGun->SetParticleMomentum(0.0*MeV);
   // fParticleGun->SetParticleEnergy(1.0 * MeV);
   // fParticleGun->SetParticleDefinition(particle);
@@ -125,7 +125,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
           fParticleGun->SetParticleCharge(charge);
   }*/
 
-  if (!cryGen && !cryInputFile.empty()) {
+  /*if (!cryGen && !cryInputFile.empty()) {
     LoadCRY();
   }
 
@@ -154,12 +154,13 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     // std::cout << "Particle Energy: " << p->ke() << std::endl;
     fParticleGun->GeneratePrimaryVertex(anEvent);
   }
+  */
 
-  for (auto p : cryParticles)
-    delete p;
-  cryParticles.clear();
+  // for (auto p : cryParticles)
+  //   delete p;
+  // cryParticles.clear();
 
   /*Here we generate the particle*/
 
-  // fParticleGun->GeneratePrimaryVertex(anEvent);
+  fParticleGun->GeneratePrimaryVertex(anEvent);
 }

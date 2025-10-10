@@ -385,45 +385,58 @@ void MyDetectorConstruction::ConstructHPGeSetupwShield() {
                           logicCryostat, name, logicWorld, true, copy, true));
   }
 
-  physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
-                                      "physNaI_0", logicWorld, true, 120,
-                                      true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.), logicNaI,
-                        "physNaI_1", logicWorld, true, 121, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                        "physNaI_2", logicWorld, true, 122, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.), logicNaI,
-                        "physNaI_3", logicWorld, true, 123, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                        "physNaI_4", logicWorld, true, 124, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                        "physNaI_5", logicWorld, true, 125, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                        "physNaI_6", logicWorld, true, 126, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                        "physNaI_7", logicWorld, true, 127, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                        "physNaI_8", logicWorld, true, 128, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, 11.5 * cm, 0.), logicNaI,
-                        "physNaI_9", logicWorld, true, 129, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, -11.5 * cm, 0.), logicNaI,
-                        "physNaI_10", logicWorld, true, 130, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(11.5 * cm, -11.5 * cm, 0.), logicNaI,
-                        "physNaI_11", logicWorld, true, 131, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.), logicNaI,
-                        "physNaI_12", logicWorld, true, 132, true));
+  //   physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.),
+  //   logicNaI,
+  //                                       "physNaI_0", logicWorld, true, 120,
+  //                                       true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_1", logicWorld, true, 121, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_2", logicWorld, true, 122, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_3", logicWorld, true, 123, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_4", logicWorld, true, 124, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_5", logicWorld, true, 125, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_6", logicWorld, true, 126, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_7", logicWorld, true, 127, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_8", logicWorld, true, 128, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, 11.5 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_9", logicWorld, true, 129, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, -11.5 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_10", logicWorld, true, 130, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(11.5 * cm, -11.5 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_11", logicWorld, true, 131, true));
+  //   physNaI.push_back(
+  //       new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.),
+  //       logicNaI,
+  //                         "physNaI_12", logicWorld, true, 132, true));
   /*physNaI.push_back(
       new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0. * cm, -11.0 * cm),
                         logicNaI, "physNaI_12", logicWorld, true, 133, true));
@@ -437,14 +450,15 @@ void MyDetectorConstruction::ConstructHPGeSetupwShield() {
       new G4PVPlacement(0, G4ThreeVector(0. * cm, 11.6 * cm, -11.0 * cm),
                         logicNaI, "physNaI_12", logicWorld, true, 136, true));*/
 
-  for (int iter = 0; iter < physNaI.size(); iter++) {
-    copy = 140 + iter;
-    pos = physNaI[iter]->GetTranslation();
-    name = "physNaI_Clad_" + std::to_string(iter);
-    physNaIClad.push_back(
-        new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
-                          logicNaIClad, name, logicWorld, true, copy, true));
-  }
+  //   for (int iter = 0; iter < physNaI.size(); iter++) {
+  //     copy = 140 + iter;
+  //     pos = physNaI[iter]->GetTranslation();
+  //     name = "physNaI_Clad_" + std::to_string(iter);
+  //     physNaIClad.push_back(
+  //         new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
+  //                           logicNaIClad, name, logicWorld, true, copy,
+  //                           true));
+  //   }
 
   /*//   Config 1
   G4VSolid *SS1 = ConstructShell(116., 116., 116., 0.5, 0.);
@@ -632,7 +646,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
 void MyDetectorConstruction::ConstructSDandField() {
   MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
   sdManager->AddNewDetector(sensDet);
-  logicNaI->SetSensitiveDetector(sensDet);
+  //   logicNaI->SetSensitiveDetector(sensDet);
   logicHPGe->SetSensitiveDetector(sensDet);
 
   /*  sensDetGe =
