@@ -19,6 +19,8 @@
 #include "construction.hh"
 #include "physics.hh"
 // #include <G4OpticalPhysics.hh>
+#include "G4DecayPhysics.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 
 /*The main function where all the objects are initialized and all the commands
  * needed are performed*/
@@ -40,21 +42,28 @@ int main(int argc, char **argv) {
 #endif
 
   // G4RunManager *runManager = new G4RunManager();
-  // runManager->SetVerboseLevel(0);
+  // runManager->SetVerboseLevel(2);
 
   // Initializing the detector construction, physics implementation and action
   // initialization files
-  if (argc > 2) {
-    runManager->SetUserInitialization(
-        new MyDetectorConstruction(argv[2], argv[3]));
-  } else {
-    std::cout << "NUMBEROFARG" << argc << std::endl;
-    runManager->SetUserInitialization(new MyDetectorConstruction());
-  }
+  // if (argc > 2) {
+  //   runManager->SetUserInitialization(
+  //       new MyDetectorConstruction(argv[2], argv[3]));
+  // } else {
+  //   std::cout << "NUMBEROFARG" << argc << std::endl;
+  //   runManager->SetUserInitialization(new MyDetectorConstruction());
+  // }
+
+  auto *detector = new MyDetectorConstruction();
+  runManager->SetUserInitialization(detector);
+
   G4VModularPhysicsList *physicsList = new Shielding;
+  // physicsList->RegisterPhysics(new G4DecayPhysics());
+  physicsList->RegisterPhysics(new G4RadioactiveDecayPhysics());
   runManager->SetUserInitialization(physicsList);
   // runManager->SetUserInitialization(new MyPhysicsList());
-  runManager->SetUserInitialization(new MyActionInitialization());
+  // runManager->SetUserInitialization(new MyActionInitialization());
+  runManager->SetUserInitialization(new MyActionInitialization(detector));
 
   // creating an instance of the UI Executive and Vis Manager for UI and
   // visualization of our world

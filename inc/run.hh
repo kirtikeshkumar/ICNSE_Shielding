@@ -21,18 +21,7 @@ public:
   MySensitiveDetector *GetNaISD() { return naiSD; }
   MySensitiveDetector *GetGeSD() { return geSD; }
 
-  /*void AddNumNeutron(G4int a){numneutron += a;}
-  void AddNumGamma(G4int a){numgamma += a;}
-  void AddNumElectron(G4int a){numelectron += a;}
-  void AddNumPositron(G4int a){numpositron += a;}
-  void AddNumNu_e(G4int a){numnu_e += a;}
-  void AddNumaNu_e(G4int a){numanu_e += a;}
-  void AddNumOther(G4int a){numother += a;}
-  void PrintStatus();*/
-
 private:
-  //   G4int numneutron, numgamma, numelectron, numpositron, numnu_e, numanu_e,
-  //   numother;
   G4SDManager *sdManager = nullptr;
   MySensitiveDetector *naiSD = nullptr;
   MySensitiveDetector *geSD = nullptr;

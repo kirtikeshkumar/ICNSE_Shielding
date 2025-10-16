@@ -5,6 +5,7 @@
 #ifndef GENERATOR_HH
 #define GENERATOR_HH
 
+#include "G4AnalysisManager.hh"
 #include "G4Geantino.hh"
 #include "G4GeneralParticleSource.hh"
 #include "G4IonTable.hh"

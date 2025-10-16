@@ -225,13 +225,15 @@ void MyDetectorConstruction::ConstructSetupMod() {
     zsz = zsz + 2.0 * layerWidth;
     solid = ConstructShell(xsz, ysz, zsz, layerWidth, 0.);
     solidVols.push_back(solid);
-    name = "logic_" + std::to_string(ij) + shieldMats[ij];
+    name = "logic_" + std::to_string(ij) + "_" + shieldMats[ij];
     logic = new G4LogicalVolume(solidVols[ij], MatMap[shieldMats[ij]], name);
     logicVols.push_back(logic);
-    name = "phys_" + std::to_string(ij) + shieldMats[ij];
+    name = "phys_" + std::to_string(ij) + "_" + shieldMats[ij];
     phys = new G4PVPlacement(0, G4ThreeVector(xloc, 0., 0.), logicVols[ij],
                              name, logicWorld, false, ij + 1, true);
     physVols.push_back(phys);
+    std::cout << "Created Volume with outer dimensions: " << xsz / cm << ", "
+              << ysz / cm << ", " << zsz / cm << std::endl;
   }
 }
 

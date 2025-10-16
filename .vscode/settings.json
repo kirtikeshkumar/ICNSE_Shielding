@@ -98,6 +98,23 @@
         "EventColl.C": "cpp",
         "h1": "cpp",
         "h2": "cpp",
-        "h3": "cpp"
+        "h3": "cpp",
+        "http.proxy": "http://kirtikesh:Heli_NHP25@192.168.2.16:8080",
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "github.copilot.enable": {
+            "cpp": true
+        },
+        "github.copilot.advanced": {
+            "debug.overrideProxyUrl": "http://kirtikesh:Heli_NHP25@192.168.2.16:8080"
+        },
+        "github.copilot.selectedCompletionModel": "gpt-4",
+        "github.copilot.chat.localeOverride": "en",
+        "http.proxyStrictSSL": false,
+        "inlineChat.enableV2": true,
+        "inlineChat.lineEmptyHint": true,
+        "settingsSync.ignoredSettings": [],
+        "http.proxySupport": "on",
+        "remote.SSH.useCurlAndWgetConfigurationFiles": true,
+        "github.codespaces.usePortForwardingServiceForHTTPS": false
     }
 }

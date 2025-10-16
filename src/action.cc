@@ -4,15 +4,17 @@
 /* The constructor and destructor*/
 MyActionInitialization::MyActionInitialization() {}
 
+MyActionInitialization::MyActionInitialization(MyDetectorConstruction *det)
+    : fDetector(det) {}
+
 MyActionInitialization::~MyActionInitialization() {}
 
 /*function to create an instance of the primary generator and initialize it*/
 
 void MyActionInitialization::Build() const {
-  // MyPrimaryGenerator *generator = new MyPrimaryGenerator();
-  // SetUserAction(generator);
+  MyPrimaryGenerator *generator = new MyPrimaryGenerator(fDetector);
+  SetUserAction(generator);
 
-  // MyRunAction *runAction = new MyRunAction(generator);
   MyRunAction *runAction = new MyRunAction();
   SetUserAction(runAction);
 

@@ -16,9 +16,9 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   /*Getting the attributes of our particle(proton) from the G4ParticleTable
    * using FindParticle function.*/
   G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
-  // G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
+  G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
   // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
-  G4ParticleDefinition *particle = particleTable->FindParticle("neutron");
+  // G4ParticleDefinition *particle = particleTable->FindParticle("neutron");
 
   /*Defining the position and momentum of the particle using G4ThreeVector to
    * define and SetParticle function to define the properties*/
@@ -30,6 +30,7 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
   //   fParticleGun->SetParticleMomentum(0.0*MeV);
   fParticleGun->SetParticleEnergy(1.0 * MeV);
   fParticleGun->SetParticleDefinition(particle);
+  std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
 }
 
 MyPrimaryGenerator::MyPrimaryGenerator(MyDetectorConstruction *det)
@@ -37,6 +38,7 @@ MyPrimaryGenerator::MyPrimaryGenerator(MyDetectorConstruction *det)
   fParticleGun = new G4ParticleGun(1);
   G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition *particle = particleTable->FindParticle("geantino");
+  std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
 }
 
 MyPrimaryGenerator::~MyPrimaryGenerator() {
@@ -47,6 +49,7 @@ MyPrimaryGenerator::~MyPrimaryGenerator() {
 /*In this function we define which particle we need from our particle gun and
  * define its properties.*/
 void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
+  G4int evID = anEvent->GetEventID();
   // Get the logic volumes and thicknesses from the detector construction
   std::vector<G4LogicalVolume *> leadLVs = fDetector->GetLeadVolumes();
   std::vector<G4double> widths = fDetector->GetLeadThicknesses();
@@ -68,8 +71,9 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     solid->CalculateExtent(kXAxis, limits, transform, xmin, xmax);
     solid->CalculateExtent(kYAxis, limits, transform, ymin, ymax);
     solid->CalculateExtent(kZAxis, limits, transform, zmin, zmax);
-    G4ThreeVector startPoint(xmin, ymin, zmin);
-    G4ThreeVector boxLength(xmax - xmin, ymax - ymin, zmax - zmin);
+    G4ThreeVector startPoint(xmin / cm, ymin / cm, zmin / cm);
+    G4ThreeVector boxLength((xmax - xmin) / cm, (ymax - ymin) / cm,
+                            (zmax - zmin) / cm);
     startPoints.push_back(startPoint);
     fullLengths.push_back(boxLength);
     vol += (boxLength.x() * boxLength.y() * boxLength.z() -
@@ -89,12 +93,17 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   }
   // now define the particle location
   G4ThreeVector decayLocation =
-      generatePointInShell(fullLengths[chosenIndex], widths[chosenIndex]);
+      generatePointInShell(fullLengths[chosenIndex], widths[chosenIndex] * cm);
+  std::cout << evID << " : " << decayLocation / cm << std::endl;
+  std::cout << "StartPoint: " << startPoints[chosenIndex] / cm << std::endl;
   decayLocation += startPoints[chosenIndex];
+  std::cout << "Decay Location : " << decayLocation / cm << std::endl;
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
+  std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
 
   if (particle == G4Geantino::Geantino()) {
+    std::cout << "Generating Particle" << std::endl;
     G4int Z = 82;
     G4int A = 210;
 
@@ -107,12 +116,20 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     fParticleGun->SetParticleCharge(charge);
     fParticleGun->SetParticlePosition(decayLocation);
     std::cout << "Generating Pb210 decay from: " << decayLocation << std::endl;
+    std::cout << leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation)
+              << std::endl;
     if (leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation) == kInside) {
       std::cout << " point is inside the solid " << chosenIndex << std::endl;
     }
   }
   /*Here we generate the particle*/
   fParticleGun->GeneratePrimaryVertex(anEvent);
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+  man->FillNtupleIColumn(7, 0, evID);
+  man->FillNtupleDColumn(7, 1, decayLocation.x());
+  man->FillNtupleDColumn(7, 2, decayLocation.y());
+  man->FillNtupleDColumn(7, 3, decayLocation.z());
+  man->AddNtupleRow(7);
 }
 
 G4ThreeVector MyPrimaryGenerator::generatePointInShell(G4ThreeVector fullLength,
@@ -137,6 +154,12 @@ G4ThreeVector MyPrimaryGenerator::generatePointInShell(G4ThreeVector fullLength,
   } else {
     x = (xCDF - C1 - C2) / C1 * thickness + fullLength.x() - thickness;
   }
+
+  std::cout << "C1: " << C1 << " C2: " << C2 << " x: " << x << std::endl;
+  std::cout << "fullLength x: " << fullLength.x() / cm
+            << " fullLength y: " << fullLength.y() / cm
+            << " fullLength z: " << fullLength.z() / cm
+            << " thickness: " << thickness / cm << std::endl;
   //   From x, generate the corresponding y and z
   if (x < thickness || (fullLength.x() - x) < thickness) {
     y = G4UniformRand() * fullLength.y();

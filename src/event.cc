@@ -7,7 +7,7 @@ MyEventAction::~MyEventAction() {}
 void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
   evID = anEvent->GetEventID();
 
-  GetPrimaryParticle(anEvent);
+  // GetPrimaryParticle(anEvent);
 
   /*NaISD->CleanDetector();
   GeSD->CleanDetector();*/
@@ -26,7 +26,7 @@ void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
   }*/
 }
 
-void MyEventAction::GetPrimaryParticle(const G4Event *event) {
+/*void MyEventAction::GetPrimaryParticle(const G4Event *event) {
   G4PrimaryVertex *vertex = event->GetPrimaryVertex();
   if (!vertex) {
     G4cerr << "No primary vertex!" << G4endl;
@@ -66,27 +66,11 @@ void MyEventAction::GetPrimaryParticle(const G4Event *event) {
   man->FillNtupleDColumn(3, 2, energy);
   man->FillNtupleDColumn(3, 3, thetaDeg);
   man->AddNtupleRow(3);
-}
+}*/
 
 void MyEventAction::EndOfEventAction(const G4Event *anEvent) {
   if (evID % 100000 == 0) {
     std::cout << "Event: " << evID << std::endl;
   }
-  G4AnalysisManager *man = G4AnalysisManager::Instance();
-
-  /*AddNumNeutron(numneutron_evt);
-  AddNumGamma(numgamma_evt);
-  AddNumElectron(numelectron_evt);
-  AddNumPositron(numpositron_evt);
-  AddNumNu_e(numnu_e_evt);
-  AddNumaNu_e(numanu_e_evt);
-  AddNumOther(numother_evt);
-
-  if (evID % 1000000 == 0)
-  {
-    std::cout << std::endl
-              << std::endl;
-    // std::cout << " Printing from event " << evID << std::endl;
-    // fRun->PrintStatus();
-  }*/
+  // G4AnalysisManager *man = G4AnalysisManager::Instance();
 }

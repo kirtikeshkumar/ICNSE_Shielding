@@ -9,7 +9,7 @@ MySteppingAction::~MySteppingAction() {}
 void MySteppingAction::UserSteppingAction(const G4Step *step) {
   G4int evID = fEventAction->GetEvID();
 
-  G4AnalysisManager *man = G4AnalysisManager::Instance();
+  //   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   /*G4LogicalVolume *volume =
   step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
@@ -20,10 +20,12 @@ void MySteppingAction::UserSteppingAction(const G4Step *step) {
   G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume();
   //modify this, the pointer is null currently.
   */
-  G4int copyNo = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
+  //   G4int copyNo =
+  //   step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
 
-  G4Track *track = step->GetTrack();
-  G4String particleName = track->GetParticleDefinition()->GetParticleName();
+  //   G4Track *track = step->GetTrack();
+  //   G4String particleName =
+  //   track->GetParticleDefinition()->GetParticleName();
 
   /*if(copyNo == 0 and step->GetTrack()->GetTrackID()==1){
   //to check for primary neutrons fEventAction->AddNum();
