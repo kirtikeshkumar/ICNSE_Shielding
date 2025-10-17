@@ -499,6 +499,7 @@ void MyDetectorConstruction::FindLeadVolumes() {
       if (shieldMats[ij] == "Pb" || shieldMats[ij] == "L") {
         fLeadVolumes.push_back(logicVols[ij]);
         fLeadThickness.push_back(width[ij]);
+        fLeadPhysical.push_back(physVols[ij]);
         std::cout << "Layer: " << ij << " with thickness: " << width[ij]
                   << " is made of Lead";
       }

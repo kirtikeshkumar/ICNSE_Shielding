@@ -52,6 +52,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   G4int evID = anEvent->GetEventID();
   // Get the logic volumes and thicknesses from the detector construction
   std::vector<G4LogicalVolume *> leadLVs = fDetector->GetLeadVolumes();
+  std::vector<G4VPhysicalVolume *> leadPVs = fDetector->GetLeadPhysical();
   std::vector<G4double> widths = fDetector->GetLeadThicknesses();
   if (leadLVs.empty() || widths.empty() || leadLVs.size() != widths.size()) {
     G4cerr << "Lead volumes / widths mismatch or empty." << G4endl;
@@ -61,7 +62,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   // volume
   double vol = 0;
   std::vector<G4double> volCumulative;
-  std::vector<G4ThreeVector> startPoints;
+  // std::vector<G4ThreeVector> startPoints;
   std::vector<G4ThreeVector> fullLengths;
   for (int ij = 0; ij < leadLVs.size(); ij++) {
     G4VSolid *solid = leadLVs[ij]->GetSolid();
@@ -71,10 +72,10 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     solid->CalculateExtent(kXAxis, limits, transform, xmin, xmax);
     solid->CalculateExtent(kYAxis, limits, transform, ymin, ymax);
     solid->CalculateExtent(kZAxis, limits, transform, zmin, zmax);
-    G4ThreeVector startPoint(xmin / cm, ymin / cm, zmin / cm);
+    // G4ThreeVector startPoint(xmin / cm, ymin / cm, zmin / cm);
     G4ThreeVector boxLength((xmax - xmin) / cm, (ymax - ymin) / cm,
                             (zmax - zmin) / cm);
-    startPoints.push_back(startPoint);
+    // startPoints.push_back(startPoint);
     fullLengths.push_back(boxLength);
     vol += (boxLength.x() * boxLength.y() * boxLength.z() -
             (boxLength.x() - 2.0 * widths[ij]) *
@@ -94,16 +95,24 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   // now define the particle location
   G4ThreeVector decayLocation =
       generatePointInShell(fullLengths[chosenIndex], widths[chosenIndex] * cm);
-  std::cout << evID << " : " << decayLocation / cm << std::endl;
-  std::cout << "StartPoint: " << startPoints[chosenIndex] / cm << std::endl;
-  decayLocation += startPoints[chosenIndex];
-  std::cout << "Decay Location : " << decayLocation / cm << std::endl;
+  // std::cout << evID << " : " << decayLocation / cm << std::endl;
+  // std::cout << "StartPoint: " << startPoints[chosenIndex] / cm << std::endl;
+  // decayLocation += startPoints[chosenIndex];
+  // std::cout << "Decay Location in solid coordinates: " << decayLocation / cm
+  //           << std::endl;
+
+  // std::cout << "Translation: " << leadPVs[chosenIndex]->GetTranslation()
+  //           << std::endl;
+  decayLocation += leadPVs[chosenIndex]->GetTranslation();
+  // std::cout << "Decay Location in global coords: " << decayLocation / cm
+  //           << std::endl;
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
-  std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
+  // std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
 
-  if (particle == G4Geantino::Geantino()) {
-    std::cout << "Generating Particle" << std::endl;
+  if (particle == G4Geantino::Geantino() ||
+      particle->GetParticleName() == "Pb210") {
+    // std::cout << "Generating Particle" << std::endl;
     G4int Z = 82;
     G4int A = 210;
 
@@ -115,9 +124,11 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     fParticleGun->SetParticleDefinition(ion);
     fParticleGun->SetParticleCharge(charge);
     fParticleGun->SetParticlePosition(decayLocation);
-    std::cout << "Generating Pb210 decay from: " << decayLocation << std::endl;
-    std::cout << leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation)
-              << std::endl;
+    fParticleGun->SetParticleMomentum(0.0 * MeV);
+    // std::cout << "Generating Pb210 decay from: " << decayLocation / cm
+    //           << std::endl;
+    // std::cout << leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation)
+    //           << std::endl;
     if (leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation) == kInside) {
       std::cout << " point is inside the solid " << chosenIndex << std::endl;
     }
@@ -155,23 +166,36 @@ G4ThreeVector MyPrimaryGenerator::generatePointInShell(G4ThreeVector fullLength,
     x = (xCDF - C1 - C2) / C1 * thickness + fullLength.x() - thickness;
   }
 
-  std::cout << "C1: " << C1 << " C2: " << C2 << " x: " << x << std::endl;
-  std::cout << "fullLength x: " << fullLength.x() / cm
-            << " fullLength y: " << fullLength.y() / cm
-            << " fullLength z: " << fullLength.z() / cm
-            << " thickness: " << thickness / cm << std::endl;
+  // std::cout << "C1: " << C1 << " C2: " << C2 << " x: " << x / cm <<
+  // std::endl; std::cout << "fullLength x: " << fullLength.x() / cm
+  //           << " fullLength y: " << fullLength.y() / cm
+  //           << " fullLength z: " << fullLength.z() / cm
+  //           << " thickness: " << thickness / cm << std::endl;
   //   From x, generate the corresponding y and z
   if (x < thickness || (fullLength.x() - x) < thickness) {
     y = G4UniformRand() * fullLength.y();
     z = G4UniformRand() * fullLength.z();
   } else if (fabs(0.5 * fullLength.x() - x) < 0.5 * innerBox.x()) {
-    y = G4UniformRand() * 2.0 * thickness;
-    z = G4UniformRand() * 2.0 * thickness;
-    if (y > thickness)
-      y += (fullLength.y() - thickness);
-    if (z > thickness)
-      z += (fullLength.z() - thickness);
+    G4double yCDF = G4UniformRand();
+    if (yCDF >= 0 && yCDF < C1) {
+      y = yCDF / C1 * thickness;
+    } else if (yCDF < C1 + C2) {
+      y = (yCDF - C1) / C2 * innerBox.y() + thickness;
+    } else {
+      y = (yCDF - C1 - C2) / C1 * thickness + fullLength.y() - thickness;
+    }
+    if (y < thickness || (fullLength.y() - y) < thickness) {
+      z = G4UniformRand() * fullLength.z();
+    } else {
+      z = G4UniformRand() * 2.0 * thickness;
+      if (z > thickness)
+        z += (innerBox.z());
+    }
   }
+  x -= fullLength.x() * 0.5;
+  y -= fullLength.y() * 0.5;
+  z -= fullLength.z() * 0.5;
+
   G4ThreeVector position(x, y, z);
   return position;
 }

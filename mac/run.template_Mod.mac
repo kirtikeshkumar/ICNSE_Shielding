@@ -1,0 +1,6 @@
+/run/numberOfThreads 10
+/detector/width 2.0_5.0
+/detector/shieldMat Cu_Pb
+/run/initialize
+/process/list
+/run/beamOn 1000

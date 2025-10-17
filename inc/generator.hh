@@ -5,6 +5,7 @@
 #ifndef GENERATOR_HH
 #define GENERATOR_HH
 
+#include "G4AffineTransform.hh"
 #include "G4AnalysisManager.hh"
 #include "G4Geantino.hh"
 #include "G4GeneralParticleSource.hh"
@@ -12,7 +13,9 @@
 #include "G4LogicalVolume.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
+#include "G4RotationMatrix.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4VPhysicalVolume.hh"
 #include "G4VSolid.hh"
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4VoxelLimits.hh"

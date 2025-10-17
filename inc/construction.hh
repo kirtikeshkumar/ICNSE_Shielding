@@ -41,6 +41,9 @@ public:
   const std::vector<G4LogicalVolume *> GetLeadVolumes() const {
     return fLeadVolumes;
   }
+  const std::vector<G4VPhysicalVolume *> GetLeadPhysical() const {
+    return fLeadPhysical;
+  }
   std::vector<G4double> GetLeadThicknesses() const { return fLeadThickness; }
 
 private:
@@ -97,6 +100,7 @@ private:
   virtual void ConstructSDandField();
 
   std::vector<G4LogicalVolume *> fLeadVolumes;
+  std::vector<G4VPhysicalVolume *> fLeadPhysical;
   std::vector<G4double> fLeadThickness;
   void FindLeadVolumes();
 

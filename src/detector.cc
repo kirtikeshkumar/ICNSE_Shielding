@@ -45,6 +45,13 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   G4StepPoint *postStep = aStep->GetPostStepPoint();
   // const G4VTouchable *touchable = aStep->GetPostStepPoint()->GetTouchable();
   G4AnalysisManager *man = G4AnalysisManager::Instance();
+  G4String creatorProcess;
+  G4int parent = track->GetParentID();
+  if (track->GetCreatorProcess()) {
+    creatorProcess = track->GetCreatorProcess()->GetProcessName();
+  } else if (parent == 0) {
+    creatorProcess = "primary";
+  }
   // G4int copyNo =
   //     aStep->GetPostStepPoint()->GetTouchableHandle()->GetCopyNumber();
   // G4String volName = touchable->GetVolume()->GetLogicalVolume()->GetName();
@@ -111,36 +118,43 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     man->FillNtupleIColumn(1, 0, evID);
     man->FillNtupleDColumn(1, 1, particleKinEnergy);
     man->FillNtupleDColumn(1, 2, particleTime / ns);
+    man->FillNtupleSColumn(1, 3, creatorProcess);
     man->AddNtupleRow(1);
   } else if (particleName == "gamma") {
     man->FillNtupleIColumn(0, 0, evID);
     man->FillNtupleDColumn(0, 1, particleKinEnergy);
     man->FillNtupleDColumn(0, 2, particleTime / ns);
+    man->FillNtupleSColumn(0, 3, creatorProcess);
     man->AddNtupleRow(0);
   } else if (particleName == "e-") {
     man->FillNtupleIColumn(4, 0, evID);
     man->FillNtupleDColumn(4, 1, particleKinEnergy);
     man->FillNtupleDColumn(4, 2, particleTime / ns);
+    man->FillNtupleSColumn(4, 3, creatorProcess);
     man->AddNtupleRow(4);
   } else if (particleName == "e+") {
     man->FillNtupleIColumn(5, 0, evID);
     man->FillNtupleDColumn(5, 2, particleKinEnergy);
     man->FillNtupleDColumn(5, 2, particleTime / ns);
+    man->FillNtupleSColumn(5, 3, creatorProcess);
     man->AddNtupleRow(5);
   } else if (particleName == "nu_e") {
     man->FillNtupleIColumn(2, 0, evID);
     man->FillNtupleDColumn(2, 1, particleKinEnergy);
     man->FillNtupleDColumn(2, 2, particleTime / ns);
+    man->FillNtupleSColumn(2, 3, creatorProcess);
     man->AddNtupleRow(2);
   } else if (particleName == "anti_nu_e") {
     man->FillNtupleIColumn(3, 0, evID);
     man->FillNtupleDColumn(3, 1, particleKinEnergy);
     man->FillNtupleDColumn(3, 2, particleTime / ns);
+    man->FillNtupleSColumn(3, 3, creatorProcess);
     man->AddNtupleRow(3);
   } else if (particleName == "alpha") {
     man->FillNtupleIColumn(6, 0, evID);
     man->FillNtupleDColumn(6, 1, particleKinEnergy);
     man->FillNtupleDColumn(6, 2, particleTime / ns);
+    man->FillNtupleSColumn(6, 3, creatorProcess);
     man->AddNtupleRow(6);
   }
 
