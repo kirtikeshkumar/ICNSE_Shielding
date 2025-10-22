@@ -39,7 +39,7 @@ private:
   G4GeneralParticleSource *fParticleSource;
   MyDetectorConstruction *fDetector;
   G4ParticleGun *fParticleGun;
-  G4ThreeVector generatePointInShell(G4ThreeVector halfLength,
+  G4ThreeVector generatePointInShell(G4ThreeVector fullLength,
                                      G4double thickness);
 };
 

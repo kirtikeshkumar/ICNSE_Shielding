@@ -70,6 +70,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   G4double particleKinEnergy =
       aStep->GetPreStepPoint()->GetKineticEnergy() / keV;
   G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime() / ns;
+  G4ThreeVector globalPos = postStep->GetPosition();
   // G4String matName = aStep->GetPostStepPoint()->GetMaterial()->GetName();
   // G4int parent = track->GetParentID();
 
@@ -119,42 +120,63 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     man->FillNtupleDColumn(1, 1, particleKinEnergy);
     man->FillNtupleDColumn(1, 2, particleTime / ns);
     man->FillNtupleSColumn(1, 3, creatorProcess);
+    man->FillNtupleDColumn(1, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(1, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(1, 6, globalPos.z() / cm);
     man->AddNtupleRow(1);
   } else if (particleName == "gamma") {
     man->FillNtupleIColumn(0, 0, evID);
     man->FillNtupleDColumn(0, 1, particleKinEnergy);
     man->FillNtupleDColumn(0, 2, particleTime / ns);
     man->FillNtupleSColumn(0, 3, creatorProcess);
+    man->FillNtupleDColumn(0, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(0, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(0, 6, globalPos.z() / cm);
     man->AddNtupleRow(0);
   } else if (particleName == "e-") {
     man->FillNtupleIColumn(4, 0, evID);
     man->FillNtupleDColumn(4, 1, particleKinEnergy);
     man->FillNtupleDColumn(4, 2, particleTime / ns);
     man->FillNtupleSColumn(4, 3, creatorProcess);
+    man->FillNtupleDColumn(4, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(4, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(4, 6, globalPos.z() / cm);
     man->AddNtupleRow(4);
   } else if (particleName == "e+") {
     man->FillNtupleIColumn(5, 0, evID);
     man->FillNtupleDColumn(5, 2, particleKinEnergy);
     man->FillNtupleDColumn(5, 2, particleTime / ns);
     man->FillNtupleSColumn(5, 3, creatorProcess);
+    man->FillNtupleDColumn(5, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(5, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(5, 6, globalPos.z() / cm);
     man->AddNtupleRow(5);
   } else if (particleName == "nu_e") {
     man->FillNtupleIColumn(2, 0, evID);
     man->FillNtupleDColumn(2, 1, particleKinEnergy);
     man->FillNtupleDColumn(2, 2, particleTime / ns);
     man->FillNtupleSColumn(2, 3, creatorProcess);
+    man->FillNtupleDColumn(2, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(2, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(2, 6, globalPos.z() / cm);
     man->AddNtupleRow(2);
   } else if (particleName == "anti_nu_e") {
     man->FillNtupleIColumn(3, 0, evID);
     man->FillNtupleDColumn(3, 1, particleKinEnergy);
     man->FillNtupleDColumn(3, 2, particleTime / ns);
     man->FillNtupleSColumn(3, 3, creatorProcess);
+    man->FillNtupleDColumn(3, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(3, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(3, 6, globalPos.z() / cm);
     man->AddNtupleRow(3);
   } else if (particleName == "alpha") {
     man->FillNtupleIColumn(6, 0, evID);
     man->FillNtupleDColumn(6, 1, particleKinEnergy);
     man->FillNtupleDColumn(6, 2, particleTime / ns);
     man->FillNtupleSColumn(6, 3, creatorProcess);
+    man->FillNtupleDColumn(6, 4, globalPos.x() / cm);
+    man->FillNtupleDColumn(6, 5, globalPos.y() / cm);
+    man->FillNtupleDColumn(6, 6, globalPos.z() / cm);
     man->AddNtupleRow(6);
   }
 

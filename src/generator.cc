@@ -76,7 +76,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     G4ThreeVector boxLength((xmax - xmin) / cm, (ymax - ymin) / cm,
                             (zmax - zmin) / cm);
     // startPoints.push_back(startPoint);
-    fullLengths.push_back(boxLength);
+    fullLengths.push_back(boxLength * cm);
     vol += (boxLength.x() * boxLength.y() * boxLength.z() -
             (boxLength.x() - 2.0 * widths[ij]) *
                 (boxLength.y() - 2.0 * widths[ij]) *
@@ -94,7 +94,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   }
   // now define the particle location
   G4ThreeVector decayLocation =
-      generatePointInShell(fullLengths[chosenIndex], widths[chosenIndex] * cm);
+      generatePointInShell(fullLengths[chosenIndex], widths[chosenIndex]);
   // std::cout << evID << " : " << decayLocation / cm << std::endl;
   // std::cout << "StartPoint: " << startPoints[chosenIndex] / cm << std::endl;
   // decayLocation += startPoints[chosenIndex];
@@ -105,7 +105,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   //           << std::endl;
   decayLocation += leadPVs[chosenIndex]->GetTranslation();
   // std::cout << "Decay Location in global coords: " << decayLocation / cm
-  //           << std::endl;
+  // << std::endl;
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
   // std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
@@ -117,29 +117,33 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     G4int A = 210;
 
     G4double charge = 0. * eplus;
-    G4double energy = 0. * keV;
+    G4double energyExcitation = 0. * keV;
 
-    G4ParticleDefinition *ion = G4IonTable::GetIonTable()->GetIon(Z, A, energy);
+    G4ParticleDefinition *ion =
+        G4IonTable::GetIonTable()->GetIon(Z, A, energyExcitation);
 
+    // G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+    // G4ParticleDefinition *particle = particleTable->FindParticle("gamma");
+    // fParticleGun->SetParticleDefinition(particle);
     fParticleGun->SetParticleDefinition(ion);
+    // fParticleGun->SetParticleEnergy(1.0 * MeV);
     fParticleGun->SetParticleCharge(charge);
     fParticleGun->SetParticlePosition(decayLocation);
-    fParticleGun->SetParticleMomentum(0.0 * MeV);
     // std::cout << "Generating Pb210 decay from: " << decayLocation / cm
     //           << std::endl;
     // std::cout << leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation)
     //           << std::endl;
-    if (leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation) == kInside) {
-      std::cout << " point is inside the solid " << chosenIndex << std::endl;
-    }
+    // if (leadLVs[chosenIndex]->GetSolid()->Inside(decayLocation) == kInside) {
+    //   std::cout << " point is inside the solid " << chosenIndex << std::endl;
+    // }
   }
   /*Here we generate the particle*/
   fParticleGun->GeneratePrimaryVertex(anEvent);
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   man->FillNtupleIColumn(7, 0, evID);
-  man->FillNtupleDColumn(7, 1, decayLocation.x());
-  man->FillNtupleDColumn(7, 2, decayLocation.y());
-  man->FillNtupleDColumn(7, 3, decayLocation.z());
+  man->FillNtupleDColumn(7, 1, decayLocation.x() / cm);
+  man->FillNtupleDColumn(7, 2, decayLocation.y() / cm);
+  man->FillNtupleDColumn(7, 3, decayLocation.z() / cm);
   man->AddNtupleRow(7);
 }
 
@@ -148,6 +152,10 @@ G4ThreeVector MyPrimaryGenerator::generatePointInShell(G4ThreeVector fullLength,
   G4ThreeVector innerBox(fullLength.x() - 2.0 * thickness,
                          fullLength.y() - 2.0 * thickness,
                          fullLength.z() - 2.0 * thickness);
+
+  // std::cout << "GeneratePoints got fullLength: " << fullLength / cm
+  //           << " thickness: " << thickness / cm
+  //           << " resulting in inner box: " << innerBox / cm << std::endl;
 
   // First generate a random x location using inverse cdf sampling
   // Inverse CDF sampling allows for getting the x position properly

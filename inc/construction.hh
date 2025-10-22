@@ -69,7 +69,7 @@ private:
   G4LogicalVolume *logicSteelPlate, *logicUnderSideBP, *logicUnderSideHDPE;
 
   G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
-      *Vaccum, *Steel;
+      *Vaccum, *Steel, *Air, *Tungsten;
 
   // For Mac Defined setup Construction
   double detVolX, detVolY, detVolZ;
@@ -87,6 +87,29 @@ private:
 
   void DefineMaterials();
 
+  /**
+   * @brief Constructs a hollow rectangular shell (box shape) using subtraction
+   * of two G4Box solids.
+   *
+   * This function creates an outer box and an inner box, then subtracts the
+   * inner one from the outer to produce a hollow shell of specified thickness.
+   * The inner box can also be shifted along the Z-axis by a specified offset.
+   *
+   * @param xsz        The outer box size along the X-axis (in cm).
+   * @param ysz        The outer box size along the Y-axis (in cm).
+   * @param zsz        The outer box size along the Z-axis (in cm).
+   * @param thickness  The wall thickness of the shell (in cm).
+   * @param offset     The Z-offset between the centers of the inner and outer
+   * boxes (in cm).
+   *
+   * @return A pointer to the resulting G4SubtractionSolid representing the
+   * hollow shell.
+   *
+   * @note The returned solid is not placed in the geometry; you must use it to
+   * create a G4LogicalVolume and G4PVPlacement separately.
+   *
+   * @see G4Box, G4SubtractionSolid, G4ThreeVector
+   */
   G4VSolid *ConstructShell(double xsz, double ysz, double zsz, double thickness,
                            double offset);
   G4VSolid *SubtractBox(G4VSolid *sol, G4ThreeVector Boxsz,

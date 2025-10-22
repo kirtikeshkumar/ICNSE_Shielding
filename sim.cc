@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 #endif
 
   // G4RunManager *runManager = new G4RunManager();
-  // runManager->SetVerboseLevel(2);
+  runManager->SetVerboseLevel(0);
 
   // Initializing the detector construction, physics implementation and action
   // initialization files

@@ -1,6 +1,7 @@
-/run/numberOfThreads 10
-/detector/width 2.0_5.0
-/detector/shieldMat Cu_Pb
+/run/numberOfThreads NUMOFTHREADS
+/detector/shieldMat ORDER
+/detector/width THICKNESSES
+/run/setCut 0.1 mm
 /run/initialize
 /process/list
-/run/beamOn 1000
+/run/beamOn NUMOFEVENTS

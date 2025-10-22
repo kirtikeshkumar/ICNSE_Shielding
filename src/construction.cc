@@ -4,6 +4,7 @@
 // Including the construction header file
 #include "construction.hh"
 #include "detector.hh"
+#include <G4Material.hh>
 
 // In the constructor function we use std::cin to take the dimensions of the
 // environment and the detector along with the position of the detector as user
@@ -31,6 +32,8 @@ MyDetectorConstruction::MyDetectorConstruction() {
   MatMap["Pb"] = Lead;
   MatMap["Cu"] = Copper;
   MatMap["SS"] = Steel;
+  MatMap["Air"] = Air;
+  MatMap["W"] = Tungsten;
 
   detVolX = 50. * cm;
   detVolY = 50. * cm;
@@ -80,6 +83,7 @@ void MyDetectorConstruction::DefineMaterials() {
   // Here we define the material of our detector. Here we are using Aerogel as
   // our 		detector material which is made up of a mixture of
   // SiO2,H2O and Carbon
+  Air = nist->FindOrBuildMaterial("G4_AIR");
   worldMat = nist->FindOrBuildMaterial("G4_AIR");
   myTolueneMat = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
   Vaccum = nist->FindOrBuildMaterial("G4_Galactic");
@@ -101,9 +105,11 @@ void MyDetectorConstruction::DefineMaterials() {
   Copper = new G4Material("Cu", 8.96 * g / cm3, 1);
   Copper->AddElement(nist->FindOrBuildElement("Cu"), 100. * perCent);
   Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  Tungsten = new G4Material("W", 19.3 * g / cm3, 1);
+  Tungsten->AddElement(nist->FindOrBuildElement("W"), 100. * perCent);
 
-  // Defining the refractive index of the Aerogel detector and the environment
-  // so that 	  we can see the Cherenkov Light
+  // Defining the refractive index of the Aerogel detector and the
+  // environment so that 	  we can see the Cherenkov Light
   G4double energy[2] = {1.239841939 * eV / 0.9, 1.239841939 * eV / 0.2};
   G4double rindexWorld[2] = {1.0, 1.0};
   G4double rindexPVT[2] = {1.58, 1.58};
@@ -219,7 +225,7 @@ void MyDetectorConstruction::ConstructSetupMod() {
   double ysz = detVolY;
   double zsz = detVolZ;
   for (int ij = 0; ij < shieldMats.size(); ij++) {
-    float layerWidth = width[ij] * cm;
+    float layerWidth = width[ij];
     xsz = xsz + 2.0 * layerWidth;
     ysz = ysz + 2.0 * layerWidth;
     zsz = zsz + 2.0 * layerWidth;
@@ -232,6 +238,15 @@ void MyDetectorConstruction::ConstructSetupMod() {
     phys = new G4PVPlacement(0, G4ThreeVector(xloc, 0., 0.), logicVols[ij],
                              name, logicWorld, false, ij + 1, true);
     physVols.push_back(phys);
+
+    G4cout << "World half-lengths (cm): " << solidWorld->GetXHalfLength() / cm
+           << ", " << solidWorld->GetYHalfLength() / cm << ", "
+           << solidWorld->GetZHalfLength() / cm << G4endl;
+
+    G4cout << "Placed " << name
+           << " translation (cm): " << phys->GetTranslation().x() / cm << ", "
+           << phys->GetTranslation().y() / cm << ", "
+           << phys->GetTranslation().z() / cm << G4endl;
     std::cout << "Created Volume with outer dimensions: " << xsz / cm << ", "
               << ysz / cm << ", " << zsz / cm << std::endl;
   }
@@ -372,14 +387,17 @@ void MyDetectorConstruction::ConstructSetupV1() {
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
                                                  double zsz, double thickness,
                                                  double offset = 0.0) {
-  G4VSolid *boxout =
-      new G4Box("Boxout", 0.5 * xsz * cm, 0.5 * ysz * cm, 0.5 * zsz * cm);
-  G4VSolid *boxin =
-      new G4Box("Boxin", (0.5 * xsz - thickness) * cm,
-                (0.5 * ysz - thickness) * cm, (0.5 * zsz - thickness) * cm);
-  G4VSolid *shell =
-      new G4SubtractionSolid("BoxOut-BoxIn", boxout, boxin, 0,
-                             G4ThreeVector(0., 0., -1.0 * offset * cm));
+  G4VSolid *boxout = new G4Box("Boxout", 0.5 * xsz, 0.5 * ysz, 0.5 * zsz);
+  G4VSolid *boxin = new G4Box("Boxin", (0.5 * xsz - thickness),
+                              (0.5 * ysz - thickness), (0.5 * zsz - thickness));
+  G4VSolid *shell = new G4SubtractionSolid(
+      "BoxOut-BoxIn", boxout, boxin, 0, G4ThreeVector(0., 0., -1.0 * offset));
+
+  //   G4cout << "SubtractBox (cm): " << (0.5 * xsz) / cm << ", " << 0.5 * ysz /
+  //   cm
+  //          << ", " << 0.5 * zsz / cm << ", " << thickness / cm << ", "
+  //          << offset / cm << G4endl;
+
   return shell;
 }
 
@@ -433,7 +451,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
   width.clear();
   shieldMats.clear();
   while (std::getline(iss, token, '_')) {
-    width.push_back(std::stof(token)); // convert to float
+    width.push_back(std::stof(token) * cm); // convert to float
     netWidth += std::stof(token);
     std::cout << "token: " << token << std::endl;
   }
@@ -500,7 +518,7 @@ void MyDetectorConstruction::FindLeadVolumes() {
         fLeadVolumes.push_back(logicVols[ij]);
         fLeadThickness.push_back(width[ij]);
         fLeadPhysical.push_back(physVols[ij]);
-        std::cout << "Layer: " << ij << " with thickness: " << width[ij]
+        std::cout << "Layer: " << ij << " with thickness: " << width[ij] / cm
                   << " is made of Lead";
       }
     }
