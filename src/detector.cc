@@ -69,7 +69,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   // G4double edep = aStep->GetTotalEnergyDeposit() / keV;
   G4double particleKinEnergy =
       aStep->GetPreStepPoint()->GetKineticEnergy() / keV;
-  G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime() / ns;
+  G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime();
   G4ThreeVector globalPos = postStep->GetPosition();
   // G4String matName = aStep->GetPostStepPoint()->GetMaterial()->GetName();
   // G4int parent = track->GetParentID();

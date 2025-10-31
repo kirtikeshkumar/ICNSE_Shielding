@@ -69,7 +69,8 @@ private:
   G4LogicalVolume *logicSteelPlate, *logicUnderSideBP, *logicUnderSideHDPE;
 
   G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
-      *Vaccum, *Steel, *Air, *Tungsten;
+      *Vaccum, *Steel, *Air, *Tungsten, *TungstenCarbide,
+      *cementedTungstenCarbide, *WCu;
 
   // For Mac Defined setup Construction
   double detVolX, detVolY, detVolZ;

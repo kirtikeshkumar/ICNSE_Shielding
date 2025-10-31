@@ -34,6 +34,7 @@ MyDetectorConstruction::MyDetectorConstruction() {
   MatMap["SS"] = Steel;
   MatMap["Air"] = Air;
   MatMap["W"] = Tungsten;
+  MatMap["WCu"] = WCu;
 
   detVolX = 50. * cm;
   detVolY = 50. * cm;
@@ -107,6 +108,14 @@ void MyDetectorConstruction::DefineMaterials() {
   Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   Tungsten = new G4Material("W", 19.3 * g / cm3, 1);
   Tungsten->AddElement(nist->FindOrBuildElement("W"), 100. * perCent);
+
+  TungstenCarbide = new G4Material("TungstenCarbide", 15.63 * g / cm3, 2);
+  TungstenCarbide->AddElement(nist->FindOrBuildElement("W"), 1.0);
+  TungstenCarbide->AddElement(nist->FindOrBuildElement("C"), 1.0);
+
+  WCu = new G4Material("TungstenCopper", 16.5 * g / cm3, 2);
+  WCu->AddMaterial(Tungsten, 0.8); // 80% W by mass
+  WCu->AddMaterial(Copper, 0.2);   // 20% Cu by mass
 
   // Defining the refractive index of the Aerogel detector and the
   // environment so that 	  we can see the Cherenkov Light
