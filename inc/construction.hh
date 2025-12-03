@@ -51,7 +51,7 @@ private:
   std::vector<G4VPhysicalVolume *> physSheet;
 
   G4Material *worldMat, *myTolueneMat, *BoratedPE, *HDPE, *Lead, *Copper,
-      *Vaccum, *Steel;
+      *Vaccum, *Steel, *Tungsten, *WCu;
   G4Material *sheildMat;
 
   std::map<G4String, G4Material *> MatMap;
