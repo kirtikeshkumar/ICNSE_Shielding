@@ -4,38 +4,26 @@ MyEventAction::MyEventAction(MyRunAction *run) : fRun(run) {}
 
 MyEventAction::~MyEventAction() {}
 
-void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
+void MyEventAction::BeginOfEventAction(const G4Event *anEvent)
+{
   evID = anEvent->GetEventID();
 
   GetPrimaryParticle(anEvent);
-
-  /*NaISD->CleanDetector();
-  GeSD->CleanDetector();*/
-
-  /*num = 0;
-  numgamma_evt = 0;
-  numneutron_evt = 0;
-  numelectron_evt = 0;
-  numpositron_evt = 0;
-  numnu_e_evt = 0;
-  numanu_e_evt = 0;
-  numother_evt = 0;
-  fEdep = 0.;
-  if (evID % 100000 == 0) {
-    std::cout << "event: " << evID << std::endl;
-  }*/
 }
 
-void MyEventAction::GetPrimaryParticle(const G4Event *event) {
+void MyEventAction::GetPrimaryParticle(const G4Event *event)
+{
   G4PrimaryVertex *vertex = event->GetPrimaryVertex();
-  if (!vertex) {
+  if (!vertex)
+  {
     G4cerr << "No primary vertex!" << G4endl;
     return;
   }
 
   // Get the primary particle from the vertex (assumes one primary per vertex)
   G4PrimaryParticle *primary = vertex->GetPrimary();
-  if (!primary) {
+  if (!primary)
+  {
     G4cerr << "No primary particle!" << G4endl;
     return;
   }
@@ -61,32 +49,18 @@ void MyEventAction::GetPrimaryParticle(const G4Event *event) {
   //           << std::endl;
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  man->FillNtupleIColumn(3, 0, evID);
-  man->FillNtupleSColumn(3, 1, name);
-  man->FillNtupleDColumn(3, 2, energy);
-  man->FillNtupleDColumn(3, 3, thetaDeg);
-  man->AddNtupleRow(3);
+  man->FillNtupleIColumn(2, 0, evID);
+  man->FillNtupleSColumn(2, 1, name);
+  man->FillNtupleDColumn(2, 2, energy);
+  man->FillNtupleDColumn(2, 3, thetaDeg);
+  man->AddNtupleRow(2);
 }
 
-void MyEventAction::EndOfEventAction(const G4Event *anEvent) {
-  if (evID % 100000 == 0) {
+void MyEventAction::EndOfEventAction(const G4Event *anEvent)
+{
+  if (evID % 100000 == 0)
+  {
     std::cout << "Event: " << evID << std::endl;
   }
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-
-  /*AddNumNeutron(numneutron_evt);
-  AddNumGamma(numgamma_evt);
-  AddNumElectron(numelectron_evt);
-  AddNumPositron(numpositron_evt);
-  AddNumNu_e(numnu_e_evt);
-  AddNumaNu_e(numanu_e_evt);
-  AddNumOther(numother_evt);
-
-  if (evID % 1000000 == 0)
-  {
-    std::cout << std::endl
-              << std::endl;
-    // std::cout << " Printing from event " << evID << std::endl;
-    // fRun->PrintStatus();
-  }*/
 }

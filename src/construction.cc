@@ -214,22 +214,6 @@ void MyDetectorConstruction::ConstructSingleSheet()
                           "physdetVol", logicWorld, false, 0, true);
 }
 
-// G4LogicalVolume *MyDetectorConstruction::ConstructHPGe() {
-//   G4VSolid *cryostat = new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 *
-//   cm,
-//                                   0 * deg, 360 * deg);
-//   G4VSolid *GeCrystal =
-//       new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 *
-//       deg);
-//   G4LogicalVolume *logicHPGe =
-//       new G4LogicalVolume(cryostat, Copper, "logicCryostat");
-//   logicGeCrystal = new G4LogicalVolume(GeCrystal, Mat_Ge,
-//   "logicGeCrystal"); new G4PVPlacement(nullptr, G4ThreeVector(0, 0, -6 * cm),
-//   logicGeCrystal,
-//                     "HPGePhysical", logicHPGe, false, 110, true);
-//   return logicHPGe;
-// }
-
 G4VSolid *MyDetectorConstruction::ClosedHollowCylinder(double rin,
                                                        double thickness,
                                                        double halfHtIn)
@@ -258,98 +242,19 @@ G4LogicalVolume *MyDetectorConstruction::ConstructNaI()
     return logicNaI;
 }
 
-void MyDetectorConstruction::ConstructHPGeSetup()
+void MyDetectorConstruction::ConstructDetectorSetup()
 {
     // logicHPGe = ConstructHPGe();
     solidNaIClad = ClosedHollowCylinder(3.85, 0.15, 3.85);
-    // new G4Tubs("NaIClad", 3.85 * cm, 4.0 * cm, 3.85 * cm, 0 * deg, 360 * deg);
-    cryostat = ClosedHollowCylinder(6.45, 0.2, 12.0);
-    // new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 * cm, 0 * deg, 360 *
-    // deg);
-    GeCrystal =
-        new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
     logicNaI = ConstructNaI();
     logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
-    logicCryostat = new G4LogicalVolume(cryostat, Copper, "logicCryostat");
-    logicHPGe = new G4LogicalVolume(GeCrystal, Mat_Ge, "logicHPGe");
 
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 0.0 * cm), logicHPGe,
-                          "physHPGe_0", logicWorld, true, 111, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 0.0 * cm), logicHPGe,
-                          "physHPGe_1", logicWorld, true, 112, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 0.0 * cm), logicHPGe,
-                          "physHPGe_2", logicWorld, true, 113, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 0.0 * cm), logicHPGe,
-                          "physHPGe_3", logicWorld, true, 114, true));
-
-    int copy = 0;
-    G4ThreeVector pos;
-    std::string name;
-    for (int iter = 0; iter < physHPGe.size(); iter++)
-    {
-        copy = 115 + iter;
-        pos = physHPGe[iter]->GetTranslation();
-        name = "physCryo_" + std::to_string(iter);
-        physCryo.push_back(
-            new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), 6.0 * cm),
-                              logicCryostat, name, logicWorld, true, copy, true));
-    }
-
-    physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicNaI,
+    physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., -40. * cm, -15.5 * cm), logicNaI,
                                         "physNaI_0", logicWorld, true, 120,
                                         true));
     physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.), logicNaI,
+        new G4PVPlacement(0, G4ThreeVector(0., -20. * cm, -15.5 * cm), logicNaI,
                           "physNaI_1", logicWorld, true, 121, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                          "physNaI_2", logicWorld, true, 122, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.), logicNaI,
-                          "physNaI_3", logicWorld, true, 123, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.), logicNaI,
-                          "physNaI_4", logicWorld, true, 124, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                          "physNaI_5", logicWorld, true, 125, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                          "physNaI_6", logicWorld, true, 126, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.), logicNaI,
-                          "physNaI_7", logicWorld, true, 127, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.), logicNaI,
-                          "physNaI_8", logicWorld, true, 128, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, 11.5 * cm, 0.), logicNaI,
-                          "physNaI_9", logicWorld, true, 129, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, -11.5 * cm, 0.), logicNaI,
-                          "physNaI_10", logicWorld, true, 130, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.5 * cm, -11.5 * cm, 0.), logicNaI,
-                          "physNaI_11", logicWorld, true, 131, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.), logicNaI,
-                          "physNaI_12", logicWorld, true, 132, true));
-    /*physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0. * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 133, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0. * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 134, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0. * cm, -11.6 * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 135, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0. * cm, 11.6 * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 136, true));*/
 
     for (int iter = 0; iter < physNaI.size(); iter++)
     {
@@ -360,251 +265,24 @@ void MyDetectorConstruction::ConstructHPGeSetup()
             new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
                               logicNaIClad, name, logicWorld, true, copy, true));
     }
-}
 
-void MyDetectorConstruction::ConstructHPGeSetupwShield()
-{
-    // logicHPGe = ConstructHPGe();
-    solidNaIClad = ClosedHollowCylinder(3.85, 0.15, 3.85);
-    // new G4Tubs("NaIClad", 3.85 * cm, 4.0 * cm, 3.85 * cm, 0 * deg, 360 * deg);
-    cryostat = ClosedHollowCylinder(6.45, 0.2, 12.0);
-    // new G4Tubs("Cryostat", 6.45 * cm, 6.65 * cm, 12.0 * cm, 0 * deg, 360 *
-    // deg);
-    GeCrystal =
-        new G4Tubs("GeCrystal", 0 * cm, 4.25 * cm, 4.0 * cm, 0 * deg, 360 * deg);
-    logicNaI = ConstructNaI();
-    logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
-    logicCryostat = new G4LogicalVolume(cryostat, Copper, "logicCryostat");
-    logicHPGe = new G4LogicalVolume(GeCrystal, Mat_Ge, "logicHPGe");
-
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0., 0.0 * cm), logicHPGe,
-                          "physHPGe_0", logicWorld, true, 111, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0., 0.0 * cm), logicHPGe,
-                          "physHPGe_1", logicWorld, true, 112, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0., -11.6 * cm, 0.0 * cm), logicHPGe,
-                          "physHPGe_2", logicWorld, true, 113, true));
-    physHPGe.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0., 11.6 * cm, 0.0 * cm), logicHPGe,
-                          "physHPGe_3", logicWorld, true, 114, true));
-
-    int copy = 0;
-    G4ThreeVector pos;
-    std::string name;
-    for (int iter = 0; iter < physHPGe.size(); iter++)
-    {
-        copy = 115 + iter;
-        pos = physHPGe[iter]->GetTranslation();
-        name = "physCryo_" + std::to_string(iter);
-        physCryo.push_back(
-            new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), 6.0 * cm),
-                              logicCryostat, name, logicWorld, true, copy, true));
-    }
-
-    //   physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., 0., 0.),
-    //   logicNaI,
-    //                                       "physNaI_0", logicWorld, true, 120,
-    //                                       true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, 7.25 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_1", logicWorld, true, 121, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-20.3 * cm, -7.25 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_2", logicWorld, true, 122, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, 7.25 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_3", logicWorld, true, 123, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(20.3 * cm, -7.25 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_4", logicWorld, true, 124, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, 20.3 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_5", logicWorld, true, 125, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-7.25 * cm, -20.3 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_6", logicWorld, true, 126, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, 20.3 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_7", logicWorld, true, 127, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(7.25 * cm, -20.3 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_8", logicWorld, true, 128, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, 11.5 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_9", logicWorld, true, 129, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(-11.5 * cm, -11.5 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_10", logicWorld, true, 130, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(11.5 * cm, -11.5 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_11", logicWorld, true, 131, true));
-    //   physNaI.push_back(
-    //       new G4PVPlacement(0, G4ThreeVector(11.5 * cm, 11.5 * cm, 0.),
-    //       logicNaI,
-    //                         "physNaI_12", logicWorld, true, 132, true));
-    /*physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(-11.6 * cm, 0. * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 133, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(11.6 * cm, 0. * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 134, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0. * cm, -11.6 * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 135, true));
-    physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0. * cm, 11.6 * cm, -11.0 * cm),
-                          logicNaI, "physNaI_12", logicWorld, true, 136, true));*/
-
-    //   for (int iter = 0; iter < physNaI.size(); iter++) {
-    //     copy = 140 + iter;
-    //     pos = physNaI[iter]->GetTranslation();
-    //     name = "physNaI_Clad_" + std::to_string(iter);
-    //     physNaIClad.push_back(
-    //         new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
-    //                           logicNaIClad, name, logicWorld, true, copy,
-    //                           true));
-    //   }
-
-    /*//   Config 1
-    G4VSolid *SS1 = ConstructShell(116., 116., 116., 0.5, 0.);
-    G4VSolid *Pb1 = ConstructShell(115., 115., 115., 5., 0.);
-    G4VSolid *SS2 = ConstructShell(105., 105., 105., 0.5, 0.);
-    G4VSolid *BP1 = ConstructShell(104., 104., 104., 2.5, 0.);
-    G4VSolid *Pb2 = ConstructShell(99., 99., 99., 8., 0.);
-    G4VSolid *HDPE1 = ConstructShell(83., 83., 83., 2.5, 0.);
-    G4VSolid *BP2 = ConstructShell(78., 78., 78., 10., 0.);
-    G4VSolid *Pb3 = ConstructShell(58., 58., 58., 2., 0.);
-    G4VSolid *Cu = ConstructShell(54., 54., 54., 2., 0.);
-
-    logicSS1 = new G4LogicalVolume(SS1, Steel, "logicSSout");
+    G4VSolid *boxout =
+        new G4Box("Boxout", 0.5 * 50. * cm, 0.5 * 70. * cm, 0.5 * 45. * cm);
+    G4VSolid *boxin =
+        new G4Box("Boxin", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
+    G4VSolid *Pb1 = new G4SubtractionSolid("physPb1", boxout, boxin, 0,
+                                           G4ThreeVector(0., 0., 2.5 * cm));
     logicPb1 = new G4LogicalVolume(Pb1, Lead, "logicPb1");
-    logicSS2 = new G4LogicalVolume(SS2, Steel, "logicSSout");
-    logicBP1 = new G4LogicalVolume(BP1, BoratedPE, "logicBP1");
-    logicPb2 = new G4LogicalVolume(Pb2, Lead, "logicPb2");
-    logicHDPE1 = new G4LogicalVolume(HDPE1, HDPE, "logicHDPE1");
-    logicBP2 = new G4LogicalVolume(BP2, BoratedPE, "logicBP2");
-    logicPb3 = new G4LogicalVolume(Pb3, Lead, "logicPb3");
+    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1", logicWorld, false, 0, true);
+
+    G4VSolid *boxout2 =
+        new G4Box("Boxout2", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
+    G4VSolid *boxin2 =
+        new G4Box("Boxin2", 0.5 * 24.9 * cm, 0.5 * 49.9 * cm, 0.5 * 39.05 * cm);
+    G4VSolid *Cu = new G4SubtractionSolid("physCu", boxout2, boxin2, 0,
+                                          G4ThreeVector(0., 0., 0.25 * mm));
     logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
-
-    physSS1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS1, "physSS1",
-                                logicWorld, false, 0, true);
-    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1",
-                                logicWorld, false, 0, true);
-    physSS2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS2, "physSS2",
-                                logicWorld, false, 0, true);
-    physBP1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBP1, "physBP1",
-                                logicWorld, false, 0, true);
-    physPb2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb2, "physPb2",
-                                logicWorld, false, 0, true);
-    physHDPE1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicHDPE1,
-                                  "physHDPE1", logicWorld, false, 0, true);
-    physBP2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBP2, "physBP2",
-                                logicWorld, false, 0, true);
-    physPb3 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb3, "physPb3",
-                                logicWorld, false, 0, true);
-    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCu, "physCu",
-                               logicWorld, false, 0, true);*/
-
-    /*//   Config 2
-    G4VSolid *SS1 = ConstructShell(116., 116., 116., 0.5, 0.);
-    G4VSolid *Pb1 = ConstructShell(115., 115., 115., 13., 0.);
-    G4VSolid *SS2 = ConstructShell(89., 89., 89., 0.5, 0.);
-    G4VSolid *HDPE1 = ConstructShell(88., 88., 88., 2.5, 0.);
-    G4VSolid *BP1 = ConstructShell(83., 83., 83., 12.5, 0.);
-    G4VSolid *Pb2 = ConstructShell(58., 58., 58., 2., 0.);
-    G4VSolid *Cu = ConstructShell(54., 54., 54., 2., 0.);
-
-    logicSS1 = new G4LogicalVolume(SS1, Steel, "logicSSout");
-    logicPb1 = new G4LogicalVolume(Pb1, Lead, "logicPb1");
-    logicSS2 = new G4LogicalVolume(SS2, Steel, "logicSSout");
-    logicHDPE1 = new G4LogicalVolume(HDPE1, HDPE, "logicHDPE1");
-    logicBP1 = new G4LogicalVolume(BP1, BoratedPE, "logicBP1");
-    logicPb2 = new G4LogicalVolume(Pb2, Lead, "logicPb2");
-    logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
-
-    physSS1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS1, "physSS1",
-                                logicWorld, false, 0, true);
-    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1",
-                                logicWorld, false, 0, true);
-    physSS2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS2, "physSS2",
-                                logicWorld, false, 0, true);
-    physHDPE1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicHDPE1,
-                                  "physHDPE1", logicWorld, false, 0, true);
-    physBP1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBP1, "physBP1",
-                                logicWorld, false, 0, true);
-    physPb2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb2, "physPb2",
-                                logicWorld, false, 0, true);
-    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCu, "physCu",
-                               logicWorld, false, 0, true);*/
-
-    /*//   Config 3
-    G4VSolid *SS1 = ConstructShell(116., 116., 116., 0.5, 0.);
-    G4VSolid *Pb1 = ConstructShell(115., 115., 115., 15., 0.);
-    G4VSolid *SS2 = ConstructShell(85., 85., 85., 0.5, 0.);
-    G4VSolid *HDPE1 = ConstructShell(84., 84., 84., 2.5, 0.);
-    G4VSolid *BP1 = ConstructShell(79., 79., 79., 12.5, 0.);
-    G4VSolid *Cu = ConstructShell(54., 54., 54., 2., 0.);
-
-    logicSS1 = new G4LogicalVolume(SS1, Steel, "logicSSout");
-    logicPb1 = new G4LogicalVolume(Pb1, Lead, "logicPb1");
-    logicSS2 = new G4LogicalVolume(SS2, Steel, "logicSSout");
-    logicHDPE1 = new G4LogicalVolume(HDPE1, HDPE, "logicHDPE1");
-    logicBP1 = new G4LogicalVolume(BP1, BoratedPE, "logicBP1");
-    logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
-
-    physSS1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS1, "physSS1",
-                                logicWorld, false, 0, true);
-    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1",
-                                logicWorld, false, 0, true);
-    physSS2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS2, "physSS2",
-                                logicWorld, false, 0, true);
-    physHDPE1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicHDPE1,
-                                  "physHDPE1", logicWorld, false, 0, true);
-    physBP1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBP1, "physBP1",
-                                logicWorld, false, 0, true);
-    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCu, "physCu",
-                               logicWorld, false, 0, true);*/
-
-    //   Config 4
-    G4VSolid *SS1 = ConstructShell(106., 106., 106., 0.5, 0.);
-    G4VSolid *Pb1 = ConstructShell(105., 105., 105., 10., 0.);
-    G4VSolid *SS2 = ConstructShell(85., 85., 85., 0.5, 0.);
-    G4VSolid *HDPE1 = ConstructShell(84., 84., 84., 2.5, 0.);
-    G4VSolid *BP1 = ConstructShell(79., 79., 79., 12.5, 0.);
-    G4VSolid *Cu = ConstructShell(54., 54., 54., 2., 0.);
-
-    logicSS1 = new G4LogicalVolume(SS1, Steel, "logicSSout");
-    logicPb1 = new G4LogicalVolume(Pb1, Lead, "logicPb1");
-    logicSS2 = new G4LogicalVolume(SS2, Steel, "logicSSout");
-    logicHDPE1 = new G4LogicalVolume(HDPE1, HDPE, "logicHDPE1");
-    logicBP1 = new G4LogicalVolume(BP1, BoratedPE, "logicBP1");
-    logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
-
-    physSS1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS1, "physSS1",
-                                logicWorld, false, 0, true);
-    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1",
-                                logicWorld, false, 0, true);
-    physSS2 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicSS2, "physSS2",
-                                logicWorld, false, 0, true);
-    physHDPE1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicHDPE1,
-                                  "physHDPE1", logicWorld, false, 0, true);
-    physBP1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicBP1, "physBP1",
-                                logicWorld, false, 0, true);
-    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCu, "physCu",
-                               logicWorld, false, 0, true);
+    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 2.5), logicCu, "physCu", logicWorld, false, 0, true);
 }
 
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
@@ -657,7 +335,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
                                   "physWorld", 0, false, 100, true);
 
     // ConstructSingleSheet();
-    ConstructHPGeSetupwShield();
+    ConstructDetectorSetup();
 
     // Finally we return the physWorld as output
     return physWorld;
@@ -667,16 +345,5 @@ void MyDetectorConstruction::ConstructSDandField()
 {
     MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
     sdManager->AddNewDetector(sensDet);
-    //   logicNaI->SetSensitiveDetector(sensDet);
-    logicHPGe->SetSensitiveDetector(sensDet);
-
-    /*  sensDetGe =
-          new MySensitiveDetector("SensitiveDetectorGe");
-      sdManager->AddNewDetector(sensDetGe);
-      logicHPGe->SetSensitiveDetector(sensDetGe);
-
-      sensDetNaI =
-          new MySensitiveDetector("SensitiveDetectorNaI");
-      sdManager->AddNewDetector(sensDetNaI);
-      logicNaI->SetSensitiveDetector(sensDetNaI);*/
+    logicNaI->SetSensitiveDetector(sensDet);
 }

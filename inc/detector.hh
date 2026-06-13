@@ -17,7 +17,8 @@
 #include "vector"
 #include <map>
 
-class MySensitiveDetector : public G4VSensitiveDetector {
+class MySensitiveDetector : public G4VSensitiveDetector
+{
 public:
   MySensitiveDetector(G4String);
   ~MySensitiveDetector();
@@ -29,9 +30,8 @@ private:
   G4int evID;
   // G4PhysicsOrderedFreeVector *quEff;
   int fGeHitCollectionId;
-  NaIHitCollection *fNaiHitCollection;
-
   int fNaIHitCollectionId;
+  NaIHitCollection *fNaiHitCollection;
   GeHitCollection *fGeHitCollection;
 };
 

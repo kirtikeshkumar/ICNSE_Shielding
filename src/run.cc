@@ -2,20 +2,9 @@
 
 MyRunAction::MyRunAction() {}
 
-MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
+MyRunAction::MyRunAction(MyPrimaryGenerator *gen)
+{
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-
-  man->CreateNtuple("Ge_Hits", "Ge_Hits");
-  man->CreateNtupleIColumn("Event");
-  man->CreateNtupleIColumn("CopyNum");
-  man->CreateNtupleDColumn("locX");
-  man->CreateNtupleDColumn("locY");
-  man->CreateNtupleDColumn("locZ");
-  man->CreateNtupleDColumn("Time");
-  man->CreateNtupleDColumn("EnergyDep");
-  man->CreateNtupleSColumn("Particle");
-  man->CreateNtupleSColumn("Process");
-  man->FinishNtuple(0);
 
   man->CreateNtuple("NaI_Hits", "NaI_hits");
   man->CreateNtupleIColumn("Event");
@@ -27,7 +16,7 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
   man->CreateNtupleDColumn("EnergyDep");
   man->CreateNtupleSColumn("Particle");
   man->CreateNtupleSColumn("Process");
-  man->FinishNtuple(1);
+  man->FinishNtuple(0);
 
   man->CreateNtuple("EventColl", "EventColl");
   man->CreateNtupleIColumn("EvNo");
@@ -35,19 +24,20 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {
   man->CreateNtupleSColumn("DetectorMat");
   man->CreateNtupleDColumn("EnergyDep");
   man->CreateNtupleIColumn("NumHitPrimary");
-  man->FinishNtuple(2);
+  man->FinishNtuple(1);
 
   man->CreateNtuple("IncidentParticle", "IncidentParticle");
   man->CreateNtupleIColumn("EvNo");
   man->CreateNtupleSColumn("ParticleName");
   man->CreateNtupleDColumn("IncidentEnergy");
   man->CreateNtupleDColumn("IncidentOrientation");
-  man->FinishNtuple(3);
+  man->FinishNtuple(2);
 }
 
 MyRunAction::~MyRunAction() {}
 
-void MyRunAction::BeginOfRunAction(const G4Run *run) {
+void MyRunAction::BeginOfRunAction(const G4Run *run)
+{
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
@@ -69,7 +59,8 @@ void MyRunAction::BeginOfRunAction(const G4Run *run) {
   std::cout << "Num of Others: " << numother << std::endl;
 }*/
 
-void MyRunAction::EndOfRunAction(const G4Run *) {
+void MyRunAction::EndOfRunAction(const G4Run *)
+{
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   // PrintStatus();
