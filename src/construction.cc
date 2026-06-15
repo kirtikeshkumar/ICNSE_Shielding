@@ -258,9 +258,9 @@ void MyDetectorConstruction::ConstructDetectorSetup()
 
     for (int iter = 0; iter < physNaI.size(); iter++)
     {
-        copy = 140 + iter;
-        pos = physNaI[iter]->GetTranslation();
-        name = "physNaI_Clad_" + std::to_string(iter);
+        int copy = 140 + iter;
+        G4ThreeVector pos = physNaI[iter]->GetTranslation();
+        std::string name = "physNaI_Clad_" + std::to_string(iter);
         physNaIClad.push_back(
             new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
                               logicNaIClad, name, logicWorld, true, copy, true));
@@ -272,8 +272,8 @@ void MyDetectorConstruction::ConstructDetectorSetup()
         new G4Box("Boxin", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
     G4VSolid *Pb1 = new G4SubtractionSolid("physPb1", boxout, boxin, 0,
                                            G4ThreeVector(0., 0., 2.5 * cm));
-    logicPb1 = new G4LogicalVolume(Pb1, Lead, "logicPb1");
-    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb1, "physPb1", logicWorld, false, 0, true);
+    logicPb = new G4LogicalVolume(Pb1, Lead, "logicPb1");
+    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb, "physPb1", logicWorld, false, 0, true);
 
     G4VSolid *boxout2 =
         new G4Box("Boxout2", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
