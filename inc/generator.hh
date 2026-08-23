@@ -21,14 +21,16 @@
 #include <fstream>
 #include <iostream>
 
+#ifdef USE_CRY
 #include "CRYGenerator.h"
 #include "CRYParticle.h"
 #include "CRYSetup.h"
-
+#endif
 /*We define the PrimaryGenerator class which will be used to construct our
  * ParticleGun*/
 
-class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction {
+class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction
+{
 public:
   MyPrimaryGenerator();
   ~MyPrimaryGenerator();
@@ -41,12 +43,13 @@ private:
   G4ParticleGun *fParticleGun;
   G4ThreeVector position, direction;
   G4GenericMessenger *fMessenger;
-
+#ifdef USE_CRY
   void LoadCRY();
   G4String cryInputFile;
   CRYGenerator *cryGen = nullptr;
   std::vector<CRYParticle *> cryParticles;
   G4UIcmdWithAString *inputFileCmd;
+#endif
 };
 
 #endif

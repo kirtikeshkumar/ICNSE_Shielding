@@ -173,47 +173,6 @@ void MyDetectorConstruction::DefineMaterials()
     mirrorSurface->SetMaterialPropertiesTable(mptMirror);
 }
 
-void MyDetectorConstruction::ConstructSingleSheet()
-{
-
-    //   Define the region where I want to measure the escaping particles as a box
-    //   surrounding the sheet
-    //
-    //   detVol = ConstructShell(netWidth + 5, 155., 155, 2.5, 2.5);
-    //   logicdetVol = new G4LogicalVolume(detVol, Vaccum, "logicdetVol");
-    //   physdetVol = new G4PVPlacement(
-    //       0, G4ThreeVector(xloc + 0.5 * (netWidth + 5) * cm, 0., 0.),
-    //       logicdetVol, "physdetVol", logicWorld, false, 0, true);
-
-    // Define the sheet
-
-    for (int ij = 0; ij < shieldMats.size(); ij++)
-    {
-        // std::cout << std::endl << "xloc: " << xloc / cm << std::endl;
-        float layerWidth = width[ij] * cm;
-        xloc = xloc + 0.5 * layerWidth;
-        // std::cout << "xloc: " << xloc / cm << ", layerWidth: " << layerWidth / cm
-        //           << std::endl;
-        G4Box *solid = new G4Box("solidSheet", 0.5 * layerWidth, 75 * cm, 75 * cm);
-        solidSheet.push_back(solid);
-        logic = new G4LogicalVolume(solidSheet[ij], MatMap[shieldMats[ij]],
-                                    "logicSheet");
-        logicSheet.push_back(logic);
-        phys = new G4PVPlacement(0, G4ThreeVector(xloc, 0., 0.), logicSheet[ij],
-                                 "physSheet", logicWorld, true, ij + 1, true);
-        physSheet.push_back(phys);
-        xloc = xloc + 0.5 * layerWidth;
-        // std::cout << "xloc: " << xloc / cm << std::endl << std::endl;
-    }
-
-    //   Define the region where I want to measure the escaping particles as a box
-    detVol = new G4Box("solidSheet", 0.1 * cm, 80 * cm, 80 * cm);
-    logicdetVol = new G4LogicalVolume(detVol, Vaccum, "logicdetVol");
-    physdetVol =
-        new G4PVPlacement(0, G4ThreeVector(xloc + 0.1 * cm, 0., 0.), logicdetVol,
-                          "physdetVol", logicWorld, false, 0, true);
-}
-
 G4VSolid *MyDetectorConstruction::ClosedHollowCylinder(double rin,
                                                        double thickness,
                                                        double halfHtIn)
@@ -266,6 +225,7 @@ void MyDetectorConstruction::ConstructDetectorSetup()
                               logicNaIClad, name, logicWorld, true, copy, true));
     }
 
+    // Lead Pit
     G4VSolid *boxout =
         new G4Box("Boxout", 0.5 * 50. * cm, 0.5 * 70. * cm, 0.5 * 45. * cm);
     G4VSolid *boxin =
@@ -275,14 +235,25 @@ void MyDetectorConstruction::ConstructDetectorSetup()
     logicPb = new G4LogicalVolume(Pb1, Lead, "logicPb1");
     physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb, "physPb1", logicWorld, false, 0, true);
 
+    // Copper Lining
     G4VSolid *boxout2 =
         new G4Box("Boxout2", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
     G4VSolid *boxin2 =
-        new G4Box("Boxin2", 0.5 * 24.9 * cm, 0.5 * 49.9 * cm, 0.5 * 39.05 * cm);
+        new G4Box("Boxin2", 0.5 * 24.9 * cm, 0.5 * 49.9 * cm, 0.5 * 39.9 * cm);
     G4VSolid *Cu = new G4SubtractionSolid("physCu", boxout2, boxin2, 0,
                                           G4ThreeVector(0., 0., 0.25 * mm));
     logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
-    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 2.5), logicCu, "physCu", logicWorld, false, 0, true);
+    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 2.5 * cm), logicCu, "physCu", logicWorld, false, 0, true);
+
+    // BP Lid
+    G4Box *bpLid = new G4Box("Boxout", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 5. * cm);
+    G4LogicalVolume *logicBPLid = new G4LogicalVolume(bpLid, BoratedPE, "logicBPLid");
+    G4VPhysicalVolume *physBPLid = new G4PVPlacement(0, G4ThreeVector(0., 0., 25. * cm), logicBPLid, "physBPLid", logicWorld, false, 0, true);
+
+    // Lead Lid
+    G4Box *pbLid = new G4Box("Boxout", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 5. * cm);
+    G4LogicalVolume *logicPbLid = new G4LogicalVolume(pbLid, Lead, "logicPbLid");
+    G4VPhysicalVolume *physPbLid = new G4PVPlacement(0, G4ThreeVector(0., 0., 30. * cm), logicPbLid, "physPbLid", logicWorld, false, 0, true);
 }
 
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
@@ -339,6 +310,33 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
     // Finally we return the physWorld as output
     return physWorld;
+}
+
+void MyDetectorConstruction::FindLeadVolumes()
+{
+    fLeadVolumes.clear();
+    const auto *physStore = G4PhysicalVolumeStore::GetInstance();
+
+    for (auto *pv : *physStore)
+    {
+        if (!pv)
+            continue;
+        auto *lv = pv->GetLogicalVolume();
+        if (!lv || !lv->GetMaterial())
+            continue;
+
+        auto matName = lv->GetMaterial()->GetName();
+        if (matName.contains("Pb") || matName.contains("Lead"))
+        {
+            LeadVolumeInfo info;
+            info.name = pv->GetName();
+            info.position = pv->GetTranslation();
+            info.solid = lv->GetSolid();
+            info.logical = lv;
+            info.volume = lv->GetSolid()->GetCubicVolume();
+            fLeadVolumes.push_back(info);
+        }
+    }
 }
 
 void MyDetectorConstruction::ConstructSDandField()

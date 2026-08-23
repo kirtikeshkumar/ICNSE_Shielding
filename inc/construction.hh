@@ -18,12 +18,22 @@
 #include "G4Tubs.hh"
 #include "G4UnionSolid.hh"
 #include "G4VPhysicalVolume.hh"
+#include "G4PhysicalVolumeStore.hh"
 #include "G4VSolid.hh"
 #include "G4VUserDetectorConstruction.hh"
 #include "detector.hh"
 
 #include <sstream>
 #include <string>
+
+struct LeadVolumeInfo
+{
+  std::string name;
+  G4ThreeVector position;
+  G4VSolid *solid;
+  G4double volume;
+  G4LogicalVolume *logical;
+};
 
 // Here we define the DetectorConstruction class and its variables and functions
 class MyDetectorConstruction : public G4VUserDetectorConstruction
@@ -37,7 +47,9 @@ public:
   MySensitiveDetector *GetNaISD() const { return sensDetNaI; }
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
-  G4LogicalVolume *GetLeadLogical() { return logicShield; }
+  // G4LogicalVolume *GetLeadLogical() { return logicShield; }
+  const std::vector<LeadVolumeInfo> &GetLeadVolumes() const { return fLeadVolumes; }
+  void FindLeadVolumes();
 
   // This is the Construct function of the type G4VPhysicalVolume which is used
   // to construct the detector and environment with the required dimenstions and
@@ -86,6 +98,7 @@ private:
   G4GenericMessenger *fMessenger;
 
   G4LogicalVolume *fScoringVolume;
+  std::vector<LeadVolumeInfo> fLeadVolumes;
 
   void ConstructDetectorSetup();
   G4VSolid *ClosedHollowCylinder(double rin, double thickness, double halfHtIn);
