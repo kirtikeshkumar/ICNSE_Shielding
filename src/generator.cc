@@ -7,8 +7,7 @@
 
 /*Constructor and destruction function of the primary generator which creates a
  * new instance of the particle gun and deletes the particle gun respectively.*/
-MyPrimaryGenerator::MyPrimaryGenerator()
-{
+MyPrimaryGenerator::MyPrimaryGenerator() {
 #ifdef USE_CRY
   fMessenger = new G4GenericMessenger(this, "/CRY/", "Cosmic Ray Generator");
   fMessenger->DeclareProperty("inputFile", cryInputFile, "CRY Input File");
@@ -27,23 +26,27 @@ MyPrimaryGenerator::MyPrimaryGenerator()
   // fParticleGun->SetParticleEnergy(1.0 * MeV);
 }
 
-MyPrimaryGenerator::~MyPrimaryGenerator()
-{
+MyPrimaryGenerator::~MyPrimaryGenerator() {
   delete fParticleGun;
 #ifdef USE_CRY
   delete cryGen;
   delete inputFileCmd;
 #endif
 }
+
+G4String MyPrimaryGenerator::GetParticleName() {
+  return fParticleGun->GetParticleDefinition()
+             ? fParticleGun->GetParticleDefinition()->GetParticleName()
+             : "Unknown";
+}
+
 #ifdef USE_CRY
-void MyPrimaryGenerator::LoadCRY()
-{
+void MyPrimaryGenerator::LoadCRY() {
   if (cryGen)
     delete cryGen;
 
   std::ifstream infile(cryInputFile);
-  if (!infile)
-  {
+  if (!infile) {
     G4Exception("MyPrimaryGenerator::LoadCRY", "CRY001", FatalException,
                 ("Cannot open CRY input file: " + cryInputFile).c_str());
   }
@@ -51,30 +54,27 @@ void MyPrimaryGenerator::LoadCRY()
   std::string setupLine;
   std::string setupString;
 
-  while (std::getline(infile, setupLine))
-  {
+  while (std::getline(infile, setupLine)) {
     if (setupLine.empty())
       continue; // skip blank lines
     if (setupLine[0] == '#')
-      continue;                                                 // optional: skip comments
+      continue; // optional: skip comments
     setupLine.erase(setupLine.find_last_not_of(" \r\n\t") + 1); // trim right
-    setupString += setupLine + " ";                             // preserve line structure
+    setupString += setupLine + " "; // preserve line structure
   }
   auto crySetup = new CRYSetup(setupString, CRY_DATA_PATH);
   cryGen = new CRYGenerator(crySetup);
 }
 #endif
 
-void MyPrimaryGenerator::BoxSource(G4double halfLength)
-{
+void MyPrimaryGenerator::BoxSource(G4double halfLength) {
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
   // std::cout << "face: " << face << std::endl;
 
   G4double u = (2 * G4UniformRand() - 1) * halfLength;
   G4double v = (2 * G4UniformRand() - 1) * halfLength;
-  switch (face)
-  {
+  switch (face) {
   case 0: // +X face → inward = -x
     position.set(halfLength, u, v);
     direction.set(-1., (2 * G4UniformRand() - 1), (2 * G4UniformRand() - 1));
@@ -105,8 +105,7 @@ void MyPrimaryGenerator::BoxSource(G4double halfLength)
 
 /*In this function we define which particle we need from our particle gun and
  * define its properties.*/
-void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
-{
+void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   // G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   /*Defining the position and momentum of the particle using G4ThreeVector to
@@ -138,21 +137,18 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
   }*/
 
 #ifdef USE_CRY
-  if (!cryGen && !cryInputFile.empty())
-  {
+  if (!cryGen && !cryInputFile.empty()) {
     LoadCRY();
   }
 
-  if (!cryGen)
-  {
+  if (!cryGen) {
     G4Exception("MyPrimaryGenerator", "CRY002", FatalException,
                 "CRY generator not initialized. Use /CRY/inputFile.");
   }
 
   cryGen->genEvent(&cryParticles);
 
-  for (auto p : cryParticles)
-  {
+  for (auto p : cryParticles) {
     G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
     G4ParticleDefinition *def = particleTable->FindParticle(p->PDGid());
     if (!def)

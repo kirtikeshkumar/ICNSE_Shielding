@@ -32,7 +32,9 @@ public:
 private:
   //   G4int numneutron, numgamma, numelectron, numpositron, numnu_e, numanu_e,
   //   numother;
+
   G4SDManager *sdManager = nullptr;
+  MyPrimaryGenerator *primGen;
   MySensitiveDetector *naiSD = nullptr;
   MySensitiveDetector *geSD = nullptr;
 };

@@ -1,9 +1,8 @@
 #include "run.hh"
 
-MyRunAction::MyRunAction() {}
+MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {}
 
-MyRunAction::MyRunAction(MyPrimaryGenerator *gen)
-{
+MyRunAction::MyRunAction() {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   man->CreateNtuple("NaI_Hits", "NaI_hits");
@@ -36,8 +35,7 @@ MyRunAction::MyRunAction(MyPrimaryGenerator *gen)
 
 MyRunAction::~MyRunAction() {}
 
-void MyRunAction::BeginOfRunAction(const G4Run *run)
-{
+void MyRunAction::BeginOfRunAction(const G4Run *run) {
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
@@ -46,6 +44,7 @@ void MyRunAction::BeginOfRunAction(const G4Run *run)
   std::stringstream strRunID;
   strRunID << runID;
 
+  // G4String particleName = gen->GetParticleDefinition();
   man->OpenFile("output" + strRunID.str() + ".root");
 }
 
@@ -59,8 +58,7 @@ void MyRunAction::BeginOfRunAction(const G4Run *run)
   std::cout << "Num of Others: " << numother << std::endl;
 }*/
 
-void MyRunAction::EndOfRunAction(const G4Run *)
-{
+void MyRunAction::EndOfRunAction(const G4Run *) {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   // PrintStatus();
