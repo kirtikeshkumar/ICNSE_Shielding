@@ -8,7 +8,8 @@ MyActionInitialization::~MyActionInitialization() {}
 
 /*function to create an instance of the primary generator and initialize it*/
 
-void MyActionInitialization::Build() const {
+void MyActionInitialization::Build() const
+{
   MyPrimaryGenerator *generator = new MyPrimaryGenerator();
   SetUserAction(generator);
 
@@ -19,11 +20,14 @@ void MyActionInitialization::Build() const {
   MyEventAction *eventAction = new MyEventAction(runAction);
   SetUserAction(eventAction);
 
+  SetUserAction(new trackingAction);
+
   // MySteppingAction *steppingAction = new MySteppingAction(eventAction);
   // SetUserAction(steppingAction);
 }
 
-void MyActionInitialization::BuildForMaster() const {
+void MyActionInitialization::BuildForMaster() const
+{
   MyRunAction *runAction = new MyRunAction();
   SetUserAction(runAction);
 }

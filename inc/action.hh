@@ -11,10 +11,12 @@
 #include "generator.hh"
 #include "run.hh"
 #include "stepping.hh"
+#include "trackingAction.hh"
 
 // defining the ActionInitialization class with the constructor,destrector and a
 // build function to build the primary generator
-class MyActionInitialization : public G4VUserActionInitialization {
+class MyActionInitialization : public G4VUserActionInitialization
+{
 public:
   MyActionInitialization();
   ~MyActionInitialization();

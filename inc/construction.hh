@@ -35,6 +35,16 @@ struct LeadVolumeInfo
   G4LogicalVolume *logical;
 };
 
+struct SensVolumeInfo
+{
+  std::string name;
+  G4Material mat;
+  G4ThreeVector position;
+  G4VSolid *solid;
+  G4double volume;
+  G4LogicalVolume *logical;
+};
+
 // Here we define the DetectorConstruction class and its variables and functions
 class MyDetectorConstruction : public G4VUserDetectorConstruction
 {
