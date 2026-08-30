@@ -2,6 +2,7 @@
 #define TRACKINGACTION_HH
 
 #include "G4UserTrackingAction.hh"
+#include "G4SystemOfUnits.hh"
 
 class trackingAction : public G4UserTrackingAction
 {

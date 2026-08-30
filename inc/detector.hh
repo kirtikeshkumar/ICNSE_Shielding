@@ -16,6 +16,7 @@
 #include "HitCollections.hh"
 #include "vector"
 #include <map>
+#include "trackInfo.hh"
 
 class MySensitiveDetector : public G4VSensitiveDetector
 {

@@ -16,7 +16,13 @@ option(USE_CRY "Switch CRY ON/OFF" ON)
 if(USE_CRY)
 	set(CRY_PATH "/home/kirtikesh/Softwares/cry_v1.7")
 	include_directories(${CRY_PATH}/src)
+	add_definitions(-DUSE_CRY)
 endif(USE_CRY)
+
+option(SETUP_DECAY "Radioactive decay in setup" ON)
+if(SETUP_DECAY)
+	add_definitions(-DSETUP_DECAY)
+endif(SETUP_DECAY)
 
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/inc)

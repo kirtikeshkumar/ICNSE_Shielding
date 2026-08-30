@@ -13,6 +13,7 @@ void MyEventAction::BeginOfEventAction(const G4Event *anEvent)
 
 void MyEventAction::GetPrimaryParticle(const G4Event *event)
 {
+#ifdef USE_CRY
   G4PrimaryVertex *vertex = event->GetPrimaryVertex();
   if (!vertex)
   {
@@ -54,11 +55,12 @@ void MyEventAction::GetPrimaryParticle(const G4Event *event)
   man->FillNtupleDColumn(2, 2, energy);
   man->FillNtupleDColumn(2, 3, thetaDeg);
   man->AddNtupleRow(2);
+#endif
 }
 
 void MyEventAction::EndOfEventAction(const G4Event *anEvent)
 {
-  if (evID % 100000 == 0)
+  if (evID % 10000 == 0)
   {
     std::cout << "Event: " << evID << std::endl;
   }

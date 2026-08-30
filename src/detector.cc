@@ -37,6 +37,9 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   double z0 = 3.94;
 
   G4Track *track = aStep->GetTrack();
+#ifdef SETUP_DECAY
+  trackInformation *info = (trackInformation *)(track->GetUserInformation());
+#endif
   G4StepPoint *postStep = aStep->GetPostStepPoint();
   const G4VTouchable *touchable = aStep->GetPostStepPoint()->GetTouchable();
   // G4AnalysisManager *man = G4AnalysisManager::Instance();
@@ -87,8 +90,26 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   if (edep > 0.001)
   {
     shielding_Hit *newHit = new shielding_Hit;
+#ifdef SETUP_DECAY
+    G4String parentPart, branchName;
+    if (info->GetBranch())
+      branchName = info->GetBranch()->GetParticleName();
+    else
+      branchName = "Primary";
+
+    if (info->GetDecayParent())
+      parentPart = info->GetDecayParent()->GetParticleName();
+    else
+      parentPart = "Primary";
+
+    // if (branchName != "Primary" and branchName != "Na22" and branchName != "Ne22" and branchName != "Ne22[1274.577]" and branchName != "e+" and branchName != "gamma")
+    //   std::cout << "Branch: " << branchName << " has parent: " << parentPart << std::endl;
+
+    newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(), info->GetTrackEndTime(), info->GetDecayTime(), parentPart, branchName);
+#else
     newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent,
                 particleName, procName);
+#endif
     G4String volName = physVol->GetLogicalVolume()->GetName();
     if (newHit)
     {
@@ -104,9 +125,10 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
 
 void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
 {
-  // Data remains accessible for your EventAction
-  // std::cout << "=============== ENDOFEVENT ======================="
-  //           << std::endl;
+// Data remains accessible for your EventAction
+// std::cout << "=============== ENDOFEVENT ======================="
+//           << std::endl;
+#ifndef SETUP_DECAY
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   std::map<int, double> EvtEDep;
   std::map<int, G4String> MatMapHit;
@@ -133,7 +155,7 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
     // hit->Print();
   }
 
-   for (const auto &[key, val] : EvtEDep)
+  for (const auto &[key, val] : EvtEDep)
   {
     man->FillNtupleIColumn(1, 0, evID);
     man->FillNtupleIColumn(1, 1, key);
@@ -145,26 +167,57 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
     // std::endl;
   }
 
-  // std::cout << "=============== ENDOFEVENT ======================="
-  //           << std::endl;
-  // std::cout << "Size of NaI Hit Collection : " <<
-  // fNaiHitCollection->entries()
-  //           << std::endl;
-  // std::cout << "Size of Ge Hit Collection : " <<
-  // fGeHitCollection->entries()
-  //           << std::endl;
-  // std::cout << "================== NaI Hits ====================" <<
-  // std::endl;
-  // for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
-  // {
-  //   shielding_Hit *hit = (*fNaiHitCollection)[i];
-  //   hit->Print();
-  // }
+// std::cout << "=============== ENDOFEVENT ======================="
+//           << std::endl;
+// std::cout << "Size of NaI Hit Collection : " <<
+// fNaiHitCollection->entries()
+//           << std::endl;
+// std::cout << "Size of Ge Hit Collection : " <<
+// fGeHitCollection->entries()
+//           << std::endl;
+// std::cout << "================== NaI Hits ====================" <<
+// std::endl;
+// for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+// {
+//   shielding_Hit *hit = (*fNaiHitCollection)[i];
+//   hit->Print();
+// }
 
-  // std::cout << "================ GE Hits ======================" <<
-  // std::endl;
-  // for (unsigned int i = 0; i < fGeHitCollection->entries(); i++) {
-  //   shielding_Hit *hit = (*fGeHitCollection)[i];
-  //   hit->Print();
-  // }
+// std::cout << "================ GE Hits ======================" <<
+// std::endl;
+// for (unsigned int i = 0; i < fGeHitCollection->entries(); i++) {
+//   shielding_Hit *hit = (*fGeHitCollection)[i];
+//   hit->Print();
+// }
+#else
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+  std::map<int, G4String> MatMapHit;                 // to differentiate between copies
+  std::map<int, std::map<G4String, double>> EvtEDep; // to differentiate between branches
+  std::map<int, std::map<G4String, double>> branchTime;
+  std::map<int, std::map<G4String, double>> branchDecayTime;
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+  {
+    shielding_Hit *hit = (*fNaiHitCollection)[i];
+    MatMapHit[hit->GetHitCopyNum()] = "NaI";
+    EvtEDep[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] += hit->GetHitEDep();
+    branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] = std::max(branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName()], hit->GetHitTime());
+    branchDecayTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] = hit->GetDecayTime();
+  }
+
+  for (const auto &[copykey, edepmap] : EvtEDep)
+  {
+    for (const auto &[branchkey, val] : edepmap)
+    {
+      man->FillNtupleIColumn(0, 0, evID);
+      man->FillNtupleIColumn(0, 1, copykey);
+      man->FillNtupleSColumn(0, 2, MatMapHit[copykey]);
+      man->FillNtupleDColumn(0, 3, val);
+      man->FillNtupleSColumn(0, 4, branchkey);
+      man->FillNtupleDColumn(0, 5, branchTime[copykey][branchkey]);
+      man->FillNtupleDColumn(0, 6, branchDecayTime[copykey][branchkey]);
+      man->AddNtupleRow(0);
+    }
+  }
+
+#endif
 }

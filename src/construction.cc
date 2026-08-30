@@ -207,13 +207,15 @@ void MyDetectorConstruction::ConstructDetectorSetup()
     solidNaIClad = ClosedHollowCylinder(3.85, 0.15, 3.85);
     logicNaI = ConstructNaI();
     logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
+    fNaIVolumes.push_back(logicNaI);
 
-    physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., -40. * cm, -15.5 * cm), logicNaI,
+    physNaI.push_back(new G4PVPlacement(0, G4ThreeVector(0., -40. * cm, -13.4 * cm), logicNaI,
                                         "physNaI_0", logicWorld, true, 120,
                                         true));
     physNaI.push_back(
-        new G4PVPlacement(0, G4ThreeVector(0., -20. * cm, -15.5 * cm), logicNaI,
+        new G4PVPlacement(0, G4ThreeVector(0., -20. * cm, -13.4 * cm), logicNaI,
                           "physNaI_1", logicWorld, true, 121, true));
+    fNaIPhysical = physNaI;
 
     for (int iter = 0; iter < physNaI.size(); iter++)
     {
@@ -312,32 +314,49 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     return physWorld;
 }
 
-void MyDetectorConstruction::FindLeadVolumes()
-{
-    fLeadVolumes.clear();
-    const auto *physStore = G4PhysicalVolumeStore::GetInstance();
+// void MyDetectorConstruction::FindLeadVolumes()
+// {
+//     fLeadVolumes.clear();
+//     fLeadThickness.clear();
+//     if (!LogicArrangement.empty())
+//     {
+//         // fLeadVolumes.clear();
+//         // const auto *physStore = G4PhysicalVolumeStore::GetInstance();
 
-    for (auto *pv : *physStore)
-    {
-        if (!pv)
-            continue;
-        auto *lv = pv->GetLogicalVolume();
-        if (!lv || !lv->GetMaterial())
-            continue;
+//         // for (auto *pv : *physStore) {
+//         //   if (!pv)
+//         //     continue;
+//         //   auto *lv = pv->GetLogicalVolume();
+//         //   if (!lv || !lv->GetMaterial())
+//         //     continue;
 
-        auto matName = lv->GetMaterial()->GetName();
-        if (matName.contains("Pb") || matName.contains("Lead"))
-        {
-            LeadVolumeInfo info;
-            info.name = pv->GetName();
-            info.position = pv->GetTranslation();
-            info.solid = lv->GetSolid();
-            info.logical = lv;
-            info.volume = lv->GetSolid()->GetCubicVolume();
-            fLeadVolumes.push_back(info);
-        }
-    }
-}
+//         //   auto matName = lv->GetMaterial()->GetName();
+//         //   if (matName.contains("Pb") || matName.contains("Lead")) {
+//         //     LeadVolumeInfo info;
+//         //     info.name = pv->GetName();
+//         //     info.position = pv->GetTranslation();
+//         //     info.solid = lv->GetSolid();
+//         //     info.logical = lv;
+//         //     info.volume = lv->GetSolid()->GetCubicVolume();
+//         //     fLeadVolumes.push_back(info);
+//         //   }
+//         // }
+//     }
+//     else
+//     {
+//         for (int ij = 0; ij < shieldMats.size(); ij++)
+//         {
+//             if (shieldMats[ij] == "Pb" || shieldMats[ij] == "L")
+//             {
+//                 fLeadVolumes.push_back(logicVols[ij]);
+//                 fLeadThickness.push_back(width[ij]);
+//                 fLeadPhysical.push_back(physVols[ij]);
+//                 std::cout << "Layer: " << ij << " with thickness: " << width[ij] / cm
+//                           << " is made of Lead";
+//             }
+//         }
+//     }
+// }
 
 void MyDetectorConstruction::ConstructSDandField()
 {

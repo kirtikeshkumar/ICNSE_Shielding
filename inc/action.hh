@@ -19,10 +19,14 @@ class MyActionInitialization : public G4VUserActionInitialization
 {
 public:
   MyActionInitialization();
+  MyActionInitialization(MyDetectorConstruction *det);
   ~MyActionInitialization();
 
   virtual void Build() const;
   virtual void BuildForMaster() const;
+
+private:
+  MyDetectorConstruction *fDetector;
 };
 
 #endif

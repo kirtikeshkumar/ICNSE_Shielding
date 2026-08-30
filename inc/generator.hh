@@ -20,6 +20,7 @@
 #include "G4UImessenger.hh"
 #include <fstream>
 #include <iostream>
+#include "construction.hh"
 
 #ifdef USE_CRY
 #include "CRYGenerator.h"
@@ -29,17 +30,21 @@
 /*We define the PrimaryGenerator class which will be used to construct our
  * ParticleGun*/
 
-class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction {
+class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction
+{
 public:
   MyPrimaryGenerator();
+  MyPrimaryGenerator(MyDetectorConstruction *det);
   ~MyPrimaryGenerator();
 
   /*GeneratePrimaries function to generate the particle we desire*/
   virtual void GeneratePrimaries(G4Event *);
   void BoxSource(G4double halfLength);
+  void CylinderVolumeSource(G4ThreeVector loc, G4double halfHt, G4double radius);
   G4String GetParticleName();
 
 private:
+  MyDetectorConstruction *fDetector;
   G4ParticleGun *fParticleGun;
   G4ThreeVector position, direction;
   G4GenericMessenger *fMessenger;

@@ -36,6 +36,8 @@ public:
 
     void incrementDecayID();
     void incrementBranchID();
+    void SetBranchID(const G4Track *aTrack);
+    void Print();
 
     int GetDecayID();
     int GetBranchID();
@@ -43,6 +45,11 @@ public:
     double GetDecayTime();
     double GetOrigDecayTime();
     const G4ParticleDefinition *GetDecayParent() const;
+    double GetTrackEndTime();
+    const G4ParticleDefinition *GetBranch();
+    bool GetAssignmentFlag();
+
+    void UpdateTrackEndTime(double TET);
 
 private:
     // following are to be shared to all daughters
@@ -52,6 +59,9 @@ private:
     double origDecayTime;                    // The time of first decaying nucleii
     double DecayTime;                        // The time of decay
     const G4ParticleDefinition *DecayParent; // The decaying particle
+    double trackEndTime;                     // End Time of track. For Energy deposition tracking purposes.
+    bool AssignmentFlag;                     // To ensure proper branch and parent id assignments
+    const G4ParticleDefinition *BranchName;
 };
 
 extern G4ThreadLocal

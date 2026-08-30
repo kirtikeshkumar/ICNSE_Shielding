@@ -24,7 +24,8 @@
 /*The main function where all the objects are initialized and all the commands
  * needed are performed*/
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   // creating a G4RunManager instance to initialize all our required objects and
   // functions
   /*
@@ -45,24 +46,34 @@ int main(int argc, char **argv) {
 
   // Initializing the detector construction, physics implementation and action
   // initialization files
-  if (argc > 2) {
-    runManager->SetUserInitialization(
-        new MyDetectorConstruction(argv[2], argv[3]));
-  } else {
+  MyDetectorConstruction *detector = nullptr;
+  if (argc > 2)
+  {
+    detector = new MyDetectorConstruction(argv[2], argv[3]);
+    runManager->SetUserInitialization(detector);
+  }
+  else
+  {
     std::cout << "NUMBEROFARG" << argc << std::endl;
-    runManager->SetUserInitialization(new MyDetectorConstruction());
+    detector = new MyDetectorConstruction();
+    runManager->SetUserInitialization(detector);
   }
   G4VModularPhysicsList *physicsList = new Shielding;
   physicsList->RegisterPhysics(new G4RadioactiveDecayPhysics);
   runManager->SetUserInitialization(physicsList);
-  // runManager->SetUserInitialization(new MyPhysicsList());
+// runManager->SetUserInitialization(new MyPhysicsList());
+#ifdef SETUP_DECAY
+  runManager->SetUserInitialization(new MyActionInitialization(detector));
+#else
   runManager->SetUserInitialization(new MyActionInitialization());
+#endif
 
   // creating an instance of the UI Executive and Vis Manager for UI and
   // visualization of our world
   G4UIExecutive *ui = 0;
 
-  if (argc == 1) {
+  if (argc == 1)
+  {
     ui = new G4UIExecutive(argc, argv, "tcsh");
     // ui = new G4UIExecutive(argc, argv);
   }
@@ -72,11 +83,14 @@ int main(int argc, char **argv) {
 
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
   // runManager->Initialize();
-  if (ui) {
+  if (ui)
+  {
     UImanager->ApplyCommand("/control/execute vis.mac");
     // finally we start the session
     ui->SessionStart();
-  } else {
+  }
+  else
+  {
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command + fileName);

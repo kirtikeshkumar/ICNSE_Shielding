@@ -26,25 +26,6 @@
 #include <sstream>
 #include <string>
 
-struct LeadVolumeInfo
-{
-  std::string name;
-  G4ThreeVector position;
-  G4VSolid *solid;
-  G4double volume;
-  G4LogicalVolume *logical;
-};
-
-struct SensVolumeInfo
-{
-  std::string name;
-  G4Material mat;
-  G4ThreeVector position;
-  G4VSolid *solid;
-  G4double volume;
-  G4LogicalVolume *logical;
-};
-
 // Here we define the DetectorConstruction class and its variables and functions
 class MyDetectorConstruction : public G4VUserDetectorConstruction
 {
@@ -58,8 +39,18 @@ public:
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
   // G4LogicalVolume *GetLeadLogical() { return logicShield; }
-  const std::vector<LeadVolumeInfo> &GetLeadVolumes() const { return fLeadVolumes; }
-  void FindLeadVolumes();
+  // const std::vector<LeadVolumeInfo> &GetLeadVolumes() const { return fLeadVolumes; }
+  const std::vector<G4LogicalVolume *> GetNaIVolumes() const
+  {
+    return fNaIVolumes;
+  }
+  const std::vector<G4VPhysicalVolume *> GetNaIPhysical() const
+  {
+    return fNaIPhysical;
+  }
+
+  // void FindLeadVolumes();
+  void FindNaIVolumes();
 
   // This is the Construct function of the type G4VPhysicalVolume which is used
   // to construct the detector and environment with the required dimenstions and
@@ -108,7 +99,7 @@ private:
   G4GenericMessenger *fMessenger;
 
   G4LogicalVolume *fScoringVolume;
-  std::vector<LeadVolumeInfo> fLeadVolumes;
+  // std::vector<LeadVolumeInfo> fLeadVolumes;
 
   void ConstructDetectorSetup();
   G4VSolid *ClosedHollowCylinder(double rin, double thickness, double halfHtIn);
@@ -129,6 +120,9 @@ private:
   G4OpticalSurface *mirrorSurface;
 
   MySensitiveDetector *sensDetGe, *sensDetNaI;
+
+  std::vector<G4LogicalVolume *> fNaIVolumes;
+  std::vector<G4VPhysicalVolume *> fNaIPhysical;
 };
 
 #endif
