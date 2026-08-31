@@ -4,9 +4,8 @@
 #include <G4Types.hh>
 #include <cmath>
 MySensitiveDetector::MySensitiveDetector(G4String name)
-    : G4VSensitiveDetector(name),
-      fNaIHitCollectionId(-1), fNaiHitCollection(nullptr)
-{
+    : G4VSensitiveDetector(name), fNaIHitCollectionId(-1),
+      fNaiHitCollection(nullptr) {
 
   collectionName.insert("naiHitCollection");
   // collectionName.insert("geHitCollection");
@@ -14,8 +13,7 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
-{
+void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
   // Creating hitcollection
 
   fNaiHitCollection =
@@ -26,8 +24,7 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
 }
 
 G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                        G4TouchableHistory *ROhist)
-{
+                                        G4TouchableHistory *ROhist) {
 
   // Constants for fiducializing HPGe Detector using Logistic curve
   // Results in Dead layer and transition layer thickness similar to CONUS
@@ -51,8 +48,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   const G4VProcess *depositionprocess =
       aStep->GetPostStepPoint()->GetProcessDefinedStep();
   G4String procName;
-  if (depositionprocess)
-  {
+  if (depositionprocess) {
     procName = depositionprocess->GetProcessName();
   }
 
@@ -61,13 +57,12 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   G4double edep = aStep->GetTotalEnergyDeposit() / keV;
   // G4double particleKinEnergy = aStep->GetPreStepPoint()->GetKineticEnergy() /
   // keV;
-  G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime() / ns;
+  G4double particleTime = aStep->GetPostStepPoint()->GetGlobalTime() / s;
   G4String matName = aStep->GetPostStepPoint()->GetMaterial()->GetName();
   G4int parent = track->GetParentID();
 
   // SD stuff
-  if (matName == "Ge")
-  {
+  if (matName == "Ge") {
     // Get the position of the point relative to the detector coordinates
     G4ThreeVector globalPos = postStep->GetPosition();
     G4ThreeVector localPos =
@@ -79,16 +74,14 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     // Generate the energy deposition profile using logistic on r and z
     double rprob = 1.0 - (L / (1.0 + std::exp(k * (r - r0))));
     double zprob = 1.0;
-    if (z > 0.)
-    {
+    if (z > 0.) {
       zprob = 1.0 - (L / (1.0 + std::exp(k * (z - z0))));
     }
     double netprob = rprob * zprob;
     edep = edep * netprob;
   }
 
-  if (edep > 0.001)
-  {
+  if (edep > 0.001) {
     shielding_Hit *newHit = new shielding_Hit;
 #ifdef SETUP_DECAY
     G4String parentPart, branchName;
@@ -102,17 +95,21 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     else
       parentPart = "Primary";
 
-    // if (branchName != "Primary" and branchName != "Na22" and branchName != "Ne22" and branchName != "Ne22[1274.577]" and branchName != "e+" and branchName != "gamma")
-    //   std::cout << "Branch: " << branchName << " has parent: " << parentPart << std::endl;
+    // if (branchName != "Primary" and branchName != "Na22" and branchName !=
+    // "Ne22" and branchName != "Ne22[1274.577]" and branchName != "e+" and
+    // branchName != "gamma")
+    //   std::cout << "Branch: " << branchName << " has parent: " << parentPart
+    //   << std::endl;
 
-    newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(), info->GetTrackEndTime(), info->GetDecayTime(), parentPart, branchName);
+    newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(),
+                info->GetTrackEndTime(), info->GetDecayTime(), parentPart,
+                branchName);
 #else
     newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent,
                 particleName, procName);
 #endif
     G4String volName = physVol->GetLogicalVolume()->GetName();
-    if (newHit)
-    {
+    if (newHit) {
       if (volName == "logicNaI")
         fNaiHitCollection->insert(newHit);
       if (volName == "logicHPGe")
@@ -123,8 +120,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   return true;
 }
 
-void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
-{
+void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
 // Data remains accessible for your EventAction
 // std::cout << "=============== ENDOFEVENT ======================="
 //           << std::endl;
@@ -133,13 +129,11 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
   std::map<int, double> EvtEDep;
   std::map<int, G4String> MatMapHit;
   std::map<int, int> MapNumHitPrimary;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
-  {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     MatMapHit[hit->GetHitCopyNum()] = "NaI";
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
-    if (hit->isHitPrimary())
-    {
+    if (hit->isHitPrimary()) {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
     // man->FillNtupleIColumn(0, 0, evID);
@@ -155,8 +149,7 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
     // hit->Print();
   }
 
-  for (const auto &[key, val] : EvtEDep)
-  {
+  for (const auto &[key, val] : EvtEDep) {
     man->FillNtupleIColumn(1, 0, evID);
     man->FillNtupleIColumn(1, 1, key);
     man->FillNtupleSColumn(1, 2, MatMapHit[key]);
@@ -191,23 +184,36 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
 // }
 #else
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  std::map<int, G4String> MatMapHit;                 // to differentiate between copies
-  std::map<int, std::map<G4String, double>> EvtEDep; // to differentiate between branches
+  std::map<int, G4String> MatMapHit; // to differentiate between copies
+  std::map<int, std::map<G4String, double>>
+      EvtEDep; // to differentiate between branches
   std::map<int, std::map<G4String, double>> branchTime;
   std::map<int, std::map<G4String, double>> branchDecayTime;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
-  {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     MatMapHit[hit->GetHitCopyNum()] = "NaI";
-    EvtEDep[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] += hit->GetHitEDep();
-    branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] = std::max(branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName()], hit->GetHitTime());
-    branchDecayTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " + hit->GetDecayParticle()] = hit->GetDecayTime();
+    EvtEDep[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " +
+                                  hit->GetDecayParticle()] += hit->GetHitEDep();
+    branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " +
+                                     hit->GetDecayParticle()] =
+        branchTime[hit->GetHitCopyNum()]
+                  [hit->GetHitBranchName() + " " + hit->GetDecayParticle()]
+            ? std::max(branchTime[hit->GetHitCopyNum()]
+                                 [hit->GetHitBranchName() + " " +
+                                  hit->GetDecayParticle()],
+                       hit->GetHitTime())
+            : hit->GetHitTime();
+    branchDecayTime[hit->GetHitCopyNum()]
+                   [hit->GetHitBranchName() + " " + hit->GetDecayParticle()] =
+                       hit->GetDecayTime();
+    // std::cout << std::endl;
   }
 
-  for (const auto &[copykey, edepmap] : EvtEDep)
-  {
-    for (const auto &[branchkey, val] : edepmap)
-    {
+  for (const auto &[copykey, edepmap] : EvtEDep) {
+    for (const auto &[branchkey, val] : edepmap) {
+      // std::cout << evID << " : " << copykey << " : " << branchkey << " : "
+      //           << val << " : " << branchTime[copykey][branchkey] << " : "
+      //           << branchDecayTime[copykey][branchkey] << std::endl;
       man->FillNtupleIColumn(0, 0, evID);
       man->FillNtupleIColumn(0, 1, copykey);
       man->FillNtupleSColumn(0, 2, MatMapHit[copykey]);
