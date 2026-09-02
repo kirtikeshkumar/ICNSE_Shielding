@@ -11,7 +11,7 @@ void trackingAction::PreUserTrackingAction(const G4Track *aTrack) {
   //          << aTrack->GetParticleDefinition()->GetParticleName()
   //          << " TrackID = " << aTrack->GetTrackID()
   //          << " ParentID = " << aTrack->GetParentID() << G4endl;
-  if (aTrack->GetParentID() == 0) {
+  if (!(static_cast<trackInformation *>(aTrack->GetUserInformation()))) {
     auto *info =
         new trackInformation(nullptr, aTrack, trackInformation::Type::Init);
 
@@ -33,17 +33,17 @@ void trackingAction::PostUserTrackingAction(const G4Track *originalTrack) {
   //   if (info)
   //     info->UpdateTrackEndTime(originalTrack->GetGlobalTime() / s);
 
-  std::cout << "\n\n";
-  std::cout << "#########################################################"
-            << std::endl;
-  std::cout << "--------------------ORIGINAL TRACK-----------------------"
-            << std::endl;
-  std::cout << "#########################################################"
-            << std::endl;
-  std::cout << "TrackID = " << originalTrack->GetTrackID() << " Particle ="
-            << originalTrack->GetParticleDefinition()->GetParticleName()
-            << std::endl;
-  info->Print();
+  // std::cout << "\n\n";
+  // std::cout << "#########################################################"
+  //           << std::endl;
+  // std::cout << "--------------------ORIGINAL TRACK-----------------------"
+  //           << std::endl;
+  // std::cout << "#########################################################"
+  //           << std::endl;
+  // std::cout << "TrackID = " << originalTrack->GetTrackID() << " Particle ="
+  //           << originalTrack->GetParticleDefinition()->GetParticleName()
+  //           << std::endl;
+  // info->Print();
 
   if (!secondaries)
     return;
@@ -51,8 +51,8 @@ void trackingAction::PostUserTrackingAction(const G4Track *originalTrack) {
   for (auto *secondary : *secondaries) {
     const G4VProcess *creator = secondary->GetCreatorProcess();
 
-    if (creator)
-      std::cout << creator->GetProcessName() << std::endl;
+    // if (creator)
+    //   std::cout << creator->GetProcessName() << std::endl;
 
     if (creator && (creator->GetProcessName() == "RadioactiveDecay" ||
                     creator->GetProcessName() == "Radioactivation")) {
@@ -63,16 +63,17 @@ void trackingAction::PostUserTrackingAction(const G4Track *originalTrack) {
           new trackInformation(originalTrack, secondary));
     }
 
-    std::cout << "#########################################################"
-              << std::endl;
-    std::cout << "--------------------SECONDARY TRACK----------------------"
-              << std::endl;
-    std::cout << "#########################################################"
-              << std::endl;
-    std::cout << "Secondary TrackID = " << secondary->GetTrackID()
-              << " ParentID = " << secondary->GetParentID() << " Particle = "
-              << secondary->GetParticleDefinition()->GetParticleName()
-              << std::endl;
-    static_cast<trackInformation *>(secondary->GetUserInformation())->Print();
+    // std::cout << "#########################################################"
+    //           << std::endl;
+    // std::cout << "--------------------SECONDARY TRACK----------------------"
+    //           << std::endl;
+    // std::cout << "#########################################################"
+    //           << std::endl;
+    // std::cout << "Secondary TrackID = " << secondary->GetTrackID()
+    //           << " ParentID = " << secondary->GetParentID() << " Particle = "
+    //           << secondary->GetParticleDefinition()->GetParticleName()
+    //           << std::endl;
+    // static_cast<trackInformation
+    // *>(secondary->GetUserInformation())->Print();
   }
 }

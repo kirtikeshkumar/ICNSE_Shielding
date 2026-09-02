@@ -10,7 +10,8 @@ trackInformation::trackInformation() : G4VUserTrackInformation() {
   BranchID = -1;
   ParentBranchID = -1;
   DecayTime = -1.;
-  origDecayTime = -1;
+  origDecayTime = -1.;
+  timeFromDecay = -1.;
   DecayParent = 0;
   trackEndTime = -1;
   AssignmentFlag = false;
@@ -22,9 +23,10 @@ trackInformation::trackInformation(const trackInformation *aTrackInfo) {
   BranchID = aTrackInfo->BranchID;
   ParentBranchID = aTrackInfo->ParentBranchID;
   DecayTime = aTrackInfo->DecayTime;
+  timeFromDecay = aTrackInfo->timeFromDecay;
   origDecayTime = aTrackInfo->origDecayTime;
   DecayParent = aTrackInfo->DecayParent;
-  trackEndTime = aTrackInfo->trackEndTime;
+  // trackEndTime = aTrackInfo->trackEndTime;
   AssignmentFlag = aTrackInfo->AssignmentFlag;
   BranchName = aTrackInfo->BranchName;
 }
@@ -38,6 +40,7 @@ trackInformation::trackInformation(const G4Track *parentTrack,
     ParentBranchID = 0;
     DecayTime = -1;
     origDecayTime = -1;
+    timeFromDecay = -1.;
     DecayParent = 0;
     trackEndTime = -1;
     BranchName = 0;
@@ -50,9 +53,10 @@ trackInformation::trackInformation(const G4Track *parentTrack,
                   FatalException, "Parent track has no track information.");
     }
 
-    std::cout << "CurrTrackLocalTime: " << currentTrack->GetLocalTime() / ns
-              << " ParentTrackLocalTime: " << parentTrack->GetLocalTime() / ns
-              << std::endl;
+    // std::cout << "CurrTrackLocalTime: " << currentTrack->GetLocalTime() / ns
+    //           << " ParentTrackLocalTime: " << parentTrack->GetLocalTime() /
+    //           ns
+    //           << std::endl;
 
     if (type == Type::Copy) // no new decay daughters created.
     {
@@ -62,8 +66,11 @@ trackInformation::trackInformation(const G4Track *parentTrack,
       DecayTime = aTrackInfo->DecayTime;
       origDecayTime = aTrackInfo->origDecayTime;
       DecayParent = aTrackInfo->DecayParent;
-      trackEndTime =
-          (currentTrack->GetLocalTime() + parentTrack->GetLocalTime()) / ns;
+      timeFromDecay =
+          (currentTrack->GetLocalTime() + parentTrack->GetLocalTime()) / ns +
+          aTrackInfo->timeFromDecay;
+      // trackEndTime =
+      //     (currentTrack->GetLocalTime() + parentTrack->GetLocalTime()) / ns;
       BranchName = aTrackInfo->BranchName;
       AssignmentFlag = aTrackInfo->AssignmentFlag;
     } else if (type == Type::Decay) // new decay has created daughters.
@@ -71,13 +78,18 @@ trackInformation::trackInformation(const G4Track *parentTrack,
       DecayID = aTrackInfo->DecayID + 1;
       BranchID = currentTrack->GetTrackID();
       ParentBranchID = aTrackInfo->BranchID;
-      DecayTime = parentTrack->GetGlobalTime() / s;
+      if (DecayID <= 1)
+        DecayTime = parentTrack->GetLocalTime() / ms;
+      else
+        DecayTime = parentTrack->GetLocalTime() / ms + aTrackInfo->DecayTime;
       if (aTrackInfo->origDecayTime < 0.)
-        origDecayTime = DecayTime;
+        origDecayTime = parentTrack->GetLocalTime() / s;
       else
         origDecayTime = aTrackInfo->origDecayTime;
+      timeFromDecay = currentTrack->GetLocalTime() / ns;
       DecayParent = parentTrack->GetParticleDefinition();
-      trackEndTime = (currentTrack->GetLocalTime()) / ns;
+      origDecayParent = parentTrack->GetParticleDefinition();
+      // trackEndTime = (currentTrack->GetLocalTime()) / ns;
       AssignmentFlag = false;
       BranchName = currentTrack->GetParticleDefinition();
     }
@@ -94,10 +106,11 @@ void trackInformation::Print() {
   G4cout << "BranchID       : " << BranchID << G4endl;
   G4cout << "ParentBranchID : " << ParentBranchID << G4endl;
   G4cout << "origDecayTime  : " << origDecayTime << " s" << G4endl;
-  G4cout << "DecayTime      : " << DecayTime << " s" << G4endl;
+  G4cout << "DecayTime      : " << DecayTime << " ms" << G4endl;
+  G4cout << "CurrentTime    : " << timeFromDecay << " ns" << G4endl;
   G4cout << "DecayParent    : "
          << (DecayParent ? DecayParent->GetParticleName() : "None") << G4endl;
-  G4cout << "trackEndTime   : " << trackEndTime << " ns" << G4endl;
+  // G4cout << "trackEndTime   : " << trackEndTime << " ns" << G4endl;
   G4cout << "BranchName   : "
          << (BranchName ? BranchName->GetParticleName() : "None") << G4endl;
   G4cout << "----------------------------------------" << G4endl;
@@ -107,11 +120,12 @@ int trackInformation::GetDecayID() { return DecayID; }
 int trackInformation::GetBranchID() { return BranchID; }
 int trackInformation::GetParentBranchID() { return ParentBranchID; }
 double trackInformation::GetDecayTime() { return DecayTime; }
+double trackInformation::GetTimeFromDecay() { return timeFromDecay; }
 double trackInformation::GetOrigDecayTime() { return origDecayTime; }
 const G4ParticleDefinition *trackInformation::GetDecayParent() const {
   return DecayParent;
 }
-double trackInformation::GetTrackEndTime() { return trackEndTime; }
+// double trackInformation::GetTrackEndTime() { return trackEndTime; }
 const G4ParticleDefinition *trackInformation::GetBranch() { return BranchName; }
 bool trackInformation::GetAssignmentFlag() { return AssignmentFlag; }
 

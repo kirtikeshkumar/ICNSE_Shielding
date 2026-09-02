@@ -102,8 +102,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     //   << std::endl;
 
     newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(),
-                info->GetTrackEndTime(), info->GetDecayTime(), parentPart,
-                branchName);
+                info->GetTimeFromDecay(), info->GetDecayTime(),
+                info->GetOrigDecayTime(), parentPart, branchName);
 #else
     newHit->Set(edep, postStep->GetPosition(), copyNo, particleTime, parent,
                 particleName, procName);
@@ -184,28 +184,27 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
 // }
 #else
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  std::map<int, G4String> MatMapHit; // to differentiate between copies
+  std::map<int, G4String> MatMapHit; // to differentiate between detectors
   std::map<int, std::map<G4String, double>>
       EvtEDep; // to differentiate between branches
-  std::map<int, std::map<G4String, double>> branchTime;
-  std::map<int, std::map<G4String, double>> branchDecayTime;
+  std::map<int, std::map<G4String, std::vector<double>>> branchTimes;
+  // std::map<int, std::map<G4String, double>> branchDecayTime;
+  // std::map<int, std::map<G4String, double>> branchOrigDecayTime;
+  std::map<int, std::map<G4String, G4String>> branchParent;
   for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
-    MatMapHit[hit->GetHitCopyNum()] = "NaI";
-    EvtEDep[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " +
-                                  hit->GetDecayParticle()] += hit->GetHitEDep();
-    branchTime[hit->GetHitCopyNum()][hit->GetHitBranchName() + " " +
-                                     hit->GetDecayParticle()] =
-        branchTime[hit->GetHitCopyNum()]
-                  [hit->GetHitBranchName() + " " + hit->GetDecayParticle()]
-            ? std::max(branchTime[hit->GetHitCopyNum()]
-                                 [hit->GetHitBranchName() + " " +
-                                  hit->GetDecayParticle()],
-                       hit->GetHitTime())
-            : hit->GetHitTime();
-    branchDecayTime[hit->GetHitCopyNum()]
-                   [hit->GetHitBranchName() + " " + hit->GetDecayParticle()] =
-                       hit->GetDecayTime();
+    G4String brname = hit->GetHitBranchName() + " " + hit->GetDecayParticle();
+    int cnum = hit->GetHitCopyNum();
+    MatMapHit[cnum] = "NaI";
+    EvtEDep[cnum][brname] += hit->GetHitEDep();
+    branchTimes[cnum][brname].push_back(hit->GetHitTime());
+    branchTimes[cnum][brname].push_back(hit->GetDecayTime());
+    branchTimes[cnum][brname].push_back(hit->GetOrigDecayTime());
+    branchParent[cnum][brname] = hit->GetDecayParticle();
+    // branchDecayTime[hit->GetHitCopyNum()]
+    //                [hit->GetHitBranchName() + " " + hit->GetDecayParticle()]
+    //                =
+    //                    hit->GetDecayTime();
     // std::cout << std::endl;
   }
 
@@ -219,8 +218,10 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
       man->FillNtupleSColumn(0, 2, MatMapHit[copykey]);
       man->FillNtupleDColumn(0, 3, val);
       man->FillNtupleSColumn(0, 4, branchkey);
-      man->FillNtupleDColumn(0, 5, branchTime[copykey][branchkey]);
-      man->FillNtupleDColumn(0, 6, branchDecayTime[copykey][branchkey]);
+      man->FillNtupleDColumn(0, 5, branchTimes[copykey][branchkey][0]);
+      man->FillNtupleDColumn(0, 6, branchTimes[copykey][branchkey][1]);
+      man->FillNtupleDColumn(0, 7, branchTimes[copykey][branchkey][2]);
+      man->FillNtupleSColumn(0, 8, branchParent[copykey][branchkey]);
       man->AddNtupleRow(0);
     }
   }

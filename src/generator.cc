@@ -181,13 +181,22 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   }
 
   CylinderVolumeSource(locations[chosenIndex], radius, halfHt);
+  // CylinderVolumeSource(G4ThreeVector(0., 0., 0.), radius, halfHt);
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   if (particle == G4Geantino::Geantino() ||
       particle->GetParticleName() == "Na22") {
-    G4int Z = 11;
-    G4int A = 22;
+    // ||particle->GetParticleName() == "Sr90"
+    G4double randVal = G4UniformRand();
+    G4int Z, A;
+    // if (randVal < 0.5) {
+    Z = 11;
+    A = 22;
+    // } else {
+    //   Z = 38;
+    //   A = 90;
+    // }
 
     G4double charge = 0. * eplus;
     G4double energy = 0. * keV;

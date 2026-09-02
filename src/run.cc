@@ -2,8 +2,7 @@
 
 MyRunAction::MyRunAction(MyPrimaryGenerator *gen) {}
 
-MyRunAction::MyRunAction()
-{
+MyRunAction::MyRunAction() {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   // man->CreateNtuple("NaI_Hits", "NaI_hits");
@@ -26,6 +25,8 @@ MyRunAction::MyRunAction()
   man->CreateNtupleSColumn("Branch");
   man->CreateNtupleDColumn("EDepTime");
   man->CreateNtupleDColumn("DecayTime");
+  man->CreateNtupleDColumn("OrigDecayTime");
+  man->CreateNtupleSColumn("OrigDecayParticle");
   man->FinishNtuple(0);
 
   man->CreateNtuple("EventColl", "EventColl");
@@ -53,8 +54,7 @@ MyRunAction::MyRunAction()
 
 MyRunAction::~MyRunAction() {}
 
-void MyRunAction::BeginOfRunAction(const G4Run *run)
-{
+void MyRunAction::BeginOfRunAction(const G4Run *run) {
 
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
@@ -77,8 +77,7 @@ void MyRunAction::BeginOfRunAction(const G4Run *run)
   std::cout << "Num of Others: " << numother << std::endl;
 }*/
 
-void MyRunAction::EndOfRunAction(const G4Run *)
-{
+void MyRunAction::EndOfRunAction(const G4Run *) {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   // PrintStatus();

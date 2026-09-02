@@ -8,8 +8,7 @@ shielding_Hit::~shielding_Hit() {}
 
 void shielding_Hit::Set(double edep, G4ThreeVector location, int copynum,
                         double tme, G4int parent, G4String part,
-                        G4String proc)
-{
+                        G4String proc) {
   // std::cout <<"@@@@@@@@@@@@@ INSIDE SET @@@@@@@@@@@@@@" << std::endl;
   fEdep = edep;
   fLocation = location;
@@ -20,8 +19,7 @@ void shielding_Hit::Set(double edep, G4ThreeVector location, int copynum,
   fprocess = proc;
 }
 
-void shielding_Hit::Print()
-{
+void shielding_Hit::Print() {
   std::cout << fEdep << " : " << fLocation << " : " << fCopyNum << " : "
             << fTime << std::endl;
 }
@@ -38,14 +36,17 @@ G4String shielding_Hit::GetParticleName() { return fparticle; }
 G4String shielding_Hit::GetDepositionProcess() { return fprocess; }
 
 #ifdef SETUP_DECAY
-void shielding_Hit::Set(double edep, int copynum, int branchID, int parentBranch, double depTime, double decayTime, G4String parent, G4String branch)
-{
+void shielding_Hit::Set(double edep, int copynum, int branchID,
+                        int parentBranch, double depTime, double decayTime,
+                        double origDecayTime, G4String parent,
+                        G4String branch) {
   fEdep = edep;
   fCopyNum = copynum;
   fBranchID = branchID;
   fParentBranchID = parentBranch;
   fTime = depTime;
   fDecayTime = decayTime;
+  forigDecayTime = origDecayTime;
   fDecayParent = parent;
   fBranch = branch;
 }
@@ -54,5 +55,6 @@ int shielding_Hit::GetHitBranchID() { return fBranchID; }
 G4String shielding_Hit::GetHitBranchName() { return fBranch; }
 int shielding_Hit::GetHitParentBranchID() { return fParentBranchID; }
 double shielding_Hit::GetDecayTime() { return fDecayTime; }
+double shielding_Hit::GetOrigDecayTime() { return forigDecayTime; }
 G4String shielding_Hit::GetDecayParticle() { return fDecayParent; }
 #endif
