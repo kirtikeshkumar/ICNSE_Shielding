@@ -9,6 +9,8 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
   collectionName.insert("naiHitCollection");
   // collectionName.insert("geHitCollection");
+  // G4cout << "G4WT" << G4Threading::G4GetThreadId() << " > SD CONSTRUCTOR"
+  //        << " this=" << this << " name=" << name << G4endl;
 }
 
 MySensitiveDetector::~MySensitiveDetector() {}
@@ -16,11 +18,21 @@ MySensitiveDetector::~MySensitiveDetector() {}
 void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
   // Creating hitcollection
 
+  // G4cout << "G4WT" << G4Threading::G4GetThreadId() << " > Initialize"
+  //        << " this=" << this
+  //        << " fNaiHitCollection(before)=" << fNaiHitCollection << G4endl;
+
   fNaiHitCollection =
       new NaIHitCollection(SensitiveDetectorName, collectionName[0]);
 
   fNaIHitCollectionId = GetCollectionID(0);
+
   hce->AddHitsCollection(fNaIHitCollectionId, fNaiHitCollection);
+
+  // G4cout << "G4WT" << G4Threading::G4GetThreadId() << " > Initialize DONE"
+  //        << " this=" << this
+  //        << " fNaiHitCollection(after)=" << fNaiHitCollection
+  //        << " HCID=" << fNaIHitCollectionId << G4endl;
 }
 
 G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
@@ -84,6 +96,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   if (edep > 0.001) {
     shielding_Hit *newHit = new shielding_Hit;
 #ifdef SETUP_DECAY
+    // std::cout << "Processing Hit in Decay Mode" << std::endl;
     G4String parentPart, branchName;
     if (info->GetBranch())
       branchName = info->GetBranch()->GetParticleName();
@@ -110,8 +123,13 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
 #endif
     G4String volName = physVol->GetLogicalVolume()->GetName();
     if (newHit) {
-      if (volName == "logicNaI")
+      if (volName == "logicNaI") {
+        // G4cout << "ProcessHits" << " thread=" << G4Threading::G4GetThreadId()
+        //        << " this=" << this << " fNaiHitCollection=" <<
+        //        fNaiHitCollection
+        //        << G4endl;
         fNaiHitCollection->insert(newHit);
+      }
       if (volName == "logicHPGe")
         fGeHitCollection->insert(newHit);
     }

@@ -116,16 +116,20 @@ void MyPrimaryGenerator::BoxSource(G4double halfLength) {
 }
 
 void MyPrimaryGenerator::CylinderVolumeSource(G4ThreeVector loc,
-                                              G4double halfHt,
-                                              G4double radius) {
+                                              G4double halfHt, G4double radius,
+                                              G4ThreeVector axis) {
   G4double r = radius * std::sqrt(G4UniformRand());
   G4double phi = 2.0 * CLHEP::pi * G4UniformRand();
   G4double z = (2.0 * G4UniformRand() - 1.0) * halfHt;
 
   G4double x = r * std::cos(phi);
   G4double y = r * std::sin(phi);
-
-  position.set(x, y, z);
+  if (axis == G4ThreeVector(0., 0., 1.))
+    position.set(x, y, z);
+  if (axis == G4ThreeVector(0., 1., 0.))
+    position.set(x, z, y);
+  if (axis == G4ThreeVector(1., 0., 0.))
+    position.set(z, x, y);
   position = position + loc;
 }
 
@@ -138,11 +142,11 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
    * define and SetParticle function to define the properties*/
   // G4ThreeVector position(0., 25. * cm, 0.);
   // G4ThreeVector direction(0., -1., 0.);
-#ifndef USE_CRY
-  BoxSource(75. * cm);
-  fParticleGun->SetParticlePosition(position);
-  fParticleGun->SetParticleMomentumDirection(direction);
-#endif
+  // #ifndef USE_CRY
+  //   BoxSource(75. * cm);
+  //   fParticleGun->SetParticlePosition(position);
+  //   fParticleGun->SetParticleMomentumDirection(direction);
+  // #endif
   // fParticleGun->SetParticleMomentum(0.0*MeV);
   // fParticleGun->SetParticleEnergy(1.0 * MeV);
   // fParticleGun->SetParticleDefinition(particle);
@@ -181,18 +185,21 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   }
 
   CylinderVolumeSource(locations[chosenIndex], radius, halfHt);
-  // CylinderVolumeSource(G4ThreeVector(0., 0., 0.), radius, halfHt);
+  // radius = 0.2 * cm;
+  // halfHt = 0.1 * cm;
+  // CylinderVolumeSource(G4ThreeVector(0., 0., 0.), radius, halfHt,
+  //                      G4ThreeVector(1.0, 0., 0.));
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   if (particle == G4Geantino::Geantino() ||
-      particle->GetParticleName() == "Na22") {
+      particle->GetParticleName() == "K40") {
     // ||particle->GetParticleName() == "Sr90"
     G4double randVal = G4UniformRand();
     G4int Z, A;
     // if (randVal < 0.5) {
-    Z = 11;
-    A = 22;
+    Z = 19;
+    A = 40;
     // } else {
     //   Z = 38;
     //   A = 90;

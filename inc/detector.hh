@@ -14,12 +14,11 @@
 #include "G4VProcess.hh"
 // #include "g4root.hh"
 #include "HitCollections.hh"
+#include "trackInfo.hh"
 #include "vector"
 #include <map>
-#include "trackInfo.hh"
 
-class MySensitiveDetector : public G4VSensitiveDetector
-{
+class MySensitiveDetector : public G4VSensitiveDetector {
 public:
   MySensitiveDetector(G4String);
   ~MySensitiveDetector();
@@ -32,8 +31,8 @@ private:
   // G4PhysicsOrderedFreeVector *quEff;
   int fGeHitCollectionId;
   int fNaIHitCollectionId;
-  NaIHitCollection *fNaiHitCollection;
-  GeHitCollection *fGeHitCollection;
+  NaIHitCollection *fNaiHitCollection = nullptr;
+  GeHitCollection *fGeHitCollection = nullptr;
 };
 
 #endif

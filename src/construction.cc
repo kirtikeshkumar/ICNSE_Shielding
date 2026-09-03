@@ -5,6 +5,7 @@
 #include "construction.hh"
 #include "G4Exception.hh"
 #include <G4LogicalVolume.hh>
+#include <algorithm>
 #include <string>
 
 // In the constructor function we use std::cin to take the dimensions of the
@@ -203,12 +204,22 @@ void MyDetectorConstruction::ConstructDetectorSetup() {
   logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
   fNaIVolumes.push_back(logicNaI);
 
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(0., -40. * cm, -13.4 * cm), logicNaI,
-                        "physNaI_0", logicWorld, true, 120, true));
-  physNaI.push_back(
-      new G4PVPlacement(0, G4ThreeVector(0., -20. * cm, -13.4 * cm), logicNaI,
-                        "physNaI_1", logicWorld, true, 121, true));
+  std::vector<G4ThreeVector> posNaI;
+  posNaI.push_back(G4ThreeVector(0., -4. * cm, 0.));
+  posNaI.push_back(G4ThreeVector(0., 4. * cm, 0.));
+  posNaI.push_back(G4ThreeVector(7. * cm, 0., 0.));
+  posNaI.push_back(G4ThreeVector(-7. * cm, 0., 0.));
+
+  G4ThreeVector locSetup = G4ThreeVector(0., -10.0 * cm, -13.4 * cm);
+
+  for (int iter = 0; iter < posNaI.size(); iter++) {
+    std::string name = "physNaI_" + std::to_string(iter);
+    int copy = 120 + iter;
+    physNaI.push_back(new G4PVPlacement(0, posNaI[iter] + locSetup, logicNaI,
+                                        name, logicWorld, true, copy, true));
+    std::cout << copy << " Placed at: " << posNaI[iter] + locSetup << std::endl;
+  }
+
   fNaIPhysical = physNaI;
 
   for (int iter = 0; iter < physNaI.size(); iter++) {
@@ -360,7 +371,14 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct() {
 // }
 
 void MyDetectorConstruction::ConstructSDandField() {
+  //   G4cout << "G4WT" << G4Threading::G4GetThreadId() << " >
+  //   ConstructSDandField"
+  //          << G4endl;
   MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
+  //   G4cout << "G4WT" << G4Threading::G4GetThreadId()
+  //          << " > SD created: " << sensDet << G4endl;
   sdManager->AddNewDetector(sensDet);
   logicNaI->SetSensitiveDetector(sensDet);
+  //   G4cout << "G4WT" << G4Threading::G4GetThreadId()
+  //          << " > SD attached to logicNaI" << G4endl;
 }
