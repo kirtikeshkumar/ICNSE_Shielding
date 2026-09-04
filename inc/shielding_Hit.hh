@@ -9,7 +9,7 @@ public:
   shielding_Hit();
   void Set(double edep, G4ThreeVector location, int copynum, double tme,
            G4int parent, G4String part, G4String proc);
-#ifdef SETUP_DECAY
+  // #ifdef SETUP_DECAY
   void Set(double edep, int copynum, int branchID, int parentBranch,
            double depTime, double decayTime, double origDecayTime,
            G4String parent, G4String branch);
@@ -19,7 +19,7 @@ public:
   double GetDecayTime();
   double GetOrigDecayTime();
   G4String GetDecayParticle();
-#endif
+  // #endif
   virtual ~shielding_Hit();
   void Print();
   int GetHitCopyNum();
@@ -41,14 +41,14 @@ private:
   G4int fparent;
   G4String fparticle;
   G4String fprocess;
-#ifdef SETUP_DECAY
+  // #ifdef SETUP_DECAY
   int fBranchID;
   int fParentBranchID;
   double fDecayTime;
   double forigDecayTime;
   G4String fDecayParent;
   G4String fBranch;
-#endif
+  // #endif
 };
 
 #endif

@@ -215,6 +215,12 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     fParticleGun->SetParticleMomentum(0.0 * MeV);
     fParticleGun->SetParticlePosition(position);
   }
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
+  man->FillNtupleIColumn(2, 0, anEvent->GetEventID());
+  man->FillNtupleDColumn(2, 1, position.x() / cm);
+  man->FillNtupleDColumn(2, 2, position.y() / cm);
+  man->FillNtupleDColumn(2, 3, position.z() / cm);
+  man->AddNtupleRow(2);
 #endif
 
 #ifdef USE_CRY
@@ -228,7 +234,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   }
 
   cryGen->genEvent(&cryParticles);
-
+  G4AnalysisManager *man = G4AnalysisManager::Instance();
   for (auto p : cryParticles) {
     G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
     G4ParticleDefinition *def = particleTable->FindParticle(p->PDGid());
@@ -246,6 +252,20 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
     fParticleGun->SetParticleEnergy(p->ke() * MeV);
     // std::cout << "Particle Energy: " << p->ke() << std::endl;
     fParticleGun->GeneratePrimaryVertex(anEvent);
+    man->FillNtupleIColumn(2, 0, anEvent->GetEventID());
+    man->FillNtupleSColumn(2, 1, def->GetParticleName());
+    man->FillNtupleDColumn(2, 2, fParticleGun->GetParticleEnergy());
+    man->FillNtupleDColumn(
+        2, 3,
+        G4ThreeVector(p->u(), p->v(), p->w()).angle(G4ThreeVector(0, 0, 1)) *
+            (180.0 / CLHEP::pi));
+    // std::cout
+    //     << def->GetParticleName() << " : " <<
+    //     fParticleGun->GetParticleEnergy()
+    //     << " : "
+    //     << G4ThreeVector(p->u(), p->v(), p->w()).angle(G4ThreeVector(0, 0,
+    //     1))
+    //     << " : " << anEvent->GetEventID() << std::endl;
   }
 
   for (auto p : cryParticles)
@@ -255,12 +275,6 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   /*Here we generate the particle*/
 #ifndef USE_CRY
   fParticleGun->GeneratePrimaryVertex(anEvent);
-  G4AnalysisManager *man = G4AnalysisManager::Instance();
-  man->FillNtupleIColumn(2, 0, anEvent->GetEventID());
-  man->FillNtupleDColumn(2, 1, position.x() / cm);
-  man->FillNtupleDColumn(2, 2, position.y() / cm);
-  man->FillNtupleDColumn(2, 3, position.z() / cm);
-  man->AddNtupleRow(2);
 
 #endif
 }

@@ -93,7 +93,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     edep = edep * netprob;
   }
 
-  if (edep > 0.001) {
+  if (edep > 0.00001) {
     shielding_Hit *newHit = new shielding_Hit;
 #ifdef SETUP_DECAY
     // std::cout << "Processing Hit in Decay Mode" << std::endl;
@@ -113,6 +113,21 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     // branchName != "gamma")
     //   std::cout << "Branch: " << branchName << " has parent: " << parentPart
     //   << std::endl;
+
+    newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(),
+                info->GetTimeFromDecay(), info->GetDecayTime(),
+                info->GetOrigDecayTime(), parentPart, branchName);
+#elif defined(USE_CRY)
+    G4String parentPart, branchName;
+    if (info->GetBranch())
+      branchName = info->GetBranch()->GetParticleName();
+    else
+      branchName = "Primary";
+
+    if (info->GetDecayParent())
+      parentPart = info->GetDecayParent()->GetParticleName();
+    else
+      parentPart = "Primary";
 
     newHit->Set(edep, copyNo, info->GetBranchID(), info->GetParentBranchID(),
                 info->GetTimeFromDecay(), info->GetDecayTime(),

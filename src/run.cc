@@ -37,19 +37,29 @@ MyRunAction::MyRunAction() {
   man->CreateNtupleIColumn("NumHitPrimary");
   man->FinishNtuple(1);
 
-  // man->CreateNtuple("IncidentParticle", "IncidentParticle");
-  // man->CreateNtupleIColumn("EvNo");
-  // man->CreateNtupleSColumn("ParticleName");
-  // man->CreateNtupleDColumn("IncidentEnergy");
-  // man->CreateNtupleDColumn("IncidentOrientation");
-  // man->FinishNtuple(2);
+#ifdef USE_CRY
+  man->CreateNtuple("IncidentParticle", "IncidentParticle");
+  man->CreateNtupleIColumn("EvNo");
+  man->CreateNtupleSColumn("ParticleName");
+  man->CreateNtupleDColumn("KineticEnergy");
+  man->CreateNtupleDColumn("Orientation");
+  man->FinishNtuple(2);
 
   man->CreateNtuple("DecayParticle", "DecayParticle");
   man->CreateNtupleIColumn("EvNo");
   man->CreateNtupleDColumn("locX");
   man->CreateNtupleDColumn("locY");
   man->CreateNtupleDColumn("locZ");
+  man->FinishNtuple(3);
+#endif
+#ifdef SETUP_DECAY
+  man->CreateNtuple("DecayParticle", "DecayParticle");
+  man->CreateNtupleIColumn("EvNo");
+  man->CreateNtupleDColumn("locX");
+  man->CreateNtupleDColumn("locY");
+  man->CreateNtupleDColumn("locZ");
   man->FinishNtuple(2);
+#endif
 }
 
 MyRunAction::~MyRunAction() {}

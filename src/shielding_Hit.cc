@@ -35,7 +35,7 @@ double shielding_Hit::GetHitLocationZ() { return fLocation.z(); }
 G4String shielding_Hit::GetParticleName() { return fparticle; }
 G4String shielding_Hit::GetDepositionProcess() { return fprocess; }
 
-#ifdef SETUP_DECAY
+// #ifdef SETUP_DECAY
 void shielding_Hit::Set(double edep, int copynum, int branchID,
                         int parentBranch, double depTime, double decayTime,
                         double origDecayTime, G4String parent,
@@ -57,4 +57,4 @@ int shielding_Hit::GetHitParentBranchID() { return fParentBranchID; }
 double shielding_Hit::GetDecayTime() { return fDecayTime; }
 double shielding_Hit::GetOrigDecayTime() { return forigDecayTime; }
 G4String shielding_Hit::GetDecayParticle() { return fDecayParent; }
-#endif
+// #endif
