@@ -7,7 +7,8 @@
 
 /*Constructor and destruction function of the primary generator which creates a
  * new instance of the particle gun and deletes the particle gun respectively.*/
-MyPrimaryGenerator::MyPrimaryGenerator() {
+MyPrimaryGenerator::MyPrimaryGenerator()
+{
 #ifdef USE_CRY
   fMessenger = new G4GenericMessenger(this, "/CRY/", "Cosmic Ray Generator");
   fMessenger->DeclareProperty("inputFile", cryInputFile, "CRY Input File");
@@ -27,7 +28,8 @@ MyPrimaryGenerator::MyPrimaryGenerator() {
 }
 
 MyPrimaryGenerator::MyPrimaryGenerator(MyDetectorConstruction *det)
-    : fDetector(det) {
+    : fDetector(det)
+{
 #ifdef USE_CRY
   fMessenger = new G4GenericMessenger(this, "/CRY/", "Cosmic Ray Generator");
   fMessenger->DeclareProperty("inputFile", cryInputFile, "CRY Input File");
@@ -38,7 +40,8 @@ MyPrimaryGenerator::MyPrimaryGenerator(MyDetectorConstruction *det)
   std::cout << "Particle is: " << particle->GetParticleName() << std::endl;
 }
 
-MyPrimaryGenerator::~MyPrimaryGenerator() {
+MyPrimaryGenerator::~MyPrimaryGenerator()
+{
   delete fParticleGun;
 #ifdef USE_CRY
   delete cryGen;
@@ -46,19 +49,22 @@ MyPrimaryGenerator::~MyPrimaryGenerator() {
 #endif
 }
 
-G4String MyPrimaryGenerator::GetParticleName() {
+G4String MyPrimaryGenerator::GetParticleName()
+{
   return fParticleGun->GetParticleDefinition()
              ? fParticleGun->GetParticleDefinition()->GetParticleName()
              : "Unknown";
 }
 
 #ifdef USE_CRY
-void MyPrimaryGenerator::LoadCRY() {
+void MyPrimaryGenerator::LoadCRY()
+{
   if (cryGen)
     delete cryGen;
 
   std::ifstream infile(cryInputFile);
-  if (!infile) {
+  if (!infile)
+  {
     G4Exception("MyPrimaryGenerator::LoadCRY", "CRY001", FatalException,
                 ("Cannot open CRY input file: " + cryInputFile).c_str());
   }
@@ -66,27 +72,30 @@ void MyPrimaryGenerator::LoadCRY() {
   std::string setupLine;
   std::string setupString;
 
-  while (std::getline(infile, setupLine)) {
+  while (std::getline(infile, setupLine))
+  {
     if (setupLine.empty())
       continue; // skip blank lines
     if (setupLine[0] == '#')
-      continue; // optional: skip comments
+      continue;                                                 // optional: skip comments
     setupLine.erase(setupLine.find_last_not_of(" \r\n\t") + 1); // trim right
-    setupString += setupLine + " "; // preserve line structure
+    setupString += setupLine + " ";                             // preserve line structure
   }
   auto crySetup = new CRYSetup(setupString, CRY_DATA_PATH);
   cryGen = new CRYGenerator(crySetup);
 }
 #endif
 
-void MyPrimaryGenerator::BoxSource(G4double halfLength) {
+void MyPrimaryGenerator::BoxSource(G4double halfLength)
+{
   // Choose random face: 0=+X, 1=-X, 2=+Y, 3=-Y, 4=+Z, 5=-Z
   G4int face = static_cast<G4int>(G4UniformRand() * 6);
   // std::cout << "face: " << face << std::endl;
 
   G4double u = (2 * G4UniformRand() - 1) * halfLength;
   G4double v = (2 * G4UniformRand() - 1) * halfLength;
-  switch (face) {
+  switch (face)
+  {
   case 0: // +X face → inward = -x
     position.set(halfLength, u, v);
     direction.set(-1., (2 * G4UniformRand() - 1), (2 * G4UniformRand() - 1));
@@ -117,7 +126,8 @@ void MyPrimaryGenerator::BoxSource(G4double halfLength) {
 
 void MyPrimaryGenerator::CylinderVolumeSource(G4ThreeVector loc,
                                               G4double halfHt, G4double radius,
-                                              G4ThreeVector axis) {
+                                              G4ThreeVector axis)
+{
   G4double r = radius * std::sqrt(G4UniformRand());
   G4double phi = 2.0 * CLHEP::pi * G4UniformRand();
   G4double z = (2.0 * G4UniformRand() - 1.0) * halfHt;
@@ -135,7 +145,8 @@ void MyPrimaryGenerator::CylinderVolumeSource(G4ThreeVector loc,
 
 /*In this function we define which particle we need from our particle gun and
  * define its properties.*/
-void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
+void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
+{
   // G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   /*Defining the position and momentum of the particle using G4ThreeVector to
@@ -156,7 +167,8 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   fDetector->GetNaIVolumes();
   std::vector<G4VPhysicalVolume *> NaIPhysical = fDetector->GetNaIPhysical();
 
-  if (NaIPhysical.empty()) {
+  if (NaIPhysical.empty())
+  {
     G4cerr << "NaI volumes empty." << G4endl;
     return;
   }
@@ -165,7 +177,8 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   std::vector<G4double> volCumulative;
   std::vector<G4ThreeVector> locations;
   G4double radius, halfHt;
-  for (int ij = 0; ij < NaIPhysical.size(); ij++) {
+  for (int ij = 0; ij < NaIPhysical.size(); ij++)
+  {
     G4Tubs *solid =
         dynamic_cast<G4Tubs *>(NaIPhysical[ij]->GetLogicalVolume()->GetSolid());
     radius = solid->GetOuterRadius();
@@ -177,29 +190,31 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
 
   G4double randVolume = G4UniformRand() * vol;
   double chosenIndex = -1;
-  for (int ij = 0; ij < volCumulative.size(); ij++) {
-    if (randVolume < volCumulative[ij]) {
+  for (int ij = 0; ij < volCumulative.size(); ij++)
+  {
+    if (randVolume < volCumulative[ij])
+    {
       chosenIndex = ij;
       break;
     }
   }
 
-  CylinderVolumeSource(locations[chosenIndex], radius, halfHt);
-  // radius = 0.2 * cm;
-  // halfHt = 0.1 * cm;
-  // CylinderVolumeSource(G4ThreeVector(0., 0., 0.), radius, halfHt,
-  //                      G4ThreeVector(1.0, 0., 0.));
+  // CylinderVolumeSource(locations[chosenIndex], radius, halfHt);
+  radius = 0.2 * cm;
+  halfHt = 0.1 * cm;
+  CylinderVolumeSource(G4ThreeVector(0., 0., 0.), radius, halfHt);
 
   G4ParticleDefinition *particle = fParticleGun->GetParticleDefinition();
 
   if (particle == G4Geantino::Geantino() ||
-      particle->GetParticleName() == "K40") {
+      particle->GetParticleName() == "Cs137")
+  {
     // ||particle->GetParticleName() == "Sr90"
     G4double randVal = G4UniformRand();
     G4int Z, A;
     // if (randVal < 0.5) {
-    Z = 19;
-    A = 40;
+    Z = 55;
+    A = 137;
     // } else {
     //   Z = 38;
     //   A = 90;
@@ -224,18 +239,21 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
 #endif
 
 #ifdef USE_CRY
-  if (!cryGen && !cryInputFile.empty()) {
+  if (!cryGen && !cryInputFile.empty())
+  {
     LoadCRY();
   }
 
-  if (!cryGen) {
+  if (!cryGen)
+  {
     G4Exception("MyPrimaryGenerator", "CRY002", FatalException,
                 "CRY generator not initialized. Use /CRY/inputFile.");
   }
 
   cryGen->genEvent(&cryParticles);
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  for (auto p : cryParticles) {
+  for (auto p : cryParticles)
+  {
     G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
     G4ParticleDefinition *def = particleTable->FindParticle(p->PDGid());
     if (!def)
@@ -259,6 +277,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
         2, 3,
         G4ThreeVector(p->u(), p->v(), p->w()).angle(G4ThreeVector(0, 0, 1)) *
             (180.0 / CLHEP::pi));
+    man->AddNtupleRow(2);
     // std::cout
     //     << def->GetParticleName() << " : " <<
     //     fParticleGun->GetParticleEnergy()

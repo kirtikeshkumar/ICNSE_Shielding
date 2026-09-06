@@ -6,4 +6,4 @@ returnNeutrons 0
 latitude 21.3
 altitude 0
 date 4-6-2026
-subboxLength 2
+subboxLength 0.7

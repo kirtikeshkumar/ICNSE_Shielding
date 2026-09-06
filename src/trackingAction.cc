@@ -6,25 +6,37 @@
 
 trackingAction::trackingAction() : G4UserTrackingAction() { ; }
 
-void trackingAction::PreUserTrackingAction(const G4Track *aTrack) {
+void trackingAction::PreUserTrackingAction(const G4Track *aTrack)
+{
   //   G4cout << "START TRACK: "
   //          << aTrack->GetParticleDefinition()->GetParticleName()
   //          << " TrackID = " << aTrack->GetTrackID()
   //          << " ParentID = " << aTrack->GetParentID() << G4endl;
-  if (!(static_cast<trackInformation *>(aTrack->GetUserInformation()))) {
+  if (!(static_cast<trackInformation *>(aTrack->GetUserInformation())))
+  {
     auto *info =
         new trackInformation(nullptr, aTrack, trackInformation::Type::Init);
 
     fpTrackingManager->SetUserTrackInformation(info);
   }
   if (!(static_cast<trackInformation *>(aTrack->GetUserInformation())
-            ->GetAssignmentFlag())) {
+            ->GetAssignmentFlag()))
+  {
     static_cast<trackInformation *>(aTrack->GetUserInformation())
         ->SetBranchID(aTrack);
   }
+  if (!(static_cast<trackInformation *>(aTrack->GetUserInformation())->GetBranch()))
+  {
+    (static_cast<trackInformation *>(aTrack->GetUserInformation()))->SetBranch(aTrack);
+  }
+  if (!(static_cast<trackInformation *>(aTrack->GetUserInformation())->GetDecayParent()))
+  {
+    (static_cast<trackInformation *>(aTrack->GetUserInformation()))->SetDecayParent(aTrack);
+  }
 }
 
-void trackingAction::PostUserTrackingAction(const G4Track *originalTrack) {
+void trackingAction::PostUserTrackingAction(const G4Track *originalTrack)
+{
   G4TrackVector *secondaries = fpTrackingManager->GimmeSecondaries();
 
   auto *info =
@@ -48,17 +60,34 @@ void trackingAction::PostUserTrackingAction(const G4Track *originalTrack) {
   if (!secondaries)
     return;
 
-  for (auto *secondary : *secondaries) {
+  for (auto *secondary : *secondaries)
+  {
     const G4VProcess *creator = secondary->GetCreatorProcess();
 
     // if (creator)
     //   std::cout << creator->GetProcessName() << std::endl;
 
     if (creator && (creator->GetProcessName() == "RadioactiveDecay" ||
-                    creator->GetProcessName() == "Radioactivation")) {
+                    creator->GetProcessName() == "Radioactivation"))
+    {
       secondary->SetUserInformation(new trackInformation(
           originalTrack, secondary, trackInformation::Type::Decay));
-    } else {
+      G4AnalysisManager *man = G4AnalysisManager::Instance();
+      int evID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+      G4ThreeVector location = originalTrack->GetPosition();
+#ifdef USE_CRY
+      man->FillNtupleIColumn(3, 0, evID);
+      G4String decaypartname = originalTrack->GetParticleDefinition() ? originalTrack->GetParticleDefinition()->GetParticleName() : "Primary";
+      man->FillNtupleSColumn(3, 1, decaypartname);
+      man->FillNtupleDColumn(3, 2, location.x());
+      man->FillNtupleDColumn(3, 3, location.y());
+      man->FillNtupleDColumn(3, 4, location.z());
+      // man->FillNtupleSColumn(3, 5, secondary->GetCreatorProcess()->GetProcessName());
+      man->AddNtupleRow(3);
+#endif
+    }
+    else
+    {
       secondary->SetUserInformation(
           new trackInformation(originalTrack, secondary));
     }

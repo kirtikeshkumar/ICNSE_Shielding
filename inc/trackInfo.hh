@@ -13,11 +13,14 @@
 #include "G4ThreeVector.hh"
 #include "G4Track.hh"
 #include "G4VUserTrackInformation.hh"
+#include "G4VProcess.hh"
 
-class trackInformation : public G4VUserTrackInformation {
+class trackInformation : public G4VUserTrackInformation
+{
 public:
   // Defines how the track information is initialized
-  enum class Type {
+  enum class Type
+  {
     Init, // Primary track / beginning of a decay chain
     Copy, // Ordinary secondary: inherit parent information
     Decay // Daughter produced by radioactive decay
@@ -42,6 +45,8 @@ public:
   void incrementDecayID();
   void incrementBranchID();
   void SetBranchID(const G4Track *aTrack);
+  void SetBranch(const G4Track *aTrack);
+  void SetDecayParent(const G4Track *aTrack);
   void Print();
 
   int GetDecayID();
@@ -59,18 +64,19 @@ public:
 
 private:
   // following are to be shared to all daughters
-  int DecayID;  // Identifies if it is primary particle decay or any chain decay
-  int BranchID; // Identifies which branch of the decay the present track
-                // corresponds to
-  int ParentBranchID;   // Identifies the BranchID of parent for tracking decay
-                        // chains
-  double origDecayTime; // The time of first decaying nucleii
-  double DecayTime;     // The time of latest decay from the original decay time
-  double timeFromDecay; // The time since latest decay
+  int DecayID;                                 // Identifies if it is primary particle decay or any chain decay
+  int BranchID;                                // Identifies which branch of the decay the present track
+                                               // corresponds to
+  int ParentBranchID;                          // Identifies the BranchID of parent for tracking decay
+                                               // chains
+  double origDecayTime;                        // The time of first decaying nucleii
+  double DecayTime;                            // The time of latest decay from the original decay time
+  double timeFromDecay;                        // The time since latest decay
   const G4ParticleDefinition *DecayParent;     // The decaying particle
   const G4ParticleDefinition *origDecayParent; // The primary decaying particle
-  double trackEndTime; // End Time of track. For Energy deposition tracking
-                       // purposes.
+  double trackEndTime;                         // End Time of track. For Energy deposition tracking
+                                               // purposes.
+  G4String creatorProcess;
   bool AssignmentFlag; // To ensure proper branch and parent id assignments
   const G4ParticleDefinition *BranchName;
 };
@@ -80,13 +86,15 @@ extern G4ThreadLocal G4Allocator<trackInformation>
                                  // useful if something is created and deleted
                                  // multiple times
 
-inline void *trackInformation::operator new(size_t) {
+inline void *trackInformation::operator new(size_t)
+{
   if (!aTrackInformationAllocator)
     aTrackInformationAllocator = new G4Allocator<trackInformation>;
   return (void *)aTrackInformationAllocator->MallocSingle();
 }
 
-inline void trackInformation::operator delete(void *aTrackInfo) {
+inline void trackInformation::operator delete(void *aTrackInfo)
+{
   aTrackInformationAllocator->FreeSingle((trackInformation *)aTrackInfo);
 }
 

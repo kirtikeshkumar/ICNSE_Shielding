@@ -5,7 +5,8 @@
 #include <cmath>
 MySensitiveDetector::MySensitiveDetector(G4String name)
     : G4VSensitiveDetector(name), fNaIHitCollectionId(-1),
-      fNaiHitCollection(nullptr) {
+      fNaiHitCollection(nullptr)
+{
 
   collectionName.insert("naiHitCollection");
   // collectionName.insert("geHitCollection");
@@ -15,7 +16,8 @@ MySensitiveDetector::MySensitiveDetector(G4String name)
 
 MySensitiveDetector::~MySensitiveDetector() {}
 
-void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
+void MySensitiveDetector::Initialize(G4HCofThisEvent *hce)
+{
   // Creating hitcollection
 
   // G4cout << "G4WT" << G4Threading::G4GetThreadId() << " > Initialize"
@@ -36,7 +38,8 @@ void MySensitiveDetector::Initialize(G4HCofThisEvent *hce) {
 }
 
 G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
-                                        G4TouchableHistory *ROhist) {
+                                        G4TouchableHistory *ROhist)
+{
 
   // Constants for fiducializing HPGe Detector using Logistic curve
   // Results in Dead layer and transition layer thickness similar to CONUS
@@ -46,9 +49,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   double z0 = 3.94;
 
   G4Track *track = aStep->GetTrack();
-#ifdef SETUP_DECAY
-  trackInformation *info = (trackInformation *)(track->GetUserInformation());
-#endif
+
   G4StepPoint *postStep = aStep->GetPostStepPoint();
   const G4VTouchable *touchable = aStep->GetPostStepPoint()->GetTouchable();
   // G4AnalysisManager *man = G4AnalysisManager::Instance();
@@ -60,7 +61,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   const G4VProcess *depositionprocess =
       aStep->GetPostStepPoint()->GetProcessDefinedStep();
   G4String procName;
-  if (depositionprocess) {
+  if (depositionprocess)
+  {
     procName = depositionprocess->GetProcessName();
   }
 
@@ -74,7 +76,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   G4int parent = track->GetParentID();
 
   // SD stuff
-  if (matName == "Ge") {
+  if (matName == "Ge")
+  {
     // Get the position of the point relative to the detector coordinates
     G4ThreeVector globalPos = postStep->GetPosition();
     G4ThreeVector localPos =
@@ -86,16 +89,19 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
     // Generate the energy deposition profile using logistic on r and z
     double rprob = 1.0 - (L / (1.0 + std::exp(k * (r - r0))));
     double zprob = 1.0;
-    if (z > 0.) {
+    if (z > 0.)
+    {
       zprob = 1.0 - (L / (1.0 + std::exp(k * (z - z0))));
     }
     double netprob = rprob * zprob;
     edep = edep * netprob;
   }
 
-  if (edep > 0.00001) {
+  if (edep > 0.00001)
+  {
     shielding_Hit *newHit = new shielding_Hit;
 #ifdef SETUP_DECAY
+    trackInformation *info = (trackInformation *)(track->GetUserInformation());
     // std::cout << "Processing Hit in Decay Mode" << std::endl;
     G4String parentPart, branchName;
     if (info->GetBranch())
@@ -118,6 +124,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
                 info->GetTimeFromDecay(), info->GetDecayTime(),
                 info->GetOrigDecayTime(), parentPart, branchName);
 #elif defined(USE_CRY)
+    trackInformation *info = (trackInformation *)(track->GetUserInformation());
     G4String parentPart, branchName;
     if (info->GetBranch())
       branchName = info->GetBranch()->GetParticleName();
@@ -126,6 +133,8 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
 
     if (info->GetDecayParent())
       parentPart = info->GetDecayParent()->GetParticleName();
+    else if (track->GetParentID() == 0)
+      parentPart = track->GetParticleDefinition()->GetParticleName();
     else
       parentPart = "Primary";
 
@@ -137,8 +146,10 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
                 particleName, procName);
 #endif
     G4String volName = physVol->GetLogicalVolume()->GetName();
-    if (newHit) {
-      if (volName == "logicNaI") {
+    if (newHit)
+    {
+      if (volName == "logicNaI")
+      {
         // G4cout << "ProcessHits" << " thread=" << G4Threading::G4GetThreadId()
         //        << " this=" << this << " fNaiHitCollection=" <<
         //        fNaiHitCollection
@@ -153,20 +164,23 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep,
   return true;
 }
 
-void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
+void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *)
+{
 // Data remains accessible for your EventAction
 // std::cout << "=============== ENDOFEVENT ======================="
 //           << std::endl;
-#ifndef SETUP_DECAY
+#if !defined(SETUP_DECAY) and !defined(USE_CRY)
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   std::map<int, double> EvtEDep;
   std::map<int, G4String> MatMapHit;
   std::map<int, int> MapNumHitPrimary;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+  {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     MatMapHit[hit->GetHitCopyNum()] = "NaI";
     EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
-    if (hit->isHitPrimary()) {
+    if (hit->isHitPrimary())
+    {
       MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
     }
     // man->FillNtupleIColumn(0, 0, evID);
@@ -182,7 +196,8 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     // hit->Print();
   }
 
-  for (const auto &[key, val] : EvtEDep) {
+  for (const auto &[key, val] : EvtEDep)
+  {
     man->FillNtupleIColumn(1, 0, evID);
     man->FillNtupleIColumn(1, 1, key);
     man->FillNtupleSColumn(1, 2, MatMapHit[key]);
@@ -219,17 +234,18 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
   std::map<int, G4String> MatMapHit; // to differentiate between detectors
   std::map<int, std::map<G4String, double>>
-      EvtEDep; // to differentiate between branches
+      BrEDep; // to differentiate between branches
   std::map<int, std::map<G4String, std::vector<double>>> branchTimes;
   // std::map<int, std::map<G4String, double>> branchDecayTime;
   // std::map<int, std::map<G4String, double>> branchOrigDecayTime;
   std::map<int, std::map<G4String, G4String>> branchParent;
-  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++) {
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+  {
     shielding_Hit *hit = (*fNaiHitCollection)[i];
     G4String brname = hit->GetHitBranchName() + " " + hit->GetDecayParticle();
     int cnum = hit->GetHitCopyNum();
     MatMapHit[cnum] = "NaI";
-    EvtEDep[cnum][brname] += hit->GetHitEDep();
+    BrEDep[cnum][brname] += hit->GetHitEDep();
     branchTimes[cnum][brname].push_back(hit->GetHitTime());
     branchTimes[cnum][brname].push_back(hit->GetDecayTime());
     branchTimes[cnum][brname].push_back(hit->GetOrigDecayTime());
@@ -241,8 +257,10 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     // std::cout << std::endl;
   }
 
-  for (const auto &[copykey, edepmap] : EvtEDep) {
-    for (const auto &[branchkey, val] : edepmap) {
+  for (const auto &[copykey, edepmap] : BrEDep)
+  {
+    for (const auto &[branchkey, val] : edepmap)
+    {
       // std::cout << evID << " : " << copykey << " : " << branchkey << " : "
       //           << val << " : " << branchTime[copykey][branchkey] << " : "
       //           << branchDecayTime[copykey][branchkey] << std::endl;
@@ -259,5 +277,31 @@ void MySensitiveDetector::EndOfEvent(G4HCofThisEvent *) {
     }
   }
 
+#endif
+#ifdef USE_CRY
+  std::map<int, double> EvtEDep;
+  std::map<int, G4String> MatMapHit1;
+  std::map<int, int> MapNumHitPrimary;
+  for (unsigned int i = 0; i < fNaiHitCollection->entries(); i++)
+  {
+    shielding_Hit *hit = (*fNaiHitCollection)[i];
+    MatMapHit1[hit->GetHitCopyNum()] = "NaI";
+    EvtEDep[hit->GetHitCopyNum()] += hit->GetHitEDep();
+    if (hit->isHitPrimary())
+    {
+      MapNumHitPrimary[hit->GetHitCopyNum()] += 1;
+    }
+  }
+  for (const auto &[key, val] : EvtEDep)
+  {
+    man->FillNtupleIColumn(1, 0, evID);
+    man->FillNtupleIColumn(1, 1, key);
+    man->FillNtupleSColumn(1, 2, MatMapHit1[key]);
+    man->FillNtupleDColumn(1, 3, val);
+    man->FillNtupleIColumn(1, 4, MapNumHitPrimary[key]);
+    man->AddNtupleRow(1);
+    // std::cout << key << " : " << value << " : " << MatMapHit[key] <<
+    // std::endl;
+  }
 #endif
 }

@@ -5,7 +5,8 @@
 
 G4ThreadLocal G4Allocator<trackInformation> *aTrackInformationAllocator = 0;
 
-trackInformation::trackInformation() : G4VUserTrackInformation() {
+trackInformation::trackInformation() : G4VUserTrackInformation()
+{
   DecayID = -1;
   BranchID = -1;
   ParentBranchID = -1;
@@ -13,12 +14,14 @@ trackInformation::trackInformation() : G4VUserTrackInformation() {
   origDecayTime = -1.;
   timeFromDecay = -1.;
   DecayParent = 0;
+  creatorProcess = "Generator";
   trackEndTime = -1;
   AssignmentFlag = false;
   BranchName = 0;
 }
 
-trackInformation::trackInformation(const trackInformation *aTrackInfo) {
+trackInformation::trackInformation(const trackInformation *aTrackInfo)
+{
   DecayID = aTrackInfo->DecayID;
   BranchID = aTrackInfo->BranchID;
   ParentBranchID = aTrackInfo->ParentBranchID;
@@ -29,12 +32,15 @@ trackInformation::trackInformation(const trackInformation *aTrackInfo) {
   // trackEndTime = aTrackInfo->trackEndTime;
   AssignmentFlag = aTrackInfo->AssignmentFlag;
   BranchName = aTrackInfo->BranchName;
+  creatorProcess = aTrackInfo->creatorProcess;
 }
 
 trackInformation::trackInformation(const G4Track *parentTrack,
                                    const G4Track *currentTrack, Type type)
-    : G4VUserTrackInformation() {
-  if (type == Type::Init) {
+    : G4VUserTrackInformation()
+{
+  if (type == Type::Init)
+  {
     DecayID = -1;
     BranchID = currentTrack->GetTrackID();
     ParentBranchID = 0;
@@ -45,10 +51,14 @@ trackInformation::trackInformation(const G4Track *parentTrack,
     trackEndTime = -1;
     BranchName = 0;
     AssignmentFlag = false;
-  } else {
+    creatorProcess = "Generator";
+  }
+  else
+  {
     trackInformation *aTrackInfo =
         (trackInformation *)(parentTrack->GetUserInformation());
-    if (!aTrackInfo) {
+    if (!aTrackInfo)
+    {
       G4Exception("trackInformation::trackInformation", "TrackInfo001",
                   FatalException, "Parent track has no track information.");
     }
@@ -73,7 +83,9 @@ trackInformation::trackInformation(const G4Track *parentTrack,
       //     (currentTrack->GetLocalTime() + parentTrack->GetLocalTime()) / ns;
       BranchName = aTrackInfo->BranchName;
       AssignmentFlag = aTrackInfo->AssignmentFlag;
-    } else if (type == Type::Decay) // new decay has created daughters.
+      creatorProcess = aTrackInfo->creatorProcess;
+    }
+    else if (type == Type::Decay) // new decay has created daughters.
     {
       DecayID = aTrackInfo->DecayID + 1;
       BranchID = currentTrack->GetTrackID();
@@ -92,6 +104,7 @@ trackInformation::trackInformation(const G4Track *parentTrack,
       // trackEndTime = (currentTrack->GetLocalTime()) / ns;
       AssignmentFlag = false;
       BranchName = currentTrack->GetParticleDefinition();
+      creatorProcess = currentTrack->GetCreatorProcess()->GetProcessName();
     }
   }
 }
@@ -100,7 +113,8 @@ trackInformation::~trackInformation() { ; }
 
 void trackInformation::incrementDecayID() { DecayID += 1; }
 
-void trackInformation::Print() {
+void trackInformation::Print()
+{
   G4cout << "----------------------------------------" << G4endl;
   G4cout << "DecayID        : " << DecayID << G4endl;
   G4cout << "BranchID       : " << BranchID << G4endl;
@@ -122,15 +136,31 @@ int trackInformation::GetParentBranchID() { return ParentBranchID; }
 double trackInformation::GetDecayTime() { return DecayTime; }
 double trackInformation::GetTimeFromDecay() { return timeFromDecay; }
 double trackInformation::GetOrigDecayTime() { return origDecayTime; }
-const G4ParticleDefinition *trackInformation::GetDecayParent() const {
+const G4ParticleDefinition *trackInformation::GetDecayParent() const
+{
   return DecayParent;
 }
 // double trackInformation::GetTrackEndTime() { return trackEndTime; }
 const G4ParticleDefinition *trackInformation::GetBranch() { return BranchName; }
 bool trackInformation::GetAssignmentFlag() { return AssignmentFlag; }
 
-void trackInformation::SetBranchID(const G4Track *aTrack) {
+void trackInformation::SetBranchID(const G4Track *aTrack)
+{
   BranchID = aTrack->GetTrackID();
+  AssignmentFlag = true;
+}
+
+void trackInformation::SetBranch(const G4Track *aTrack)
+{
+  // BranchID = aTrack->GetTrackID();
+  BranchName = aTrack->GetParticleDefinition();
+  AssignmentFlag = true;
+}
+
+void trackInformation::SetDecayParent(const G4Track *aTrack)
+{
+  // BranchID = aTrack->GetTrackID();
+  DecayParent = aTrack->GetParticleDefinition();
   AssignmentFlag = true;
 }
 
