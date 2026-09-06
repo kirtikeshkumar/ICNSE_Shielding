@@ -28,7 +28,8 @@
 /*We define the PrimaryGenerator class which will be used to construct our
  * ParticleGun*/
 
-class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction {
+class MyPrimaryGenerator : public G4VUserPrimaryGeneratorAction
+{
 public:
   MyPrimaryGenerator();
   ~MyPrimaryGenerator();
@@ -36,6 +37,8 @@ public:
   /*GeneratePrimaries function to generate the particle we desire*/
   virtual void GeneratePrimaries(G4Event *);
   void BoxSource(G4double halfLength);
+  void CylinderVolumeSource(G4ThreeVector loc, G4double halfHt, G4double radius,
+                            G4ThreeVector axis = G4ThreeVector(0., 0., 1.));
 
 private:
   G4ParticleGun *fParticleGun;

@@ -607,6 +607,99 @@ void MyDetectorConstruction::ConstructHPGeSetupwShield()
                                logicWorld, false, 0, true);
 }
 
+void MyDetectorConstruction::ConstructDetectorSetup()
+{
+    // logicHPGe = ConstructHPGe();
+    solidNaIClad = ClosedHollowCylinder(3.85, 0.15, 3.85);
+    logicNaI = ConstructNaI();
+    logicNaIClad = new G4LogicalVolume(solidNaIClad, Mat_Al, "logicNaIClad");
+    fNaIVolumes.push_back(logicNaI);
+
+    std::vector<G4ThreeVector> posNaI;
+    posNaI.push_back(G4ThreeVector(-7.5 * cm, -7.5 * cm, 0.));
+    posNaI.push_back(G4ThreeVector(-7.5 * cm, 7.5 * cm, 0.));
+    posNaI.push_back(G4ThreeVector(7.5 * cm, -7.5 * cm, 0.));
+    posNaI.push_back(G4ThreeVector(7.5 * cm, 7.5 * cm, 0.));
+
+    G4ThreeVector locSetup = G4ThreeVector(0., -2.0 * cm, -13.4 * cm);
+
+    for (int iter = 0; iter < posNaI.size(); iter++)
+    {
+        std::string name = "physNaI_" + std::to_string(iter);
+        int copy = 120 + iter;
+        physNaI.push_back(new G4PVPlacement(0, posNaI[iter] + locSetup, logicNaI,
+                                            name, logicWorld, true, copy, true));
+        std::cout << copy << " Placed at: " << posNaI[iter] + locSetup << std::endl;
+    }
+
+    fNaIPhysical = physNaI;
+
+    for (int iter = 0; iter < physNaI.size(); iter++)
+    {
+        int copy = 140 + iter;
+        G4ThreeVector pos = physNaI[iter]->GetTranslation();
+        std::string name = "physNaI_Clad_" + std::to_string(iter);
+        physNaIClad.push_back(
+            new G4PVPlacement(0, G4ThreeVector(pos.x(), pos.y(), pos.z()),
+                              logicNaIClad, name, logicWorld, true, copy, true));
+    }
+
+    G4VSolid *cylinder = new G4Tubs("Cylinder", 0.25 * cm, 1.27 * cm,
+                                    0.05 * cm, 0 * deg, 360 * deg);
+    G4VSolid *TopCap = new G4Tubs("TopCap", 0 * cm, 1.27 * cm,
+                                  0.1 * cm, 0 * deg, 360 * deg);
+    G4VSolid *BotCap = new G4Tubs("BotCap", 0 * cm, 1.27 * cm,
+                                  0.1 * cm, 0 * deg, 360 * deg);
+    G4VSolid *UnionTopCap = new G4UnionSolid(
+        "UnionTopCap", cylinder, TopCap, 0,
+        G4ThreeVector(0., 0., 0.15 * cm));
+    solidPuck = new G4UnionSolid(
+        "ClosedCyl", UnionTopCap, BotCap, 0,
+        G4ThreeVector(0., 0., -1.0 * 0.15 * cm));
+    logicPuck = new G4LogicalVolume(solidPuck, HDPE, "logicPuck");
+    physPuck = new G4PVPlacement(0, G4ThreeVector(0., 0., -17.1), logicPuck, "physPuck",
+                                 logicWorld, false, 0, true);
+
+    // Lead Pit
+    G4VSolid *boxout =
+        new G4Box("Boxout", 0.5 * 50. * cm, 0.5 * 70. * cm, 0.5 * 45. * cm);
+    G4VSolid *boxin =
+        new G4Box("Boxin", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
+    G4VSolid *Pb1 = new G4SubtractionSolid("physPb1", boxout, boxin, 0,
+                                           G4ThreeVector(0., 0., 2.5 * cm));
+    logicPb = new G4LogicalVolume(Pb1, Lead, "logicPb1");
+    physPb1 = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPb, "physPb1",
+                                logicWorld, false, 0, true);
+
+    // Copper Lining
+    G4VSolid *boxout2 =
+        new G4Box("Boxout2", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 40. * cm);
+    G4VSolid *boxin2 =
+        new G4Box("Boxin2", 0.5 * 24.9 * cm, 0.5 * 49.9 * cm, 0.5 * 39.9 * cm);
+    G4VSolid *Cu = new G4SubtractionSolid("physCu", boxout2, boxin2, 0,
+                                          G4ThreeVector(0., 0., 0.25 * mm));
+    logicCu = new G4LogicalVolume(Cu, Copper, "logicCu");
+    physCu = new G4PVPlacement(0, G4ThreeVector(0., 0., 2.5 * cm), logicCu,
+                               "physCu", logicWorld, false, 0, true);
+
+    // BP Lid
+    G4Box *bpLid =
+        new G4Box("Boxout", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 5. * cm);
+    G4LogicalVolume *logicBPLid =
+        new G4LogicalVolume(bpLid, BoratedPE, "logicBPLid");
+    G4VPhysicalVolume *physBPLid =
+        new G4PVPlacement(0, G4ThreeVector(0., 0., 25. * cm), logicBPLid,
+                          "physBPLid", logicWorld, false, 0, true);
+
+    // Lead Lid
+    G4Box *pbLid =
+        new G4Box("Boxout", 0.5 * 25. * cm, 0.5 * 50. * cm, 0.5 * 5. * cm);
+    G4LogicalVolume *logicPbLid = new G4LogicalVolume(pbLid, Lead, "logicPbLid");
+    G4VPhysicalVolume *physPbLid =
+        new G4PVPlacement(0, G4ThreeVector(0., 0., 30. * cm), logicPbLid,
+                          "physPbLid", logicWorld, false, 0, true);
+}
+
 G4VSolid *MyDetectorConstruction::ConstructShell(double xsz, double ysz,
                                                  double zsz, double thickness,
                                                  double offset = 0.0)
@@ -657,7 +750,8 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
                                   "physWorld", 0, false, 100, true);
 
     // ConstructSingleSheet();
-    ConstructHPGeSetupwShield();
+    // ConstructHPGeSetupwShield();
+    ConstructDetectorSetup();
 
     // Finally we return the physWorld as output
     return physWorld;
@@ -667,8 +761,8 @@ void MyDetectorConstruction::ConstructSDandField()
 {
     MySensitiveDetector *sensDet = new MySensitiveDetector("SensitiveDetector");
     sdManager->AddNewDetector(sensDet);
-    //   logicNaI->SetSensitiveDetector(sensDet);
-    logicHPGe->SetSensitiveDetector(sensDet);
+    logicNaI->SetSensitiveDetector(sensDet);
+    // logicHPGe->SetSensitiveDetector(sensDet);
 
     /*  sensDetGe =
           new MySensitiveDetector("SensitiveDetectorGe");

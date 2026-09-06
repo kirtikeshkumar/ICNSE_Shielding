@@ -26,7 +26,8 @@
 #include <string>
 
 // Here we define the DetectorConstruction class and its variables and functions
-class MyDetectorConstruction : public G4VUserDetectorConstruction {
+class MyDetectorConstruction : public G4VUserDetectorConstruction
+{
 public:
   MyDetectorConstruction(); // The constructor and destructor function of the
                             // class
@@ -36,7 +37,16 @@ public:
   MySensitiveDetector *GetNaISD() const { return sensDetNaI; }
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
-  G4LogicalVolume *GetLeadLogical() { return logicShield; }
+  // G4LogicalVolume *GetLeadLogical() { return logicShield; }
+
+  const std::vector<G4LogicalVolume *> GetNaIVolumes() const
+  {
+    return fNaIVolumes;
+  }
+  const std::vector<G4VPhysicalVolume *> GetNaIPhysical() const
+  {
+    return fNaIPhysical;
+  }
 
   // This is the Construct function of the type G4VPhysicalVolume which is used
   // to construct the detector and environment with the required dimenstions and
@@ -49,7 +59,7 @@ private:
 
   G4Box *solidWorld, *solid;
   std::vector<G4Box *> solidSheet;
-  G4VSolid *detVol, *cryostat, *GeCrystal, *solidNaI, *solidNaIClad;
+  G4VSolid *detVol, *cryostat, *GeCrystal, *solidNaI, *solidNaIClad, *solidPuck;
   G4LogicalVolume *logicWorld, *logicdetVol, *logic;
   G4LogicalVolume *logicHPGe, *logicNaI, *logicCryostat, *logicNaIClad;
   std::vector<G4LogicalVolume *> logicSheet;
@@ -61,17 +71,19 @@ private:
   G4Material *Vaccum, *Steel, *Mat_Ge, *NaI, *Mat_Al;
   G4Material *sheildMat;
 
-  G4LogicalVolume *logicPb;
-  G4LogicalVolume *logicSS;
+  G4LogicalVolume *logicPb, *logicPb1;
+  G4LogicalVolume *logicSS, *logicSS1, *logicSS2;
   G4LogicalVolume *logicCu;
-  G4LogicalVolume *logicHDPE;
-  G4LogicalVolume *logicBP;
+  G4LogicalVolume *logicHDPE, *logicHDPE1;
+  G4LogicalVolume *logicBP, *logicBP1;
+  G4LogicalVolume *logicPuck;
 
   G4VPhysicalVolume *physPb1, *physPb2, *physPb3;
   G4VPhysicalVolume *physSS1, *physSS2;
   G4VPhysicalVolume *physCu;
   G4VPhysicalVolume *physHDPE1, *physHDPE2;
   G4VPhysicalVolume *physBP1, *physBP2;
+  G4VPhysicalVolume *physPuck;
 
   std::map<G4String, G4Material *> MatMap;
   std::vector<G4Material *> LogicArrangement;
@@ -89,6 +101,7 @@ private:
   void ConstructSingleSheet();
   void ConstructHPGeSetup();
   void ConstructHPGeSetupwShield();
+  void ConstructDetectorSetup();
   G4VSolid *ClosedHollowCylinder(double rin, double thickness, double halfHtIn);
   G4LogicalVolume *ConstructHPGe();
   G4LogicalVolume *ConstructNaI();
@@ -107,6 +120,9 @@ private:
   G4OpticalSurface *mirrorSurface;
 
   MySensitiveDetector *sensDetGe, *sensDetNaI;
+
+  std::vector<G4LogicalVolume *> fNaIVolumes;
+  std::vector<G4VPhysicalVolume *> fNaIPhysical;
 };
 
 #endif

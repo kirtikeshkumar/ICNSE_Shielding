@@ -4,7 +4,8 @@ MyEventAction::MyEventAction(MyRunAction *run) : fRun(run) {}
 
 MyEventAction::~MyEventAction() {}
 
-void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
+void MyEventAction::BeginOfEventAction(const G4Event *anEvent)
+{
   evID = anEvent->GetEventID();
 
   GetPrimaryParticle(anEvent);
@@ -26,16 +27,19 @@ void MyEventAction::BeginOfEventAction(const G4Event *anEvent) {
   }*/
 }
 
-void MyEventAction::GetPrimaryParticle(const G4Event *event) {
+void MyEventAction::GetPrimaryParticle(const G4Event *event)
+{
   G4PrimaryVertex *vertex = event->GetPrimaryVertex();
-  if (!vertex) {
+  if (!vertex)
+  {
     G4cerr << "No primary vertex!" << G4endl;
     return;
   }
 
   // Get the primary particle from the vertex (assumes one primary per vertex)
   G4PrimaryParticle *primary = vertex->GetPrimary();
-  if (!primary) {
+  if (!primary)
+  {
     G4cerr << "No primary particle!" << G4endl;
     return;
   }
@@ -68,8 +72,10 @@ void MyEventAction::GetPrimaryParticle(const G4Event *event) {
   man->AddNtupleRow(3);
 }
 
-void MyEventAction::EndOfEventAction(const G4Event *anEvent) {
-  if (evID % 100000 == 0) {
+void MyEventAction::EndOfEventAction(const G4Event *anEvent)
+{
+  if (evID % 10000 == 0)
+  {
     std::cout << "Event: " << evID << std::endl;
   }
   G4AnalysisManager *man = G4AnalysisManager::Instance();
